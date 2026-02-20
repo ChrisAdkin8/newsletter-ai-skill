@@ -1,6 +1,6 @@
 # Customising the Skill
 
-All three files in `.claude/skills/newsletter-ai/` are plain markdown. Edit them directly — no build step required. Changes take effect immediately in the next Claude Code session.
+All files in `.claude/skills/newsletter-ai/` are plain markdown (or JSON for canvas files). Edit them directly — no build step required. Changes take effect immediately in the next Claude Code session.
 
 ---
 
@@ -33,7 +33,7 @@ No other files need updating — `SKILL.md` references `sources.md` as a whole, 
 1. Add a new section to `sources.md`:
 
 ```markdown
-## 7. Podcasts & Video
+## 12. Podcasts & Video
 
 | Source | URL |
 |---|---|
@@ -45,10 +45,12 @@ No other files need updating — `SKILL.md` references `sources.md` as a whole, 
 2. Add the category to the list in `SKILL.md` under **Step 1**:
 
 ```markdown
-7. **Podcasts & Video** (Latent Space, TWIML, Lex Fridman AI episodes)
+12. **Podcasts & Video** (Latent Space, TWIML, Lex Fridman AI episodes)
 ```
 
 3. Add a matching section to `template.md` following the same pattern as existing sections.
+
+4. Add the new category to the `categories` list in `obsidian-template.md` frontmatter.
 
 ---
 
@@ -62,6 +64,44 @@ Edit `.claude/skills/newsletter-ai/template.md`.
 - Rename a section — change the `##` heading
 - Add a new field to each item — add a line like `**Key takeaway**: [one sentence]` to the item template
 - Change the tag vocabulary — update the tag list in `SKILL.md` Step 3 and the template simultaneously
+
+---
+
+## Configuring the Obsidian vault path
+
+The default vault path is `~/Documents/AI-Newsletter-Vault/`. There are two ways to change it:
+
+### Per-run override (argument)
+
+Pass the vault path when invoking the skill:
+
+```
+/newsletter-ai vault:~/Obsidian/AI-News/
+/newsletter-ai vault:~/Documents/PKM/Newsletter/
+```
+
+### Permanent change
+
+Edit `SKILL.md` and update the default vault path in Step 5:
+
+```markdown
+**Default vault path**: `~/Your/Custom/Path/`
+```
+
+---
+
+## Updating the canvas mindmaps
+
+The two canvas files (`newsletter-structure.canvas` and `sources.canvas`) are written to the vault on first run only. If you want to update them:
+
+1. Edit the `.canvas` JSON files in `.claude/skills/newsletter-ai/`
+2. Delete the corresponding file from the vault:
+   ```bash
+   rm ~/Documents/AI-Newsletter-Vault/canvas/newsletter-structure.canvas
+   ```
+3. Run `/newsletter-ai` — Step 5c will recreate it from the updated template
+
+Alternatively, rearrange nodes directly in Obsidian's Canvas editor. Changes you make in Obsidian do not affect the skill template files.
 
 ---
 
@@ -84,6 +124,8 @@ cp -r ~/.claude/skills/newsletter-ai/ ~/.claude/skills/newsletter-ai-security/
 3. Trim `sources.md` to security sources only.
 
 4. Adjust `template.md` to remove non-security sections.
+
+5. Update `obsidian-template.md` to reflect the narrower category list.
 
 ---
 

@@ -1,0 +1,157 @@
+{
+  "nodes": [
+    {
+      "id": "center",
+      "type": "text",
+      "text": "# Agentic AI & LLM Weekly\n13-section weekly digest · technical practitioners",
+      "x": -170,
+      "y": -40,
+      "width": 340,
+      "height": 80
+    },
+    {
+      "id": "picks",
+      "type": "text",
+      "text": "**Editor's Picks**\nTop 3 stories · connecting theme",
+      "x": -140,
+      "y": -220,
+      "width": 280,
+      "height": 70,
+      "color": "6"
+    },
+    {
+      "id": "community",
+      "type": "text",
+      "text": "**Community Pulse** `[Community]`\nReddit · Hacker News · X/Twitter",
+      "x": -560,
+      "y": -620,
+      "width": 280,
+      "height": 75,
+      "color": "1"
+    },
+    {
+      "id": "research",
+      "type": "text",
+      "text": "**Research Highlights** `[Research]`\narXiv · alignment labs · academic labs",
+      "x": -560,
+      "y": -500,
+      "width": 280,
+      "height": 75,
+      "color": "5"
+    },
+    {
+      "id": "engineering",
+      "type": "text",
+      "text": "**Engineering & Technical Blogs** `[Tool]`\nLab blogs · infra companies · writers",
+      "x": -560,
+      "y": -380,
+      "width": 280,
+      "height": 75,
+      "color": "4"
+    },
+    {
+      "id": "industry",
+      "type": "text",
+      "text": "**Industry & Analyst Watch** `[Industry]`\nGartner · McKinsey · a16z · Sequoia",
+      "x": -560,
+      "y": -260,
+      "width": 280,
+      "height": 75,
+      "color": "2"
+    },
+    {
+      "id": "security",
+      "type": "text",
+      "text": "**AI Security & Safety** `[Security]` `[Safety]`\nOWASP · MITRE · NIST · CISA · ENISA · NCSC",
+      "x": -560,
+      "y": -140,
+      "width": 280,
+      "height": 75,
+      "color": "1"
+    },
+    {
+      "id": "product",
+      "type": "text",
+      "text": "**Product & Company News** `[Industry]`\nModel releases · funding · partnerships",
+      "x": -560,
+      "y": -20,
+      "width": 280,
+      "height": 75,
+      "color": "2"
+    },
+    {
+      "id": "policy",
+      "type": "text",
+      "text": "**Regulatory & Policy** `[Policy]`\nEU AI Act · UK AISI · FTC · IAPP · Covington",
+      "x": -560,
+      "y": 100,
+      "width": 280,
+      "height": 75,
+      "color": "3"
+    },
+    {
+      "id": "agents",
+      "type": "text",
+      "text": "**Agent Era & Workflows** `[Tool]`\nVellum AI · ByteByteGo · production patterns",
+      "x": 250,
+      "y": -500,
+      "width": 280,
+      "height": 75,
+      "color": "4"
+    },
+    {
+      "id": "opensource",
+      "type": "text",
+      "text": "**Open Source & Infrastructure** `[Research]`\nHuggingFace · vLLM · Ollama · Anyscale",
+      "x": 250,
+      "y": -380,
+      "width": 280,
+      "height": 75,
+      "color": "5"
+    },
+    {
+      "id": "hardware",
+      "type": "text",
+      "text": "**Hardware & Macro Watch** `[Industry]`\nNVIDIA · Next Platform · Datacenter Dynamics",
+      "x": 250,
+      "y": -260,
+      "width": 280,
+      "height": 75,
+      "color": "2"
+    },
+    {
+      "id": "evals",
+      "type": "text",
+      "text": "**Model Evaluations & Transparency** `[Eval]`\nLMSYS · Artificial Analysis · HELM · Scale SEAL",
+      "x": 250,
+      "y": -140,
+      "width": 280,
+      "height": 75,
+      "color": "3"
+    },
+    {
+      "id": "quicklinks",
+      "type": "text",
+      "text": "**Quick Links**\nBookmarks without summaries",
+      "x": -140,
+      "y": 160,
+      "width": 280,
+      "height": 60
+    }
+  ],
+  "edges": [
+    {"id": "e-picks",       "fromNode": "center", "fromSide": "top",    "toNode": "picks",       "toSide": "bottom"},
+    {"id": "e-community",   "fromNode": "center", "fromSide": "left",   "toNode": "community",   "toSide": "right"},
+    {"id": "e-research",    "fromNode": "center", "fromSide": "left",   "toNode": "research",    "toSide": "right"},
+    {"id": "e-engineering", "fromNode": "center", "fromSide": "left",   "toNode": "engineering", "toSide": "right"},
+    {"id": "e-industry",    "fromNode": "center", "fromSide": "left",   "toNode": "industry",    "toSide": "right"},
+    {"id": "e-security",    "fromNode": "center", "fromSide": "left",   "toNode": "security",    "toSide": "right"},
+    {"id": "e-product",     "fromNode": "center", "fromSide": "left",   "toNode": "product",     "toSide": "right"},
+    {"id": "e-policy",      "fromNode": "center", "fromSide": "left",   "toNode": "policy",      "toSide": "right"},
+    {"id": "e-agents",      "fromNode": "center", "fromSide": "right",  "toNode": "agents",      "toSide": "left"},
+    {"id": "e-opensource",  "fromNode": "center", "fromSide": "right",  "toNode": "opensource",  "toSide": "left"},
+    {"id": "e-hardware",    "fromNode": "center", "fromSide": "right",  "toNode": "hardware",    "toSide": "left"},
+    {"id": "e-evals",       "fromNode": "center", "fromSide": "right",  "toNode": "evals",       "toSide": "left"},
+    {"id": "e-quicklinks",  "fromNode": "center", "fromSide": "bottom", "toNode": "quicklinks",  "toSide": "top"}
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "nodes": [
+    {
+      "id": "center",
+      "type": "text",
+      "text": "# Newsletter Sources\n11 categories · 100+ sources",
+      "x": -175,
+      "y": -50,
+      "width": 350,
+      "height": 80
+    },
+    {
+      "id": "community",
+      "type": "text",
+      "text": "**1. Community & Discussion**\n\n**Reddit** (10 subs): r/MachineLearning, r/LocalLLaMA, r/artificial, r/AIAssistants, r/LanguageModelAPI, r/singularity, r/AIdev, r/ChatGPT, r/ClaudeAI, r/OpenAI\n\n**Hacker News** · news.ycombinator.com\n\n**X/Twitter**: @AnthropicAI, @OpenAI, @karpathy, @ylecun, @fchollet, @GaryMarcus, @emollick, @danhendrycks + more",
+      "x": -620,
+      "y": -860,
+      "width": 340,
+      "height": 200,
+      "color": "1"
+    },
+    {
+      "id": "research",
+      "type": "text",
+      "text": "**2. Research & Papers**\n\narXiv (cs.AI, cs.CL, cs.LG, cs.CR) · HF Daily Papers · Papers with Code · Semantic Scholar · Nature Machine Intelligence\n\n**Alignment labs**: ARC, CAIUS, Apollo Research, METR, Redwood Research, FAR AI\n\n**Academic**: Stanford HAI, BAIR, AI2, EleutherAI\n\n**Industry research**: Google DeepMind, Microsoft Research, Apple ML Research, Amazon Science",
+      "x": -620,
+      "y": -620,
+      "width": 340,
+      "height": 220,
+      "color": "5"
+    },
+    {
+      "id": "techblogs",
+      "type": "text",
+      "text": "**3. Technical Blogs**\n\n**Major labs**: Anthropic, OpenAI, DeepMind, Meta AI, HuggingFace, Microsoft Azure AI, Apple ML Research, Amazon Science\n\n**Infra**: NVIDIA, Cerebras, Groq, Lambda Labs, CoreWeave, Fireworks AI, Anyscale, W&B, vLLM, Scale AI, Databricks, Ollama, CrewAI\n\n**Media**: MIT Tech Review, Ars Technica, IEEE Spectrum, The Decoder, VentureBeat, The Information, ML News\n\n**Writers**: Weng, Willison, Raschka, Karpathy, Chollet, Marcus, Wolfe, Lambert, Mollick, Hendrycks, Liang, Patel",
+      "x": -620,
+      "y": -360,
+      "width": 340,
+      "height": 260,
+      "color": "4"
+    },
+    {
+      "id": "analyst",
+      "type": "text",
+      "text": "**4. Analyst & Industry**\n\n**Tier-1**: Gartner, Forrester, IDC, McKinsey, BCG, Deloitte\n\n**Research**: Stanford HAI AI Index, RAND, Epoch AI, AI Now Institute, OECD AI, Brookings\n\n**VC**: a16z AI, Sequoia Capital AI\n\n**Independent**: AI Snake Oil, Import AI (Jack Clark), The Gradient, Stratechery",
+      "x": -620,
+      "y": -60,
+      "width": 340,
+      "height": 200,
+      "color": "2"
+    },
+    {
+      "id": "security",
+      "type": "text",
+      "text": "**5. AI Security**\n\n**Standards**: OWASP LLM Top 10, OWASP AI Exchange, MITRE ATLAS, MITRE CVE, NIST AI RMF\n\n**Govt agencies**: CISA (US), ENISA (EU), NCSC (UK)\n\n**Research**: AI Village, Lakera, Protect AI, Adversa AI, Trail of Bits, Microsoft Security\n\n**News**: Dark Reading, Wired, Krebs on Security",
+      "x": 260,
+      "y": -860,
+      "width": 340,
+      "height": 200,
+      "color": "1"
+    },
+    {
+      "id": "product",
+      "type": "text",
+      "text": "**6. Product & Company News**\n\nOpenRouter · LMSYS Chatbot Arena\nCrunchbase · TechCrunch AI · Axios AI · LinkedIn",
+      "x": 260,
+      "y": -620,
+      "width": 340,
+      "height": 120,
+      "color": "2"
+    },
+    {
+      "id": "policy",
+      "type": "text",
+      "text": "**7. Regulatory & Policy**\n\n**Govt primary**: EU Commission AI Act, UK AI Safety Institute, White House OSTP, FTC (US), UK ICO, Canada AIDA, Future of Life Institute\n\n**Legal commentary**: IAPP, Covington (Inside Privacy + Inside Global Tech), HSF Kramer *Behind the Prompt*",
+      "x": 260,
+      "y": -460,
+      "width": 340,
+      "height": 200,
+      "color": "3"
+    },
+    {
+      "id": "agents",
+      "type": "text",
+      "text": "**8. Agent Era & Workflows**\n\nVellum AI Blog\nByteByteGo",
+      "x": 260,
+      "y": -220,
+      "width": 340,
+      "height": 100,
+      "color": "4"
+    },
+    {
+      "id": "opensource",
+      "type": "text",
+      "text": "**9. Open Source & Infrastructure**\n\nHuggingFace (blog + model hub)\nvLLM · Ollama · Anyscale · SemiAnalysis",
+      "x": -620,
+      "y": 220,
+      "width": 300,
+      "height": 120,
+      "color": "5"
+    },
+    {
+      "id": "hardware",
+      "type": "text",
+      "text": "**10. Hardware & Macro Watch**\n\n**Primary**: NVIDIA News, NVIDIA Developer Blog\n**Infrastructure press**: The Next Platform, Datacenter Dynamics, Computing.co.uk\n**Analysis**: SemiAnalysis, Cerebras, Groq, Tom's Hardware",
+      "x": -250,
+      "y": 220,
+      "width": 320,
+      "height": 160,
+      "color": "2"
+    },
+    {
+      "id": "evals",
+      "type": "text",
+      "text": "**11. Model Evaluations & Transparency**\n\nLMSYS + Chatbot Arena · Artificial Analysis\nScale AI SEAL · HELM (Stanford CRFM)\nLiveBench · AlpacaEval\nHF Open LLM Leaderboard · WhatLLM.org",
+      "x": 120,
+      "y": 220,
+      "width": 380,
+      "height": 160,
+      "color": "3"
+    }
+  ],
+  "edges": [
+    {"id": "e-community",  "fromNode": "center", "fromSide": "left",   "toNode": "community",  "toSide": "right"},
+    {"id": "e-research",   "fromNode": "center", "fromSide": "left",   "toNode": "research",   "toSide": "right"},
+    {"id": "e-techblogs",  "fromNode": "center", "fromSide": "left",   "toNode": "techblogs",  "toSide": "right"},
+    {"id": "e-analyst",    "fromNode": "center", "fromSide": "left",   "toNode": "analyst",    "toSide": "right"},
+    {"id": "e-security",   "fromNode": "center", "fromSide": "right",  "toNode": "security",   "toSide": "left"},
+    {"id": "e-product",    "fromNode": "center", "fromSide": "right",  "toNode": "product",    "toSide": "left"},
+    {"id": "e-policy",     "fromNode": "center", "fromSide": "right",  "toNode": "policy",     "toSide": "left"},
+    {"id": "e-agents",     "fromNode": "center", "fromSide": "right",  "toNode": "agents",     "toSide": "left"},
+    {"id": "e-opensource", "fromNode": "center", "fromSide": "bottom", "toNode": "opensource", "toSide": "top"},
+    {"id": "e-hardware",   "fromNode": "center", "fromSide": "bottom", "toNode": "hardware",   "toSide": "top"},
+    {"id": "e-evals",      "fromNode": "center", "fromSide": "bottom", "toNode": "evals",      "toSide": "top"}
+  ]
+}

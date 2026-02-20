@@ -19,11 +19,12 @@ cp -r .claude/skills/newsletter-ai/ ~/.claude/skills/newsletter-ai/
 /newsletter-ai
 ```
 
-With an optional focus or date range:
+With an optional focus, date range, or vault path:
 
 ```
 /newsletter-ai security focus — last 14 days
 /newsletter-ai agentic frameworks only
+/newsletter-ai vault:~/Obsidian/AI-News/
 ```
 
 ---
@@ -42,7 +43,10 @@ newsletter-ai-skill/
         └── newsletter-ai/
             ├── SKILL.md                    # Main skill — Claude reads this
             ├── sources.md                  # Source list referenced by SKILL.md
-            └── template.md                 # Newsletter output template
+            ├── template.md                 # Newsletter output template
+            ├── obsidian-template.md        # Obsidian vault note format + vault structure
+            ├── newsletter-structure.canvas # Mindmap: 13 newsletter sections (Obsidian Canvas)
+            └── sources.canvas              # Mindmap: 11 source categories (Obsidian Canvas)
 ```
 
 ---
@@ -69,12 +73,18 @@ A markdown newsletter with these sections:
 
 Output is clean markdown, ready to paste into an email tool or publish directly.
 
+The skill also writes every issue to an **Obsidian vault** at `~/Documents/AI-Newsletter-Vault/` (configurable). On first run it creates two **Canvas mindmaps**:
+
+| Canvas file | What it maps |
+|---|---|
+| `canvas/newsletter-structure.canvas` | 13 output sections, tags, and connections |
+| `canvas/sources.canvas` | 11 source categories and all 100+ sources |
+
+Open the vault in Obsidian to browse issues with the Calendar plugin, run Dataview queries across all issues, and explore the source catalogue visually.
+
 ---
 
 ## Sources covered
-
-### Community
-- r/MachineLearning, r/LocalLLaMA, r/artificial, r/AIAssistants, r/LanguageModelAPI, r/singularity, r/AIdev
 
 ### Community
 - Reddit: r/MachineLearning, r/LocalLLaMA, r/artificial, r/AIAssistants, r/LanguageModelAPI, r/singularity, r/AIdev, r/ChatGPT, r/ClaudeAI, r/OpenAI
@@ -137,13 +147,13 @@ Defined in `.claude/skills/newsletter-ai/SKILL.md`:
 |---|---|---|
 | `name` | `newsletter-ai` | Invoked as `/newsletter-ai` |
 | `disable-model-invocation` | `true` | Only runs when you explicitly call `/newsletter-ai` |
-| `allowed-tools` | `WebSearch, WebFetch` | Granted without per-use approval |
+| `allowed-tools` | `WebSearch, WebFetch, Bash, Write` | Granted without per-use approval (`Bash`/`Write` used for vault output) |
 | `argument-hint` | `[topic-focus or date-range, optional]` | Shown in autocomplete |
 
 ---
 
 ## Docs
 
-- [How it works](docs/how-it-works.md) — the 4-step curation workflow
+- [How it works](docs/how-it-works.md) — the 5-step workflow including Obsidian vault output
 - [Sources](docs/sources.md) — full annotated source list
-- [Customising](docs/customising.md) — adding sources, changing format, scoping to a topic
+- [Customising](docs/customising.md) — adding sources, changing format, configuring vault path, updating canvas mindmaps

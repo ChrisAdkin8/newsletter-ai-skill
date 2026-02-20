@@ -3,7 +3,7 @@ name: newsletter-ai
 description: Curate a newsletter covering agentic AI and LLM news across 11 categories: community (Reddit, Hacker News, X/Twitter), research and alignment safety labs (ARC, CAIUS, Apollo, METR, Redwood, FAR AI, BAIR, AI2), technical blogs and infra companies (NVIDIA, W&B, vLLM, Databricks, Ollama, CrewAI), AI-only media (MIT Tech Review, Ars Technica, IEEE Spectrum), individual writers (Chollet, Marcus, Wolfe), analyst and VC reports (Gartner, a16z, Sequoia, Brookings), AI security (OWASP, MITRE, NIST, CISA, ENISA, NCSC, Trail of Bits), regulatory/policy (EU Commission, UK AISI, FTC, ICO, OSTP, Future of Life Institute), open-source infra, macro/hardware (NVIDIA, Next Platform, Datacenter Dynamics), and model evaluations (LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench, AlpacaEval). Use when the user asks for AI news, an LLM digest, an agentic AI roundup, or a newsletter.
 argument-hint: "[topic-focus or date-range, optional]"
 disable-model-invocation: true
-allowed-tools: WebSearch, WebFetch
+allowed-tools: WebSearch, WebFetch, Bash, Write
 model: claude-opus-4-6
 ---
 
@@ -73,3 +73,53 @@ After all sections, select your **top 3 items** across all categories and write 
 ## Output format
 
 Output the complete newsletter as clean markdown. Do not include your search process or intermediate steps in the output — only the finished newsletter. The newsletter should be ready to paste into an email or publish directly.
+
+---
+
+## Step 5: Write to Obsidian vault
+
+After outputting the newsletter to chat, write a permanent copy to the Obsidian vault.
+
+**Default vault path**: `~/Documents/AI-Newsletter-Vault/`
+
+If the user passed a vault path in their arguments (e.g. `/newsletter-ai vault:~/Obsidian/AI/`), use that path instead.
+
+### 5a. Create directories
+
+```bash
+mkdir -p ~/Documents/AI-Newsletter-Vault/issues
+mkdir -p ~/Documents/AI-Newsletter-Vault/canvas
+```
+
+### 5b. Write the issue note
+
+- Determine the **issue date**: end date of the coverage window in `YYYY-MM-DD` format
+- Determine the **ISO week**: `YYYY-Www` format (e.g. `2026-W08`)
+- Write `~/Documents/AI-Newsletter-Vault/issues/YYYY-MM-DD.md` following the format in [obsidian-template.md](obsidian-template.md):
+  - YAML frontmatter: `date`, `week`, `tags`, `theme` (the one-sentence opening framing), `categories` (list of categories with content this issue), `editor_picks` (the 3 headline titles), `source`
+  - Full newsletter body immediately after the frontmatter closing `---` (identical to the chat output — no reformatting needed)
+
+### 5c. Write canvas mindmaps (first run only)
+
+If `~/Documents/AI-Newsletter-Vault/canvas/newsletter-structure.canvas` does not yet exist:
+- Read the content of [newsletter-structure.canvas](newsletter-structure.canvas)
+- Write it to `~/Documents/AI-Newsletter-Vault/canvas/newsletter-structure.canvas`
+
+If `~/Documents/AI-Newsletter-Vault/canvas/sources.canvas` does not yet exist:
+- Read the content of [sources.canvas](sources.canvas)
+- Write it to `~/Documents/AI-Newsletter-Vault/canvas/sources.canvas`
+
+These canvas files are static — they map the newsletter's 13 output sections and the 11 source categories respectively. They are created once and do not change issue to issue.
+
+### 5d. Write vault index (first run only)
+
+If `~/Documents/AI-Newsletter-Vault/_index.md` does not yet exist, write the vault dashboard note as defined in [obsidian-template.md](obsidian-template.md).
+
+### 5e. Confirm
+
+After all writes, print:
+
+```
+Vault note written → ~/Documents/AI-Newsletter-Vault/issues/YYYY-MM-DD.md
+Canvas mindmaps   → ~/Documents/AI-Newsletter-Vault/canvas/ (created on first run)
+```

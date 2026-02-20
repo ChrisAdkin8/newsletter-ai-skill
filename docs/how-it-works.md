@@ -1,6 +1,6 @@
 # How It Works
 
-The `newsletter-ai` skill runs a 4-step curation workflow when you invoke `/newsletter-ai`. It uses only `WebSearch` and `WebFetch` — no external APIs or subscriptions required.
+The `newsletter-ai` skill runs a 5-step curation workflow when you invoke `/newsletter-ai`. It uses `WebSearch` and `WebFetch` to gather content, and `Bash` and `Write` to persist output to an Obsidian vault.
 
 ---
 
@@ -12,7 +12,7 @@ The `newsletter-ai` skill runs a 4-step curation workflow when you invoke `/news
         ▼
 ┌─────────────────────────────────┐
 │  Step 1: Gather                 │
-│  Search all 6 source categories │
+│  Search all 11 source categories│
 │  Target: 2–3 items each         │
 └────────────────┬────────────────┘
                  │
@@ -41,21 +41,38 @@ The `newsletter-ai` skill runs a 4-step curation workflow when you invoke `/news
                  │
                  ▼
         Markdown newsletter
-        (ready to publish)
+        (output to chat)
+                 │
+                 ▼
+┌─────────────────────────────────┐
+│  Step 5: Obsidian Vault         │
+│  Write issue note with YAML     │
+│  frontmatter to issues/         │
+│  Write canvas mindmaps (once)   │
+│  Write vault index (once)       │
+└────────────────┬────────────────┘
+                 │
+                 ▼
+   ~/Documents/AI-Newsletter-Vault/
 ```
 
 ---
 
 ## Step 1: Gather
 
-Claude searches each of the 6 source categories defined in `sources.md`:
+Claude searches each of the 11 source categories defined in `sources.md`:
 
-1. **Community & Discussion** — Reddit subreddits, filtered by engagement (100+ upvotes preferred)
-2. **Research & Papers** — arXiv, HuggingFace daily papers, Papers with Code, Semantic Scholar
-3. **Technical Blogs** — Lab blogs (Anthropic, OpenAI, DeepMind, Meta AI) and individual researchers
-4. **Analyst & Industry** — Gartner, McKinsey, Forrester, Stanford HAI, Epoch AI, etc.
-5. **AI Security** — OWASP, MITRE ATLAS, NIST, Lakera, Protect AI, CVE feeds
-6. **Product & Company News** — Model releases, funding rounds, LinkedIn posts
+1. **Community & Discussion** — Reddit (10 subreddits), Hacker News, X/Twitter (11 key accounts)
+2. **Research & Papers** — arXiv, HuggingFace daily papers, Papers with Code, Semantic Scholar; alignment labs (ARC, CAIUS, Apollo, METR, Redwood, FAR AI); academic labs (Stanford HAI, BAIR, AI2, EleutherAI); industry research (Google DeepMind, Microsoft Research, Apple ML, Amazon Science)
+3. **Technical Blogs** — Lab blogs, infra companies (NVIDIA, W&B, vLLM, Databricks, Ollama, CrewAI), AI-only media (MIT Tech Review, Ars Technica, IEEE Spectrum, The Information), individual writers (Chollet, Marcus, Wolfe + 10 more)
+4. **Analyst & Industry** — Gartner, McKinsey, Forrester, a16z, Sequoia, Brookings, Stanford HAI AI Index, Epoch AI, OECD AI, etc.
+5. **AI Security** — OWASP, MITRE ATLAS, NIST AI RMF, CISA, ENISA, NCSC, Trail of Bits, Microsoft Security
+6. **Product & Company News** — Model releases, funding rounds, TechCrunch AI, Axios AI
+7. **Regulatory & Policy** — EU Commission, UK AISI, White House OSTP, FTC, UK ICO, Canada AIDA, Future of Life Institute, IAPP, Covington, HSF Kramer
+8. **Agent Era & Technical Workflows** — Vellum AI, ByteByteGo
+9. **Open Source & Infrastructure** — HuggingFace, vLLM, Ollama, Anyscale, SemiAnalysis
+10. **Macro & Hardware Watch** — NVIDIA (primary), Next Platform, Datacenter Dynamics, Computing.co.uk, SemiAnalysis
+11. **Model Evaluations & Transparency** — LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench, AlpacaEval, HF Open LLM Leaderboard, WhatLLM.org
 
 Default time window: **last 7 days**. Override with arguments, e.g. `/newsletter-ai last 30 days`.
 
@@ -83,7 +100,7 @@ For each kept item Claude produces:
 - **Rewritten headline** — not the source title; a punchy, insight-first phrase that conveys what matters
 - **2–4 sentence summary** — what happened + why it matters to the reader
 - **Primary source link** — always links to the original, not an aggregator
-- **Tag** — one of: `[Research]` `[Tool]` `[Security]` `[Industry]` `[Community]` `[Policy]`
+- **Tag** — one of: `[Research]` `[Tool]` `[Security]` `[Industry]` `[Community]` `[Policy]` `[Eval]` `[Safety]`
 
 The output follows the structure in `template.md` exactly.
 
@@ -100,13 +117,61 @@ This runs last so the picks are chosen with full visibility of everything gather
 
 ---
 
+## Step 5: Obsidian vault
+
+After outputting the newsletter to chat, Claude writes a permanent copy to the Obsidian vault at `~/Documents/AI-Newsletter-Vault/` (configurable — see [customising.md](customising.md)).
+
+### Issue note
+
+Each issue is saved as `issues/YYYY-MM-DD.md` with YAML frontmatter:
+
+```yaml
+---
+date: 2026-02-20
+week: 2026-W08
+tags:
+  - newsletter
+  - agentic-ai
+  - weekly
+theme: "One-sentence framing of the dominant theme"
+categories: [community, research, engineering, ...]
+editor_picks:
+  - "Pick 1 headline"
+  - "Pick 2 headline"
+  - "Pick 3 headline"
+source: claude-code-newsletter-ai-skill
+---
+```
+
+The full newsletter body follows immediately — identical to the chat output.
+
+### Canvas mindmaps (created once)
+
+On the first run, two Obsidian Canvas mindmaps are written to `canvas/`:
+
+| File | What it maps |
+|---|---|
+| `newsletter-structure.canvas` | 13 output sections, their tags, and how they connect |
+| `sources.canvas` | 11 source categories and all 100+ sources within each |
+
+Canvas files are static — they describe the system structure and are only written on first run. You can rearrange nodes freely in Obsidian without affecting the skill.
+
+### Vault dashboard
+
+`_index.md` is created on first run with Dataview queries for browsing all issues.
+
+---
+
 ## File roles
 
 | File | Role |
 |---|---|
 | `SKILL.md` | Main entry point. Defines the workflow and tells Claude which supporting files exist. |
 | `sources.md` | Reference catalogue of URLs and search strategies per category. Claude reads this during Step 1. |
-| `template.md` | Exact output format. Claude follows this during Step 3. |
+| `template.md` | Exact output format for the newsletter. Claude follows this during Steps 3–4. |
+| `obsidian-template.md` | Vault note format: YAML frontmatter schema and vault directory structure. Claude follows this during Step 5. |
+| `newsletter-structure.canvas` | Pre-built Obsidian Canvas JSON mapping the 13 newsletter sections. Written to vault on first run. |
+| `sources.canvas` | Pre-built Obsidian Canvas JSON mapping all 11 source categories. Written to vault on first run. |
 
 ---
 
@@ -117,8 +182,9 @@ The skill has `disable-model-invocation: true`, meaning Claude will **not** trig
 Argument passing:
 
 ```
-/newsletter-ai                          # Full newsletter, last 7 days
-/newsletter-ai security only            # Filters to security category
-/newsletter-ai last 14 days             # Extends the time window
-/newsletter-ai open-source models only  # Topic-scoped
+/newsletter-ai                                  # Full newsletter, last 7 days
+/newsletter-ai security only                    # Filters to security category
+/newsletter-ai last 14 days                     # Extends the time window
+/newsletter-ai open-source models only          # Topic-scoped
+/newsletter-ai vault:~/Obsidian/AI-News/        # Custom vault path
 ```
