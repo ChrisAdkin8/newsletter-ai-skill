@@ -90,6 +90,8 @@ If the user passed a vault path in their arguments (e.g. `/newsletter-ai vault:~
 mkdir -p ~/Documents/AI-Newsletter-Vault/issues
 mkdir -p ~/Documents/AI-Newsletter-Vault/canvas
 mkdir -p ~/Documents/AI-Newsletter-Vault/topics
+mkdir -p ~/Documents/AI-Newsletter-Vault/sources
+mkdir -p ~/Documents/AI-Newsletter-Vault/articles
 ```
 
 ### 5b. Write the issue note
@@ -116,6 +118,14 @@ mkdir -p ~/Documents/AI-Newsletter-Vault/topics
 
 These wikilinks power Obsidian's Graph View: the issue note appears at the centre with edges radiating to each topic node it covered.
 
+In addition, each story **headline** in the vault note should be a wikilink to its article note:
+`### [[articles/YYYY-MM-DD-topic-slug|Original Headline]]`
+
+Slug format: `YYYY-MM-DD-{topic}-{2-3-word-title}` (lowercase, hyphens). Example:
+`### [[articles/2026-02-20-security-owasp-agentic-top-10|OWASP Publishes the Agentic AI Top 10]]`
+
+This links the issue note directly to individual article notes, completing the four-level graph: issue → topic → source → article.
+
 ### 5c. Write canvas mindmaps (first run only)
 
 If `~/Documents/AI-Newsletter-Vault/canvas/newsletter-structure.canvas` does not yet exist:
@@ -134,7 +144,18 @@ If `~/Documents/AI-Newsletter-Vault/_index.md` does not yet exist, write the vau
 
 ### 5f. Write topic index notes (first run only)
 
-If `~/Documents/AI-Newsletter-Vault/topics/community.md` does not yet exist, create all 11 topic index notes as defined in [obsidian-template.md](obsidian-template.md). These are static — one per newsletter section — and do not change issue to issue. They are the graph nodes that every issue links to via wikilinks.
+If `~/Documents/AI-Newsletter-Vault/topics/community.md` does not yet exist, create all 11 topic index notes as defined in [obsidian-template.md](obsidian-template.md). Each topic note includes wikilinks to its catalogue sources. These are static — created once, not updated per issue.
+
+### 5g. Create article notes
+
+For every story included in the newsletter, write one article note to `~/Documents/AI-Newsletter-Vault/articles/SLUG.md` using the article note format defined in [obsidian-template.md](obsidian-template.md):
+- Slug: `YYYY-MM-DD-{topic}-{2-3-word-title}` (lowercase, hyphens)
+- YAML frontmatter: `date`, `source` (slug from the source catalogue), `topic` (category slug), `tag`, `url`
+- Body: the headline, the 2-4 sentence summary, then `[[sources/slug|Name]] · [[topics/slug|Name]] · [Read more](url)`
+
+### 5h. Create source notes (first run only)
+
+If `~/Documents/AI-Newsletter-Vault/sources/hacker-news.md` does not yet exist, create all source notes as defined in [obsidian-template.md](obsidian-template.md). Each source note has a Dataview query that auto-aggregates all article notes where `source = "slug"`. If a story uses a source not in the catalogue, create a new source note for it.
 
 ### 5e. Confirm
 
@@ -142,6 +163,8 @@ After all writes, print:
 
 ```
 Vault note written → ~/Documents/AI-Newsletter-Vault/issues/YYYY-MM-DD.md
+Article notes     → ~/Documents/AI-Newsletter-Vault/articles/ (N notes this issue)
 Canvas mindmaps   → ~/Documents/AI-Newsletter-Vault/canvas/ (created on first run)
 Topic index notes → ~/Documents/AI-Newsletter-Vault/topics/ (created on first run)
+Source notes      → ~/Documents/AI-Newsletter-Vault/sources/ (created on first run)
 ```

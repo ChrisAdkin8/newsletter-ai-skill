@@ -46,11 +46,11 @@ The `newsletter-ai` skill runs a 5-step curation workflow when you invoke `/news
                  ▼
 ┌─────────────────────────────────┐
 │  Step 5: Obsidian Vault         │
-│  Write issue note with YAML     │
-│  frontmatter + wikilinks        │
-│  Write canvas mindmaps (once)   │
-│  Write topic index notes (once) │
-│  Write vault index (once)       │
+│  Write issue note (+ wikilinks) │
+│  Write article notes (per story)│
+│  Write source notes (once)      │
+│  Write topic notes (once)       │
+│  Write canvas + index (once)    │
 └────────────────┬────────────────┘
                  │
                  ▼
@@ -146,25 +146,30 @@ source: claude-code-newsletter-ai-skill
 
 The full newsletter body follows immediately — identical to the chat output.
 
-### Topic index notes and Graph View (created once)
+### Four-level Graph View: issue → topic → source → article
 
-On first run, 11 topic index notes are written to `topics/` — one per newsletter section:
+The vault implements a four-level graph hierarchy navigable in Obsidian's built-in **Graph View** (`Cmd+G`):
 
 ```
-topics/community.md      topics/security.md     topics/hardware.md
-topics/research.md       topics/product.md      topics/evaluations.md
-topics/engineering.md    topics/policy.md
-topics/industry.md       topics/agent-era.md    topics/open-source.md
+Issue note ──► Topic note ──► Source note ◄── Article note
 ```
 
-Each issue note links to its covered topics via Obsidian wikilinks in the section subtitles, e.g.:
+**Level 1 — Issue note** (`issues/YYYY-MM-DD.md`)
+- Section subtitle wikilinks: `[[topics/security|Security]]`
+- Story headline wikilinks: `[[articles/2026-02-20-security-owasp-agentic-top-10|...]]`
 
-```markdown
-## AI Security & Safety
-*[[topics/security|Security]] — Threats, vulnerabilities, frameworks, and defences*
-```
+**Level 2 — Topic notes** (`topics/*.md`, created on first run, 11 total)
+- Sources line with wikilinks to every source in that category: `[[sources/owasp|OWASP]] · [[sources/trail-of-bits|Trail of Bits]] · ...`
 
-This powers Obsidian's built-in **Graph View** (`Ctrl+G`): the issue note appears at the centre with edges radiating to each topic it covered. As issues accumulate, frequently-covered topics (e.g. `security`, `research`) attract more connections and form denser clusters — making the graph a live map of coverage patterns over time.
+**Level 3 — Source notes** (`sources/*.md`, created on first run, ~45 total)
+- Persistent hub for each publication or organisation
+- Dataview query auto-aggregates all articles from that source: `WHERE source = "owasp"`
+
+**Level 4 — Article notes** (`articles/YYYY-MM-DD-slug.md`, created each run, one per story)
+- Full headline + summary for each newsletter story
+- Footer wikilinks back to source and topic: `[[sources/owasp|OWASP]] · [[topics/security|Security]]`
+
+As issues accumulate, sources with many articles form denser clusters and topics that are covered every week attract more connections — making the graph a live map of coverage patterns over time.
 
 ### Canvas mindmaps (created once)
 

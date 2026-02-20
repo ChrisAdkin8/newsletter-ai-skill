@@ -73,15 +73,28 @@ A markdown newsletter with these sections:
 
 Output is clean markdown, ready to paste into an email tool or publish directly.
 
-The skill also writes every issue to an **Obsidian vault** at `~/Documents/AI-Newsletter-Vault/` (configurable). On first run it creates:
+The skill also writes every issue to an **Obsidian vault** at `~/Documents/AI-Newsletter-Vault/` (configurable). The vault implements a four-level graph hierarchy:
+
+```
+Issue note → Topic note → Source note ← Article note
+```
+
+On first run it creates:
 
 | Asset | What it does |
 |---|---|
+| `topics/*.md` (11 notes) | Topic index notes — link to their catalogue sources via wikilinks |
+| `sources/*.md` (~45 notes) | Source notes — one per publication; auto-aggregate articles via Dataview |
 | `canvas/newsletter-structure.canvas` | Canvas mindmap: 13 output sections and their tags |
 | `canvas/sources.canvas` | Canvas mindmap: 11 source categories and all 100+ sources |
-| `topics/*.md` | 11 topic index notes — one per newsletter section |
 
-Each issue note links to its topic notes via Obsidian wikilinks. Open **Graph View** (`Ctrl+G`) in Obsidian to see the newsletter at the centre with edges radiating to every topic it covered. As issues accumulate, frequently-covered topics form denser clusters — a live map of coverage patterns over time. Dataview queries in each topic note list all issues that covered it.
+Each run also creates:
+
+| Asset | What it does |
+|---|---|
+| `articles/*.md` (~25 per issue) | One note per story — links back to source and topic |
+
+Open **Graph View** (`Cmd+G`) in Obsidian: issue at the centre, topics one hop out, sources two hops out, individual article titles at the leaves. Sources with many articles and topics covered every week form denser clusters over time — a live map of the newsletter's coverage history.
 
 ---
 
