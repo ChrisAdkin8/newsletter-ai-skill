@@ -47,8 +47,9 @@ The `newsletter-ai` skill runs a 5-step curation workflow when you invoke `/news
 ┌─────────────────────────────────┐
 │  Step 5: Obsidian Vault         │
 │  Write issue note with YAML     │
-│  frontmatter to issues/         │
+│  frontmatter + wikilinks        │
 │  Write canvas mindmaps (once)   │
+│  Write topic index notes (once) │
 │  Write vault index (once)       │
 └────────────────┬────────────────┘
                  │
@@ -145,6 +146,26 @@ source: claude-code-newsletter-ai-skill
 
 The full newsletter body follows immediately — identical to the chat output.
 
+### Topic index notes and Graph View (created once)
+
+On first run, 11 topic index notes are written to `topics/` — one per newsletter section:
+
+```
+topics/community.md      topics/security.md     topics/hardware.md
+topics/research.md       topics/product.md      topics/evaluations.md
+topics/engineering.md    topics/policy.md
+topics/industry.md       topics/agent-era.md    topics/open-source.md
+```
+
+Each issue note links to its covered topics via Obsidian wikilinks in the section subtitles, e.g.:
+
+```markdown
+## AI Security & Safety
+*[[topics/security|Security]] — Threats, vulnerabilities, frameworks, and defences*
+```
+
+This powers Obsidian's built-in **Graph View** (`Ctrl+G`): the issue note appears at the centre with edges radiating to each topic it covered. As issues accumulate, frequently-covered topics (e.g. `security`, `research`) attract more connections and form denser clusters — making the graph a live map of coverage patterns over time.
+
 ### Canvas mindmaps (created once)
 
 On the first run, two Obsidian Canvas mindmaps are written to `canvas/`:
@@ -158,7 +179,7 @@ Canvas files are static — they describe the system structure and are only writ
 
 ### Vault dashboard
 
-`_index.md` is created on first run with Dataview queries for browsing all issues.
+`_index.md` is created on first run with Dataview queries for browsing all issues and links to all topic index notes.
 
 ---
 
@@ -169,7 +190,7 @@ Canvas files are static — they describe the system structure and are only writ
 | `SKILL.md` | Main entry point. Defines the workflow and tells Claude which supporting files exist. |
 | `sources.md` | Reference catalogue of URLs and search strategies per category. Claude reads this during Step 1. |
 | `template.md` | Exact output format for the newsletter. Claude follows this during Steps 3–4. |
-| `obsidian-template.md` | Vault note format: YAML frontmatter schema and vault directory structure. Claude follows this during Step 5. |
+| `obsidian-template.md` | Vault note format: YAML frontmatter schema, wikilink table, topic note template, and vault directory structure. Claude follows this during Step 5. |
 | `newsletter-structure.canvas` | Pre-built Obsidian Canvas JSON mapping the 13 newsletter sections. Written to vault on first run. |
 | `sources.canvas` | Pre-built Obsidian Canvas JSON mapping all 11 source categories. Written to vault on first run. |
 

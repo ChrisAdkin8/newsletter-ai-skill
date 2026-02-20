@@ -73,14 +73,15 @@ A markdown newsletter with these sections:
 
 Output is clean markdown, ready to paste into an email tool or publish directly.
 
-The skill also writes every issue to an **Obsidian vault** at `~/Documents/AI-Newsletter-Vault/` (configurable). On first run it creates two **Canvas mindmaps**:
+The skill also writes every issue to an **Obsidian vault** at `~/Documents/AI-Newsletter-Vault/` (configurable). On first run it creates:
 
-| Canvas file | What it maps |
+| Asset | What it does |
 |---|---|
-| `canvas/newsletter-structure.canvas` | 13 output sections, tags, and connections |
-| `canvas/sources.canvas` | 11 source categories and all 100+ sources |
+| `canvas/newsletter-structure.canvas` | Canvas mindmap: 13 output sections and their tags |
+| `canvas/sources.canvas` | Canvas mindmap: 11 source categories and all 100+ sources |
+| `topics/*.md` | 11 topic index notes — one per newsletter section |
 
-Open the vault in Obsidian to browse issues with the Calendar plugin, run Dataview queries across all issues, and explore the source catalogue visually.
+Each issue note links to its topic notes via Obsidian wikilinks. Open **Graph View** (`Ctrl+G`) in Obsidian to see the newsletter at the centre with edges radiating to every topic it covered. As issues accumulate, frequently-covered topics form denser clusters — a live map of coverage patterns over time. Dataview queries in each topic note list all issues that covered it.
 
 ---
 

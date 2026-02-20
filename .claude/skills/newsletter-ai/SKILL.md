@@ -89,6 +89,7 @@ If the user passed a vault path in their arguments (e.g. `/newsletter-ai vault:~
 ```bash
 mkdir -p ~/Documents/AI-Newsletter-Vault/issues
 mkdir -p ~/Documents/AI-Newsletter-Vault/canvas
+mkdir -p ~/Documents/AI-Newsletter-Vault/topics
 ```
 
 ### 5b. Write the issue note
@@ -97,7 +98,23 @@ mkdir -p ~/Documents/AI-Newsletter-Vault/canvas
 - Determine the **ISO week**: `YYYY-Www` format (e.g. `2026-W08`)
 - Write `~/Documents/AI-Newsletter-Vault/issues/YYYY-MM-DD.md` following the format in [obsidian-template.md](obsidian-template.md):
   - YAML frontmatter: `date`, `week`, `tags`, `theme` (the one-sentence opening framing), `categories` (list of categories with content this issue), `editor_picks` (the 3 headline titles), `source`
-  - Full newsletter body immediately after the frontmatter closing `---` (identical to the chat output — no reformatting needed)
+  - Full newsletter body after the frontmatter closing `---`, with **one modification**: replace each section's italic subtitle line with a wikilinked version so Obsidian's Graph View connects the issue to its topic index notes:
+
+| Section | Subtitle line in vault note |
+|---|---|
+| Community Pulse | `*[[topics/community\|Community]] — What the AI community is talking about this week*` |
+| Research Highlights | `*[[topics/research\|Research]] — Papers and findings worth your time*` |
+| Engineering & Technical Blogs | `*[[topics/engineering\|Engineering]] — What builders are shipping and writing*` |
+| Industry & Analyst Watch | `*[[topics/industry\|Industry]] — Enterprise adoption, market signals, and strategic moves*` |
+| AI Security & Safety | `*[[topics/security\|Security]] — Threats, vulnerabilities, frameworks, and defences*` |
+| Product & Company News | `*[[topics/product\|Product]] — Model releases, funding, and notable moves*` |
+| Regulatory & Policy | `*[[topics/policy\|Policy]] — Laws, frameworks, and compliance moves shaping AI deployment*` |
+| Agent Era & Technical Workflows | `*[[topics/agent-era\|Agent Era]] — Patterns, tools, and architectures for building production agents*` |
+| Open Source & Infrastructure | `*[[topics/open-source\|Open Source]] — Model rankings, benchmarks, and the stack underneath*` |
+| Hardware & Macro Watch | `*[[topics/hardware\|Hardware]] — Chips, compute, and the infrastructure layer*` |
+| Model Evaluations & Transparency | `*[[topics/evaluations\|Evaluations]] — How models are being measured, compared, and held accountable*` |
+
+These wikilinks power Obsidian's Graph View: the issue note appears at the centre with edges radiating to each topic node it covered.
 
 ### 5c. Write canvas mindmaps (first run only)
 
@@ -115,6 +132,10 @@ These canvas files are static — they map the newsletter's 13 output sections a
 
 If `~/Documents/AI-Newsletter-Vault/_index.md` does not yet exist, write the vault dashboard note as defined in [obsidian-template.md](obsidian-template.md).
 
+### 5f. Write topic index notes (first run only)
+
+If `~/Documents/AI-Newsletter-Vault/topics/community.md` does not yet exist, create all 11 topic index notes as defined in [obsidian-template.md](obsidian-template.md). These are static — one per newsletter section — and do not change issue to issue. They are the graph nodes that every issue links to via wikilinks.
+
 ### 5e. Confirm
 
 After all writes, print:
@@ -122,4 +143,5 @@ After all writes, print:
 ```
 Vault note written → ~/Documents/AI-Newsletter-Vault/issues/YYYY-MM-DD.md
 Canvas mindmaps   → ~/Documents/AI-Newsletter-Vault/canvas/ (created on first run)
+Topic index notes → ~/Documents/AI-Newsletter-Vault/topics/ (created on first run)
 ```
