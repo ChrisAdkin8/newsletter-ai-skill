@@ -4,6 +4,7 @@ description: Curate a newsletter covering agentic AI and LLM news across 11 cate
 argument-hint: "[topic-focus or date-range, optional]"
 disable-model-invocation: true
 allowed-tools: WebSearch, WebFetch
+model: claude-opus-4-6
 ---
 
 # Agentic AI & LLM Newsletter Curator
