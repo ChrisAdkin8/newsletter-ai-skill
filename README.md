@@ -157,3 +157,39 @@ Defined in `.claude/skills/newsletter-ai/SKILL.md`:
 - [How it works](docs/how-it-works.md) — the 5-step workflow including Obsidian vault output
 - [Sources](docs/sources.md) — full annotated source list
 - [Customising](docs/customising.md) — adding sources, changing format, configuring vault path, updating canvas mindmaps
+
+---
+
+## Global CLAUDE.md
+
+The skill's token efficiency rules live in `~/.claude/CLAUDE.md` under a `## Newsletter Skill` section so they apply regardless of working directory. The section was added alongside this skill.
+
+A review of the full global `~/.claude/CLAUDE.md` identified three improvements not yet made:
+
+### 1. Subagent Strategy rule is too broad
+
+The current rule says:
+> Use subagents to maintain context cleanliness. Offload research, parallel analysis, and isolated investigations.
+
+"Parallel analysis" directly contradicts the newsletter rule (which requires sequential search to avoid exhausting web search quota). The rule should be tightened to add an exception for web-search-heavy tasks:
+
+```
+Subagent Strategy — Use subagents to maintain context cleanliness. Offload research,
+parallel analysis, and isolated investigations. Exception: for tasks that are primarily
+WebSearch calls (e.g. /newsletter-ai), run sequentially in the main session — parallel
+subagents each consume independent quota and can exhaust it simultaneously.
+```
+
+### 2. Hardcoded project paths in a global file
+
+`tasks/todo.md` and `tasks/lessons.md` appear three times in a global file but are specific directory paths. In repos that don't use a `tasks/` convention these instructions are noise. Options:
+
+- Generalise: replace `tasks/todo.md` with *"a checklist file"* and `tasks/lessons.md` with *"a lessons file"*
+- Or annotate them as a personal convention: *"(or equivalent in current project)"*
+
+### 3. Self-Improvement Loop should point to auto-memory, not a project file
+
+The current rule says to record mistakes in `tasks/lessons.md`. Lessons that should persist *across projects* (like the newsletter rate-limit lesson) belong in the Claude auto-memory system at `~/.claude/projects/<id>/memory/MEMORY.md`, not a per-project file that gets left behind when switching repos. The rule should distinguish:
+
+- **Per-project lessons** → `tasks/lessons.md` (regression guards specific to the codebase)
+- **Cross-project lessons** → `~/.claude/projects/.../memory/MEMORY.md` (patterns that should travel with Claude everywhere)
