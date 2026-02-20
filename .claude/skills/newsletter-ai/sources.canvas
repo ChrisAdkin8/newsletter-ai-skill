@@ -12,11 +12,11 @@
     {
       "id": "community",
       "type": "text",
-      "text": "**1. Community & Discussion**\n\n**Reddit** (10 subs): r/MachineLearning, r/LocalLLaMA, r/artificial, r/AIAssistants, r/LanguageModelAPI, r/singularity, r/AIdev, r/ChatGPT, r/ClaudeAI, r/OpenAI\n\n**Hacker News** · news.ycombinator.com\n\n**X/Twitter**: @AnthropicAI, @OpenAI, @karpathy, @ylecun, @fchollet, @GaryMarcus, @emollick, @danhendrycks + more",
+      "text": "**1. Community & Discussion**\n\n**Reddit** (10 subs): r/MachineLearning, r/LocalLLaMA, r/artificial, r/AIAssistants, r/LanguageModelAPI, r/singularity, r/AIdev, r/ChatGPT, r/ClaudeAI, r/OpenAI\n\n**Hacker News** · news.ycombinator.com\n\n**X/Twitter**: @AnthropicAI, @OpenAI, @karpathy, @ylecun, @fchollet, @GaryMarcus, @emollick, @danhendrycks + more\n\n**LinkedIn** (WebSearch only): Andrew Ng, Yann LeCun, Ethan Mollick, Mustafa Suleyman, Cassie Kozyrkov, Sebastian Raschka, Jay Alammar, Chip Huyen, Harrison Chase, Jerry Liu, Gary Marcus, Jeff Dean",
       "x": -620,
-      "y": -860,
+      "y": -900,
       "width": 340,
-      "height": 200,
+      "height": 260,
       "color": "1"
     },
     {

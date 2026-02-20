@@ -55,6 +55,29 @@ Many significant AI announcements, capability claims, and safety incidents happe
 
 **Search strategy**: `site:twitter.com OR site:x.com "LLM" OR "agentic AI" OR "model release" 2026`
 
+### LinkedIn
+
+LinkedIn posts from named practitioners surface opinions, field notes, and previews not published elsewhere. Most content is behind an auth wall, so `WebFetch` of LinkedIn URLs will fail — always use `WebSearch` with `site:linkedin.com`. Search snippets are usually sufficient to assess and summarise.
+
+**Key profiles**:
+
+| Name | Profile slug (linkedin.com/in/...) | Affiliation | Signal type |
+|---|---|---|---|
+| Andrew Ng | andrewyng | deeplearning.ai | Applied AI essays, education, weekly field notes — most-followed ML person on LinkedIn |
+| Yann LeCun | yannlecun | Meta Chief AI Scientist | Architecture debates, AGI scepticism; more substantive on LinkedIn than X |
+| Ethan Mollick | emollick | Wharton School | Enterprise AI adoption evidence, research-backed practical use cases |
+| Mustafa Suleyman | mustafa-suleyman | Microsoft AI CEO | AI strategy, product direction, safety framing |
+| Cassie Kozyrkov | cassiek | ex-Google Chief Decision Scientist | AI decision-making, MLOps foundations, AI literacy |
+| Sebastian Raschka | sebastianraschka | Independent researcher | LLM training, architectures, concise paper summaries |
+| Jay Alammar | jalammar | Independent / Cohere | ML visualisations, transformer explanations, educational deep-dives |
+| Chip Huyen | chiphuyen | Independent | Inference systems, real-world LLM deployment, MLOps |
+| Harrison Chase | harrison-chase-961287118 | LangChain CEO | Agent frameworks, production LLM tooling |
+| Jerry Liu | jerry-liu-24a8b040 | LlamaIndex CEO | RAG systems, agent architectures |
+| Gary Marcus | gary-marcus-65902 | Independent AI critic | AI limitations, failure cases, hype analysis |
+| Jeff Dean | jeff-dean-8b212555 | Google Senior Fellow | AI research direction, systems at scale |
+
+**Search strategy**: `site:linkedin.com/posts (andrewyng OR yannlecun OR emollick OR cassiek OR sebastianraschka OR jalammar OR chiphuyen) "LLM" OR "AI agents" 2026`
+
 ---
 
 ## 2. Research & Papers
@@ -286,8 +309,7 @@ Primary government sources for operational AI security guidance — essential al
 - Axios AI: https://www.axios.com/technology/artificial-intelligence
 
 ### LinkedIn
-- Tags: `#LLM`, `#AgenticAI`, `#GenerativeAI`, `#AIAgents`
-- Use WebSearch: `site:linkedin.com/posts "agentic AI" OR "LLM" 2026`
+Named practitioner profiles — see **1. Community & Discussion → LinkedIn** for the full profile list and search strategy.
 
 ---
 

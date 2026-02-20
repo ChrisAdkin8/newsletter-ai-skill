@@ -58,7 +58,7 @@ A markdown newsletter with these sections:
 | Section | Content |
 |---|---|
 | **Editor's Picks** | Top 3 stories of the week with a connecting theme |
-| **Community Pulse** | Reddit, Hacker News, X/Twitter — real-time practitioner signal |
+| **Community Pulse** | Reddit, Hacker News, X/Twitter, LinkedIn (12 named profiles) — real-time practitioner signal |
 | **Research Highlights** | arXiv, alignment labs (ARC, CAIUS, Apollo, METR, Redwood, FAR AI), academic labs, Microsoft/Apple/Amazon research |
 | **Engineering & Technical Blogs** | Labs, NVIDIA, W&B, vLLM, Databricks, Ollama, CrewAI, MIT Tech Review, Ars Technica, IEEE Spectrum, Chollet, Marcus, Wolfe |
 | **Industry & Analyst Watch** | Gartner, McKinsey, a16z, Sequoia, Brookings, AI Now Institute, OECD AI |
@@ -90,6 +90,7 @@ Open the vault in Obsidian to browse issues with the Calendar plugin, run Datavi
 - Reddit: r/MachineLearning, r/LocalLLaMA, r/artificial, r/AIAssistants, r/LanguageModelAPI, r/singularity, r/AIdev, r/ChatGPT, r/ClaudeAI, r/OpenAI
 - **Hacker News** (news.ycombinator.com) — highest-signal technical AI discussion
 - **X/Twitter** — @AnthropicAI, @OpenAI, @karpathy, @ylecun, @fchollet, @GaryMarcus, @emollick, @danhendrycks
+- **LinkedIn** (named profiles, WebSearch only) — Andrew Ng, Yann LeCun, Ethan Mollick, Mustafa Suleyman, Cassie Kozyrkov, Sebastian Raschka, Jay Alammar, Chip Huyen, Harrison Chase, Jerry Liu, Gary Marcus, Jeff Dean
 
 ### Research & Papers
 - arXiv (cs.AI, cs.CL, cs.LG, cs.CR), HuggingFace daily papers, Papers with Code, Semantic Scholar, Nature Machine Intelligence

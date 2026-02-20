@@ -26,7 +26,7 @@ Refer to [sources.md](sources.md) for the full list of URLs and search queries p
 
 ### Categories to cover
 
-1. **Community & Discussion** (Reddit, Hacker News, X/Twitter)
+1. **Community & Discussion** (Reddit, Hacker News, X/Twitter, LinkedIn — named profiles)
 2. **Research & Papers** (arXiv, alignment labs — ARC, CAIUS, Apollo, METR, Redwood, FAR AI; academic labs — BAIR, AI2, EleutherAI; Microsoft Research, Apple ML, Amazon Science)
 3. **Technical Blogs & Engineering Posts** (major labs, NVIDIA, W&B, vLLM, Databricks, Ollama, CrewAI; MIT Tech Review, Ars Technica, IEEE Spectrum, The Information; Chollet, Marcus, Wolfe + existing writers)
 4. **Analyst & Industry Reports** (Gartner, McKinsey, a16z, Sequoia, Brookings, AI Now Institute, OECD AI)

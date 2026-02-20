@@ -52,6 +52,31 @@ Many significant AI announcements, model releases, safety incidents, and researc
 | @bcherny (Boris Cherny) | Anthropic / Claude Code | Claude Code, agentic tooling |
 | @danhendrycks | CAIUS | Safety research, evals, frontier risk |
 
+### LinkedIn
+
+LinkedIn posts from named practitioners surface field notes, opinions, and previews not published elsewhere — particularly from people who post more substantively on LinkedIn than on X. Most LinkedIn content is behind an authentication wall, so `WebFetch` of LinkedIn URLs will fail. Always use `WebSearch` with `site:linkedin.com` to find indexed posts. Search snippets are usually sufficient to assess relevance and write a summary.
+
+**Why named profiles rather than hashtags**: Broad LinkedIn hashtag searches (#LLM, #AgenticAI) return mostly promotional content. Targeting specific individuals by profile slug produces far higher signal.
+
+**Key profiles**:
+
+| Name | Profile slug (linkedin.com/in/...) | Affiliation | What to watch for |
+|---|---|---|---|
+| Andrew Ng | andrewyng | deeplearning.ai | Applied AI essays, practical use cases, education — the most-followed ML practitioner on LinkedIn; posts weekly |
+| Yann LeCun | yannlecun | Meta Chief AI Scientist | Architecture debates, AGI scepticism; notably posts more substantive content on LinkedIn than on X |
+| Ethan Mollick | emollick | Wharton School | Enterprise AI adoption evidence, research-backed practical use cases; cross-posts from oneusefulthing.org |
+| Mustafa Suleyman | mustafa-suleyman | Microsoft AI CEO | AI product strategy, safety framing, Microsoft AI direction |
+| Cassie Kozyrkov | cassiek | ex-Google Chief Decision Scientist | AI decision-making, MLOps foundations, statistical thinking — prolific and genuinely educational |
+| Sebastian Raschka | sebastianraschka | Independent researcher | LLM training, architectures, concise paper summaries — high-quality technical content in short-form |
+| Jay Alammar | jalammar | Independent / Cohere | ML visualisations, transformer explanations, educational deep-dives |
+| Chip Huyen | chiphuyen | Independent | Inference systems, real-world LLM deployment, MLOps; cross-posts from huyenchip.com |
+| Harrison Chase | harrison-chase-961287118 | LangChain CEO | Agent frameworks, production LLM tooling, agentic design patterns |
+| Jerry Liu | jerry-liu-24a8b040 | LlamaIndex CEO | RAG systems, agentic data pipelines, agent architectures |
+| Gary Marcus | gary-marcus-65902 | Independent AI critic | AI failures, limitation claims, hype analysis — high-profile sceptic voice |
+| Jeff Dean | jeff-dean-8b212555 | Google Senior Fellow | AI research direction, scale, Google-era ML systems |
+
+**Search strategy**: `site:linkedin.com/posts (andrewyng OR yannlecun OR emollick OR cassiek OR sebastianraschka OR jalammar OR chiphuyen) "LLM" OR "AI agents" 2026`
+
 ---
 
 ## 2. Research & Papers
