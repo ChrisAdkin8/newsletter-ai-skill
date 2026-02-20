@@ -4,7 +4,9 @@ Use these sources and search strategies for each category. Always prefer primary
 
 ---
 
-## 1. Community & Discussion — Reddit
+## 1. Community & Discussion
+
+### Reddit
 
 Search these subreddits for high-engagement posts (100+ upvotes preferred):
 
@@ -17,8 +19,41 @@ Search these subreddits for high-engagement posts (100+ upvotes preferred):
 | r/LanguageModelAPI | API usage, prompting, integrations |
 | r/singularity | Capability milestones, futures discussion |
 | r/AIdev | Developer tools and frameworks |
+| r/ChatGPT | OpenAI product discussion, real-world use cases |
+| r/ClaudeAI | Anthropic product discussion and community |
+| r/OpenAI | OpenAI news, research, and community |
 
 **Search strategy**: Use `site:reddit.com` in WebSearch with keywords like `"agentic AI"`, `"LLM"`, `"Claude"`, `"GPT"`, `"agent"`, `"fine-tuning"` plus `after:YYYY-MM-DD`.
+
+### Hacker News
+
+One of the highest-signal sources for technical AI discussion. Papers, tools, and controversies often break here before mainstream press. Threads surface practitioner reactions that blogs and press releases don't capture.
+
+- **URL**: https://news.ycombinator.com
+- **Search strategy**: `site:news.ycombinator.com "AI" OR "LLM" OR "agent"` — or use HN Search at https://hn.algolia.com
+- Focus on posts with 100+ points and active comment threads
+
+### X / Twitter
+
+Many significant AI announcements, capability claims, and safety incidents happen on X before any blog post. Monitor these accounts and search for key terms.
+
+**Key accounts to search**:
+
+| Account | Affiliation | Signal type |
+|---|---|---|
+| @AnthropicAI | Anthropic | Official announcements |
+| @OpenAI | OpenAI | Official announcements |
+| @GoogleDeepMind | Google DeepMind | Official announcements |
+| @sama (Sam Altman) | OpenAI CEO | Strategy, product intent |
+| @karpathy (Andrej Karpathy) | Independent | Technical insights, model intuition |
+| @ylecun (Yann LeCun) | Meta Chief AI Scientist | Contrarian views on progress |
+| @fchollet (François Chollet) | Google / ARC-AGI | AGI benchmarking, capability scepticism |
+| @GaryMarcus | Independent | AI criticism, failure cases |
+| @emollick (Ethan Mollick) | Wharton | Enterprise adoption, real-world use |
+| @bcherny (Boris Cherny) | Anthropic / Claude Code | Claude Code, agentic tooling |
+| @danhendrycks | CAIUS | Safety, evals, frontier risk |
+
+**Search strategy**: `site:twitter.com OR site:x.com "LLM" OR "agentic AI" OR "model release" 2026`
 
 ---
 
@@ -37,10 +72,23 @@ Search these subreddits for high-engagement posts (100+ upvotes preferred):
 ### Semantic Scholar
 - Search: https://www.semanticscholar.org/search?q=agentic+AI&sort=Relevance&timeRange=last-30-days
 
-### Google DeepMind Research
-- **URL**: https://deepmind.google/research/publications/
+### Nature Machine Intelligence
+- **URL**: https://www.nature.com/natmachintell/
+- High-impact peer-reviewed journal; slower cadence but authoritative on capability and societal research
+
+### Major Lab Research Publications
+
+| Lab | URL |
+|---|---|
+| Google DeepMind | https://deepmind.google/research/publications/ |
+| Microsoft Research | https://www.microsoft.com/en-us/research/blog/ |
+| Apple ML Research | https://machinelearning.apple.com/ |
+| Amazon Science | https://www.amazon.science/blog |
+
+**Search strategy**: `site:microsoft.com/en-us/research "language model" OR "agent"`, `site:machinelearning.apple.com`, `site:amazon.science "LLM"`.
 
 ### Alignment & Safety Research Labs
+
 Essential for tracking agentic AI safety — these labs publish work that contextualises frontier risk before it surfaces in mainstream coverage.
 
 | Lab | URL | Focus |
@@ -49,11 +97,12 @@ Essential for tracking agentic AI safety — these labs publish work that contex
 | Center for AI Safety (CAIUS) | https://www.safe.ai/research | Policy, evals, frontier risk framing |
 | Apollo Research | https://www.apolloresearch.ai/research | Deception, scheming, agent evaluations |
 | METR | https://metr.org | Frontier model capability benchmarking |
+| Redwood Research | https://www.redwoodresearch.org/ | Adversarial training, alignment techniques |
+| FAR AI | https://far.ai/ | Scalable oversight, alignment research |
 
-**Search strategy**: `site:alignment.org`, `site:safe.ai/research`, `site:apolloresearch.ai`, `site:metr.org`, `"frontier AI" eval 2026`.
+**Search strategy**: `site:alignment.org`, `site:safe.ai/research`, `site:apolloresearch.ai`, `site:metr.org`, `site:redwoodresearch.org`, `site:far.ai`, `"frontier AI" eval 2026`.
 
 ### Academic Labs
-These labs contextualise and operationalise arXiv research — useful for practical interpretation of new papers.
 
 | Lab | URL | Focus |
 |---|---|---|
@@ -62,13 +111,12 @@ These labs contextualise and operationalise arXiv research — useful for practi
 | Allen Institute for AI (AI2) | https://allenai.org/blog | Open research, NLP, reasoning |
 | EleutherAI | https://blog.eleuther.ai/ | Open-source models, interpretability, evals |
 
-**Search strategy**: `site:hai.stanford.edu`, `site:bair.berkeley.edu/blog`, `site:allenai.org/blog`, `site:blog.eleuther.ai`.
-
 ---
 
 ## 3. Technical Blogs & Engineering Posts
 
 ### Major lab blogs
+
 | Lab | URL |
 |---|---|
 | Anthropic | https://www.anthropic.com/news |
@@ -77,30 +125,47 @@ These labs contextualise and operationalise arXiv research — useful for practi
 | Google DeepMind | https://deepmind.google/discover/blog/ |
 | Meta AI | https://ai.meta.com/blog/ |
 | Hugging Face | https://huggingface.co/blog |
+| Microsoft Research | https://www.microsoft.com/en-us/research/blog/ |
+| Microsoft Azure AI | https://azure.microsoft.com/en-us/blog/tag/ai/ |
+| Apple ML Research | https://machinelearning.apple.com/ |
+| Amazon Science | https://www.amazon.science/blog |
 
-### Infrastructure company blogs
+### Infrastructure & tooling company blogs
+
 These companies often publish technical deep-dives before mainstream press picks them up.
 
 | Company | URL | Focus |
 |---|---|---|
+| NVIDIA Developer | https://developer.nvidia.com/blog/ | CUDA, inference, new GPU architectures |
+| NVIDIA News | https://nvidianews.nvidia.com/ | Official product announcements |
 | Cerebras | https://cerebras.ai/blog/ | Wafer-scale AI compute |
 | Groq | https://groq.com/blog/ | Inference speed, LPU architecture |
 | Lambda Labs | https://lambdalabs.com/blog/ | GPU cloud, training infrastructure |
 | CoreWeave | https://www.coreweave.com/blog | GPU cloud, HPC, AI infra |
 | Fireworks AI | https://fireworks.ai/blog | Inference optimisation, model serving |
 | Anyscale | https://www.anyscale.com/blog | Ray, distributed ML, production agents |
+| Weights & Biases | https://wandb.ai/fully-connected | MLOps, experiment tracking, agent observability |
+| vLLM | https://blog.vllm.ai/ | Inference serving, PagedAttention, throughput |
+| Scale AI | https://scale.com/blog | Data labelling, fine-tuning, RLHF methodology |
+| Databricks | https://www.databricks.com/blog | Enterprise LLM training and deployment |
+| Ollama | https://ollama.com/blog | Local model running and distribution |
+| CrewAI | https://www.crewai.com/blog | Multi-agent frameworks, role-based agents |
 
-### AI-only media
-Higher signal-to-noise than general tech press; dedicated AI editorial teams.
+### AI-only and technical media
+
+Higher signal-to-noise than general tech press.
 
 | Outlet | URL | Strength |
 |---|---|---|
 | The Decoder | https://the-decoder.com | Fast, accurate model release coverage |
 | VentureBeat AI | https://venturebeat.com/category/ai/ | Enterprise AI, startup coverage |
+| MIT Technology Review AI | https://www.technologyreview.com/topic/artificial-intelligence/ | Credible long-form journalism |
+| Ars Technica AI | https://arstechnica.com/ai/ | Technically accurate, detailed model coverage |
+| IEEE Spectrum AI | https://spectrum.ieee.org/artificial-intelligence | Authoritative on hardware and systems |
+| The Information (AI) | https://www.theinformation.com | Breaks stories on major lab internals (paywalled) |
 | ML News | https://mlnews.org | Curated weekly ML developments |
 
 ### Individual researchers & practitioners
-High signal-to-noise; publish infrequently but with depth.
 
 | Author | URL | Focus |
 |---|---|---|
@@ -114,6 +179,9 @@ High signal-to-noise; publish infrequently but with depth.
 | Ethan Mollick | https://www.oneusefulthing.org | Practical enterprise AI adoption signal |
 | Dan Hendrycks | https://www.danhendrycks.com | Eval commentary, safety, frontier risk |
 | Percy Liang | https://crfm.stanford.edu | HELM, transparency, evaluation frameworks |
+| François Chollet | https://fchollet.substack.com | ARC-AGI benchmark, AGI definitions, capability scepticism |
+| Gary Marcus | https://garymarcus.substack.com | AI criticism, failure cases, hype analysis |
+| Cameron Wolfe | https://cameronrwolfe.substack.com | Deep learning deep-dives, paper breakdowns |
 
 ### Engineering & framework blogs
 - LangChain: https://blog.langchain.dev
@@ -136,20 +204,24 @@ High signal-to-noise; publish infrequently but with depth.
 | BCG Henderson Institute | https://www.bcg.com/capabilities/artificial-intelligence |
 | Deloitte Insights | https://www2.deloitte.com/us/en/insights/topics/ai-and-machine-learning.html |
 
-### AI-focused analyst firms
-| Source | URL |
-|---|---|
-| The AI Index (Stanford HAI) | https://aiindex.stanford.edu |
-| RAND AI | https://www.rand.org/topics/artificial-intelligence.html |
-| Epoch AI | https://epochai.org/blog |
-| AI Now Institute | https://ainowinstitute.org |
-| OECD AI | https://oecd.ai/en/ |
-| AI Snake Oil | https://www.aisnakeoil.com |
-| Import AI (Jack Clark) | https://jack-clark.net |
-| The Gradient | https://thegradient.pub |
-| Ben Thompson / Stratechery | https://stratechery.com |
+### AI-focused analyst & VC firms
 
-**Search strategy**: `site:gartner.com AI agents`, `"agentic AI" site:mckinsey.com`, `site:ainowinstitute.org`, `site:oecd.ai`.
+| Source | URL | Strength |
+|---|---|---|
+| The AI Index (Stanford HAI) | https://aiindex.stanford.edu | Annual benchmark report, policy, education |
+| RAND AI | https://www.rand.org/topics/artificial-intelligence.html | National security, policy implications |
+| Epoch AI | https://epochai.org/blog | Compute trends, scaling, empirical forecasts |
+| AI Now Institute | https://ainowinstitute.org | Labour impact, power, accountability |
+| OECD AI | https://oecd.ai/en/ | Policy adoption data, international statistics |
+| Brookings AI | https://www.brookings.edu/topic/artificial-intelligence/ | Policy analysis, governance, societal impact |
+| a16z AI | https://a16z.com/ai/ | VC perspective, State of AI essays, market sizing |
+| Sequoia Capital AI | https://www.sequoiacap.com/our-perspective/ | Strategic AI market framing, startup trends |
+| AI Snake Oil | https://www.aisnakeoil.com | Sceptical, evidence-based critique |
+| Import AI (Jack Clark) | https://jack-clark.net | Weekly digest, safety, capabilities |
+| The Gradient | https://thegradient.pub | Academic-adjacent, deep technical coverage |
+| Ben Thompson / Stratechery | https://stratechery.com | Business strategy, platform dynamics |
+
+**Search strategy**: `site:gartner.com AI agents`, `"agentic AI" site:mckinsey.com`, `site:a16z.com AI`, `site:brookings.edu artificial-intelligence`.
 
 ---
 
@@ -169,19 +241,34 @@ High signal-to-noise; publish infrequently but with depth.
 - **AI Risk Management Framework**: https://www.nist.gov/artificial-intelligence
 - **NIST AI publications**: https://csrc.nist.gov/publications (filter by AI)
 
-### Security research & news
-| Source | URL |
-|---|---|
-| AI Village | https://aivillage.org |
-| Lakera AI Security | https://www.lakera.ai/blog |
-| Protect AI | https://protectai.com/blog |
-| Adversa AI | https://adversa.ai/blog |
-| Simon Willison (prompt injection) | https://simonwillison.net/tags/prompt-injection/ |
-| Wired AI & Security | https://www.wired.com/tag/artificial-intelligence/ |
-| Dark Reading AI | https://www.darkreading.com/keyword/artificial-intelligence |
-| Krebs on Security (AI-related) | https://krebsonsecurity.com |
+### Government cybersecurity agencies
 
-**Search strategy**: `site:owasp.org LLM`, `"prompt injection" site:github.com`, `"AI security" CVE 2026`, `MITRE ATLAS new technique`.
+Primary government sources for operational AI security guidance — essential alongside OWASP and MITRE.
+
+| Agency | URL | Covers |
+|---|---|---|
+| CISA (US) | https://www.cisa.gov/artificial-intelligence | US operational AI security, critical infrastructure guidance |
+| ENISA (EU) | https://www.enisa.europa.eu/ | EU AI threat landscape, security guidelines for AI Act |
+| NCSC (UK) | https://www.ncsc.gov.uk/section/artificial-intelligence/ | UK AI security guidance, joint CISA/NCSC advisories |
+
+**Search strategy**: `site:cisa.gov AI`, `site:enisa.europa.eu "artificial intelligence"`, `site:ncsc.gov.uk AI`.
+
+### Security research & news
+
+| Source | URL | Focus |
+|---|---|---|
+| AI Village | https://aivillage.org | DEF CON AI track, red-teaming, community |
+| Lakera AI Security | https://www.lakera.ai/blog | Prompt injection, guardrails, production security |
+| Protect AI | https://protectai.com/blog | MLOps security, model supply chain |
+| Adversa AI | https://adversa.ai/blog | Adversarial attacks, evasion techniques |
+| Trail of Bits | https://blog.trailofbits.com/ | Hands-on AI red-teaming and model audits |
+| Microsoft Security | https://www.microsoft.com/en-us/security/blog/ | AI-assisted attacks, enterprise threat intelligence |
+| Simon Willison (prompt injection) | https://simonwillison.net/tags/prompt-injection/ | Real-world prompt injection incidents |
+| Wired AI & Security | https://www.wired.com/tag/artificial-intelligence/ | Mainstream AI security incidents |
+| Dark Reading AI | https://www.darkreading.com/keyword/artificial-intelligence | Enterprise security practitioner coverage |
+| Krebs on Security (AI-related) | https://krebsonsecurity.com | High-quality incident coverage |
+
+**Search strategy**: `site:owasp.org LLM`, `site:cisa.gov AI security`, `"prompt injection" site:github.com`, `"AI security" CVE 2026`, `MITRE ATLAS new technique`.
 
 ---
 
@@ -196,6 +283,7 @@ High signal-to-noise; publish infrequently but with depth.
 - Search: `AI startup funding 2026 series`
 - Crunchbase AI: https://www.crunchbase.com/hub/artificial-intelligence-companies
 - TechCrunch AI: https://techcrunch.com/category/artificial-intelligence/
+- Axios AI: https://www.axios.com/technology/artificial-intelligence
 
 ### LinkedIn
 - Tags: `#LLM`, `#AgenticAI`, `#GenerativeAI`, `#AIAgents`
@@ -205,18 +293,24 @@ High signal-to-noise; publish infrequently but with depth.
 
 ## 7. Regulatory & Policy
 
-Track government, legal, and compliance developments affecting AI deployment. Prefer primary government sources over secondary commentary.
+Track government, legal, and compliance developments. **Always go to primary government sources first** — secondary commentary lags by days and adds interpretation.
 
 ### Government primary sources
+
 | Source | URL | Covers |
 |---|---|---|
 | European Commission — AI Act | https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai | EU AI Act implementation, delegated acts, enforcement |
 | UK AI Safety Institute | https://www.gov.uk/government/organisations/ai-safety-institute | UK frontier AI safety, evaluations, international coordination |
 | White House OSTP | https://www.whitehouse.gov/ostp/ | US AI executive policy, national strategy |
+| FTC (US) | https://www.ftc.gov/policy/advocacy-research/tech-at-ftc | US enforcement on AI deception, unfair practices, data misuse |
+| UK ICO | https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/artificial-intelligence/ | UK data protection regulator; AI guidance affecting LLM deployments |
+| Canada AI (AIDA) | https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai.html | First G7 AI legislation (Artificial Intelligence and Data Act) |
+| Future of Life Institute | https://futureoflife.org/ | AI policy advocacy, open letters, international governance |
 
-**Search strategy**: `"EU AI Act" implementation site:ec.europa.eu`, `site:gov.uk "AI Safety Institute"`, `"AI" site:whitehouse.gov/ostp`.
+**Search strategy**: `"EU AI Act" enforcement site:ec.europa.eu`, `site:gov.uk "AI Safety Institute"`, `site:ftc.gov AI`, `site:ico.org.uk artificial-intelligence`, `"AIDA" Canada AI legislation`.
 
 ### Legal & compliance commentary
+
 | Source | URL | Focus |
 |---|---|---|
 | IAPP News & Analysis | https://iapp.org/news/ | Privacy law, AI governance, data protection |
@@ -224,8 +318,6 @@ Track government, legal, and compliance developments affecting AI deployment. Pr
 | Covington — Inside Privacy | https://www.insideprivacy.com | Data protection, AI Act, enforcement actions |
 | Covington — Inside Global Tech | https://www.insideglobaltech.com | Cross-border tech regulation, AI policy |
 | HSF Kramer — Behind the Prompt | search `"Behind the Prompt" HSF Kramer site:linkedin.com` | Monthly AI insights, enterprise governance |
-
-**Search strategy for the category**: `"AI regulation" OR "AI Act" OR "AI governance" site:iapp.org OR site:insideprivacy.com`, `"EU AI Act" enforcement`, `"AI policy" site:whitehouse.gov`.
 
 ---
 
@@ -236,28 +328,26 @@ Practitioner-focused sources on building and operating agentic AI systems in pro
 ### Vellum AI Blog
 - **URL**: https://www.vellum.ai/blog
 - **Focus**: LLM evaluation, orchestration patterns, prompt engineering, production agent workflows
-- **Search strategy**: `site:vellum.ai/blog` or `"Vellum AI" LLM evaluation agent`
 
 ### ByteByteGo
 - **Newsletter / Substack**: https://blog.bytebytego.com
 - **Focus**: System design patterns for AI, scalable architectures, LLM infrastructure diagrams
-- **Search strategy**: `site:blog.bytebytego.com AI OR LLM OR "large language model"`
 
-**Search strategy for the category**: `"agentic workflow" OR "LLM orchestration" site:vellum.ai OR site:blog.bytebytego.com`, `"agent architecture" production 2026`.
+**Search strategy**: `"agentic workflow" OR "LLM orchestration" site:vellum.ai OR site:blog.bytebytego.com`, `"agent architecture" production 2026`.
 
 ---
 
 ## 9. Open Source & Specialised Infrastructure
-
-Sources covering open-source model ecosystems and the infrastructure layer.
 
 ### Hugging Face (open-source angle)
 - Open-source model releases: https://huggingface.co/models?sort=trending
 - Community blog: https://huggingface.co/blog
 
 ### Infrastructure & scaling
-- **SemiAnalysis**: https://www.semianalysis.com — chip economics, GPU supply chain
 - **Anyscale blog**: https://www.anyscale.com/blog — Ray framework, distributed ML in production
+- **vLLM blog**: https://blog.vllm.ai/ — dominant open-source inference serving framework
+- **Ollama blog**: https://ollama.com/blog — most popular local model runner
+- **SemiAnalysis**: https://www.semianalysis.com — chip economics, GPU supply chain
 
 **Search strategy**: `open-source LLM release site:huggingface.co`, `"AI infrastructure" scaling 2026`.
 
@@ -270,50 +360,60 @@ The chip supply chain and data centre capacity constrain everything else in the 
 ### Computing.co.uk
 - **AI & Machine Learning**: https://www.computing.co.uk/knowledge/artificial-intelligence
 - **Infrastructure**: https://www.computing.co.uk/knowledge/infrastructure
-- **Focus**: Enterprise AI adoption, GPU/TPU supply chain, data centre capacity, UK/EU market
 
 ### Hardware & semiconductor sources
+
 | Source | URL | Focus |
 |---|---|---|
+| NVIDIA News (primary) | https://nvidianews.nvidia.com/ | Official NVIDIA product and partnership announcements |
+| NVIDIA Developer Blog | https://developer.nvidia.com/blog/ | CUDA, inference libraries, GPU architecture |
 | SemiAnalysis | https://www.semianalysis.com | Deep chip industry analysis, GPU economics |
+| The Next Platform | https://www.nextplatform.com/ | HPC and AI infrastructure economics in depth |
+| Datacenter Dynamics | https://www.datacenterdynamics.com/ | Data centre construction, power capacity, AI infrastructure buildout |
 | Cerebras blog | https://cerebras.ai/blog/ | Wafer-scale compute developments |
 | Groq blog | https://groq.com/blog/ | LPU inference architecture |
 | The Information (AI hardware) | search `"AI chips" OR "GPU" site:theinformation.com` | Insider chip reporting |
 | Tom's Hardware AI | search `"AI" site:tomshardware.com` | GPU benchmarks, hardware releases |
 
-**Search strategy**: `"Nvidia" OR "GPU cluster" OR "AI infrastructure" 2026`, `"data centre AI" site:computing.co.uk`, `"H100" OR "Blackwell" supply`.
+**Search strategy**: `"Nvidia" OR "GPU cluster" OR "AI infrastructure" 2026`, `"data centre AI" site:computing.co.uk`, `site:nextplatform.com AI`, `site:datacenterdynamics.com`.
 
 ---
 
 ## 11. Model Evaluations & Transparency Reports
 
-Evaluation is now a discipline in its own right — this category tracks how models are being measured, compared, and held accountable. Separate from research papers (section 2) and product news (section 6).
+Evaluation is now a discipline in its own right — distinct from research (§2) and product news (§6). Tracks how models are being measured, compared, and held accountable, including inference economics.
 
 ### LMSYS
 - **Blog**: https://lmsys.org/blog/
 - **Arena**: https://chat.lmsys.org
-- **Focus**: Chatbot Arena methodology, Elo rankings, human preference data, arena insights beyond the leaderboard UI
+- **Focus**: Chatbot Arena methodology, Elo rankings, human preference data at scale
 
 ### Artificial Analysis
-- **URL**: https://artificialanalysis.ai/blog (analysis) and https://artificialanalysis.ai (live data)
-- **Focus**: Model comparisons across quality, speed, and cost; inference provider benchmarking; running cost tracking
-- Essential for understanding the economics of model deployment, not just raw capability
+- **URL**: https://artificialanalysis.ai/blog and https://artificialanalysis.ai
+- **Focus**: Model quality, speed, and cost across providers in real time — essential for deployment economics
 
 ### Scale AI — SEAL Leaderboards
 - **URL**: https://scale.com/leaderboard
-- **Focus**: Expert-annotated safety and capability evaluations; task-specific leaderboards with higher rigour than crowd-sourced alternatives
+- **Focus**: Expert-annotated evaluations; higher rigour than crowd-sourced alternatives
 
 ### HELM (Holistic Evaluation of Language Models)
 - **URL**: https://crfm.stanford.edu/helm/latest/
-- **Maintainer**: Stanford CRFM (Percy Liang's group)
 - **Focus**: Standardised, reproducible benchmarks across accuracy, calibration, robustness, fairness, efficiency
+
+### LiveBench
+- **URL**: https://livebench.ai/
+- **Focus**: Contamination-free benchmarks using current-events questions; directly addresses the key weakness of static benchmarks
+
+### AlpacaEval
+- **URL**: https://tatsu-lab.github.io/alpaca_eval/
+- **Focus**: Widely used instruction-following evaluation; referenced in many paper comparisons
 
 ### Open LLM Leaderboard (Hugging Face)
 - **URL**: https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard
-- **Focus**: Open-source model rankings across standard tasks; tracks community fine-tunes and base models
+- **Focus**: Open-source model rankings; tracks community fine-tunes and base models
 
 ### WhatLLM.org
 - **URL**: https://whatllm.org
-- **Focus**: Weekly digest of model ranking changes; good for tracking momentum without reading raw leaderboard diffs
+- **Focus**: Weekly digest of model ranking changes
 
-**Search strategy**: `site:lmsys.org/blog`, `site:artificialanalysis.ai`, `site:scale.com/leaderboard`, `"HELM benchmark" site:crfm.stanford.edu`, `"eval" OR "benchmark" LLM 2026`.
+**Search strategy**: `site:lmsys.org/blog`, `site:artificialanalysis.ai`, `site:scale.com/leaderboard`, `"HELM benchmark" site:crfm.stanford.edu`, `site:livebench.ai`, `"eval" OR "benchmark" LLM 2026`.

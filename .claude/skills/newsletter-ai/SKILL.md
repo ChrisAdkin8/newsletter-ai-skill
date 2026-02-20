@@ -1,6 +1,6 @@
 ---
 name: newsletter-ai
-description: Curate a newsletter covering agentic AI and LLM news across 11 categories: community (Reddit), research and alignment safety labs (ARC, CAIUS, Apollo, METR, BAIR, AI2), technical blogs and infra companies, analyst reports, AI security (OWASP, MITRE, NIST), product news, regulatory/policy (IAPP, Covington, EU Commission, UK AISI, White House OSTP), agent-era workflows, open-source infrastructure, macro/hardware, and model evaluations (LMSYS, Artificial Analysis, Scale SEAL, HELM). Use when the user asks for AI news, an LLM digest, an agentic AI roundup, or a newsletter.
+description: Curate a newsletter covering agentic AI and LLM news across 11 categories: community (Reddit, Hacker News, X/Twitter), research and alignment safety labs (ARC, CAIUS, Apollo, METR, Redwood, FAR AI, BAIR, AI2), technical blogs and infra companies (NVIDIA, W&B, vLLM, Databricks, Ollama, CrewAI), AI-only media (MIT Tech Review, Ars Technica, IEEE Spectrum), individual writers (Chollet, Marcus, Wolfe), analyst and VC reports (Gartner, a16z, Sequoia, Brookings), AI security (OWASP, MITRE, NIST, CISA, ENISA, NCSC, Trail of Bits), regulatory/policy (EU Commission, UK AISI, FTC, ICO, OSTP, Future of Life Institute), open-source infra, macro/hardware (NVIDIA, Next Platform, Datacenter Dynamics), and model evaluations (LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench, AlpacaEval). Use when the user asks for AI news, an LLM digest, an agentic AI roundup, or a newsletter.
 argument-hint: "[topic-focus or date-range, optional]"
 disable-model-invocation: true
 allowed-tools: WebSearch, WebFetch
@@ -26,17 +26,17 @@ Refer to [sources.md](sources.md) for the full list of URLs and search queries p
 
 ### Categories to cover
 
-1. **Community & Discussion** (Reddit)
-2. **Research & Papers** (arXiv, alignment labs — ARC, CAIUS, Apollo, METR; academic labs — BAIR, AI2, EleutherAI)
-3. **Technical Blogs & Engineering Posts** (labs, infra companies — Cerebras, Groq, CoreWeave; AI media — The Decoder, VentureBeat; writers — Mollick, Hendrycks, Patel, Liang)
-4. **Analyst & Industry Reports** (Gartner, McKinsey, AI Now Institute, OECD AI)
-5. **AI Security** (OWASP, MITRE ATLAS, NIST, CVEs)
+1. **Community & Discussion** (Reddit, Hacker News, X/Twitter)
+2. **Research & Papers** (arXiv, alignment labs — ARC, CAIUS, Apollo, METR, Redwood, FAR AI; academic labs — BAIR, AI2, EleutherAI; Microsoft Research, Apple ML, Amazon Science)
+3. **Technical Blogs & Engineering Posts** (major labs, NVIDIA, W&B, vLLM, Databricks, Ollama, CrewAI; MIT Tech Review, Ars Technica, IEEE Spectrum, The Information; Chollet, Marcus, Wolfe + existing writers)
+4. **Analyst & Industry Reports** (Gartner, McKinsey, a16z, Sequoia, Brookings, AI Now Institute, OECD AI)
+5. **AI Security** (OWASP, MITRE ATLAS, NIST, CISA, ENISA, NCSC, Trail of Bits, Microsoft Security)
 6. **Product & Company News** (model releases, funding, partnerships)
-7. **Regulatory & Policy** (EU Commission, UK AISI, White House OSTP, IAPP, Covington, HSF Kramer)
+7. **Regulatory & Policy** (EU Commission, UK AISI, White House OSTP, FTC, UK ICO, Canada AIDA, Future of Life Institute, IAPP, Covington, HSF Kramer)
 8. **Agent Era & Technical Workflows** (Vellum AI, ByteByteGo)
-9. **Open Source & Specialised Infrastructure** (HuggingFace, Anyscale, SemiAnalysis)
-10. **Macro & Hardware Watch** (Computing.co.uk, Cerebras, Groq, chip/infra news)
-11. **Model Evaluations & Transparency** (LMSYS blog, Artificial Analysis, Scale SEAL, HELM, HF Open LLM Leaderboard, WhatLLM.org)
+9. **Open Source & Specialised Infrastructure** (HuggingFace, vLLM, Ollama, Anyscale, SemiAnalysis)
+10. **Macro & Hardware Watch** (NVIDIA primary, Next Platform, Datacenter Dynamics, Computing.co.uk, SemiAnalysis)
+11. **Model Evaluations & Transparency** (LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench, AlpacaEval, HF Leaderboard, WhatLLM.org)
 
 ---
 

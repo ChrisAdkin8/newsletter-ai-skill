@@ -1,6 +1,6 @@
 # newsletter-ai — Claude Code Skill
 
-A Claude Code skill that curates a ready-to-publish weekly newsletter covering **agentic AI and LLM developments** across 11 source categories. Sources span Reddit, alignment safety labs, academic research groups, technical blogs, infra company engineering posts, analyst reports, AI security frameworks, government regulatory feeds, agent-era workflow content, open-source infrastructure, hardware/compute news, and a dedicated model evaluations track. Produces a structured, opinionated digest for technical practitioners.
+A Claude Code skill that curates a ready-to-publish weekly newsletter covering **agentic AI and LLM developments** across 11 source categories. Sources span Reddit, Hacker News, X/Twitter, alignment safety labs, major lab research publications, academic research groups, technical blogs, infra company engineering posts, AI-only media, analyst reports and VC firms, AI security frameworks (OWASP, MITRE, NIST, CISA, ENISA, NCSC), government regulatory feeds, agent-era workflow content, open-source infrastructure, hardware/compute news (NVIDIA, Next Platform, Datacenter Dynamics), and a dedicated model evaluations track (LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench, AlpacaEval). Produces a structured, opinionated digest for technical practitioners.
 
 ---
 
@@ -54,13 +54,13 @@ A markdown newsletter with these sections:
 | Section | Content |
 |---|---|
 | **Editor's Picks** | Top 3 stories of the week with a connecting theme |
-| **Community Pulse** | High-signal Reddit discussions |
-| **Research Highlights** | arXiv, alignment labs (ARC, CAIUS, Apollo, METR), academic labs (BAIR, AI2, EleutherAI) |
-| **Engineering & Technical Blogs** | Labs, infra companies, AI media, individual researchers |
-| **Industry & Analyst Watch** | Gartner, McKinsey, AI Now Institute, OECD AI |
-| **AI Security & Safety** | OWASP, MITRE ATLAS, NIST, CVEs, prompt injection |
+| **Community Pulse** | Reddit, Hacker News, X/Twitter — real-time practitioner signal |
+| **Research Highlights** | arXiv, alignment labs (ARC, CAIUS, Apollo, METR, Redwood, FAR AI), academic labs, Microsoft/Apple/Amazon research |
+| **Engineering & Technical Blogs** | Labs, NVIDIA, W&B, vLLM, Databricks, Ollama, CrewAI, MIT Tech Review, Ars Technica, IEEE Spectrum, Chollet, Marcus, Wolfe |
+| **Industry & Analyst Watch** | Gartner, McKinsey, a16z, Sequoia, Brookings, AI Now Institute, OECD AI |
+| **AI Security & Safety** | OWASP, MITRE ATLAS, NIST, CISA, ENISA, NCSC, Trail of Bits, Microsoft Security |
 | **Product & Company News** | Model releases, funding, partnerships |
-| **Regulatory & Policy** | EU Commission, UK AISI, White House OSTP, IAPP, Covington, HSF Kramer |
+| **Regulatory & Policy** | EU Commission, UK AISI, FTC, UK ICO, White House OSTP, Canada AIDA, Future of Life Institute, IAPP, Covington |
 | **Agent Era & Technical Workflows** | Vellum AI, ByteByteGo, production agent patterns |
 | **Open Source & Infrastructure** | HuggingFace, Anyscale, SemiAnalysis |
 | **Hardware & Macro Watch** | Computing.co.uk, Cerebras, Groq, chip/data centre news |
@@ -76,46 +76,56 @@ Output is clean markdown, ready to paste into an email tool or publish directly.
 ### Community
 - r/MachineLearning, r/LocalLLaMA, r/artificial, r/AIAssistants, r/LanguageModelAPI, r/singularity, r/AIdev
 
+### Community
+- Reddit: r/MachineLearning, r/LocalLLaMA, r/artificial, r/AIAssistants, r/LanguageModelAPI, r/singularity, r/AIdev, r/ChatGPT, r/ClaudeAI, r/OpenAI
+- **Hacker News** (news.ycombinator.com) — highest-signal technical AI discussion
+- **X/Twitter** — @AnthropicAI, @OpenAI, @karpathy, @ylecun, @fchollet, @GaryMarcus, @emollick, @danhendrycks
+
 ### Research & Papers
-- arXiv (cs.AI, cs.CL, cs.LG, cs.CR), HuggingFace daily papers, Papers with Code, Semantic Scholar
-- **Alignment & safety labs**: Alignment Research Center, Center for AI Safety (CAIUS), Apollo Research, METR
-- **Academic labs**: Stanford HAI, Berkeley AI Research (BAIR), Allen Institute for AI (AI2), EleutherAI
+- arXiv (cs.AI, cs.CL, cs.LG, cs.CR), HuggingFace daily papers, Papers with Code, Semantic Scholar, Nature Machine Intelligence
+- **Major lab research**: Google DeepMind, Microsoft Research, Apple ML Research, Amazon Science
+- **Alignment & safety labs**: ARC, Center for AI Safety (CAIUS), Apollo Research, METR, Redwood Research, FAR AI
+- **Academic labs**: Stanford HAI, BAIR, Allen Institute for AI (AI2), EleutherAI
 
 ### Technical Blogs
-- Major labs: Anthropic, OpenAI, Google DeepMind, Meta AI, Hugging Face
-- **Infra companies**: Cerebras, Groq, Lambda Labs, CoreWeave, Fireworks AI, Anyscale
-- **AI-only media**: The Decoder, VentureBeat AI, ML News
+- Major labs: Anthropic, OpenAI, Google DeepMind, Meta AI, Hugging Face, Microsoft Research, Microsoft Azure AI, Apple ML Research, Amazon Science
+- **Infra companies**: NVIDIA (Developer + News), Cerebras, Groq, Lambda Labs, CoreWeave, Fireworks AI, Anyscale, Weights & Biases, vLLM, Scale AI, Databricks, Ollama, CrewAI
+- **AI-only media**: The Decoder, VentureBeat AI, MIT Technology Review, Ars Technica AI, IEEE Spectrum, The Information, ML News
 - Framework blogs: LangChain, LlamaIndex, Cohere, Mistral, Together AI
-- **Individual researchers**: Lilian Weng, Simon Willison, Sebastian Raschka, Andrej Karpathy, Chip Huyen, Nathan Lambert, Dwarkesh Patel, Ethan Mollick, Dan Hendrycks, Percy Liang
+- **Individual researchers**: Lilian Weng, Simon Willison, Sebastian Raschka, Andrej Karpathy, Chip Huyen, Nathan Lambert, Dwarkesh Patel, Ethan Mollick, Dan Hendrycks, Percy Liang, **François Chollet**, **Gary Marcus**, **Cameron Wolfe**
 
 ### Analyst & Industry
-- Gartner, Forrester, IDC, McKinsey, BCG, Deloitte
-- Stanford HAI AI Index, RAND, Epoch AI, **AI Now Institute**, **OECD AI**
-- The Gradient, Import AI (Jack Clark), Stratechery
+- Tier-1: Gartner, Forrester, IDC, McKinsey, BCG, Deloitte
+- Research: Stanford HAI AI Index, RAND, Epoch AI, AI Now Institute, OECD AI, Brookings
+- **VC firms**: a16z AI, Sequoia Capital AI
+- Independent: AI Snake Oil, Import AI (Jack Clark), The Gradient, Stratechery
 
 ### AI Security
-- OWASP Top 10 for LLM Applications, OWASP AI Exchange
-- MITRE ATLAS, MITRE CVE, NIST AI RMF
-- AI Village, Lakera, Protect AI, Adversa AI, Dark Reading, Wired, Krebs on Security
+- Standards: OWASP LLM Top 10, OWASP AI Exchange, MITRE ATLAS, MITRE CVE, NIST AI RMF
+- **Government agencies**: CISA (US), ENISA (EU), NCSC (UK)
+- Research: AI Village, Lakera, Protect AI, Adversa AI, Trail of Bits, Microsoft Security
+- News: Dark Reading, Wired, Krebs on Security
 
 ### Regulatory & Policy
-- **Government primary**: EU Commission AI Act, UK AI Safety Institute, White House OSTP
+- **Government primary**: EU Commission AI Act, UK AI Safety Institute, White House OSTP, FTC (US), UK ICO, Canada AIDA, Future of Life Institute
 - Legal commentary: IAPP, Covington (Inside Privacy + Inside Global Tech), HSF Kramer *Behind the Prompt*
 
 ### Agent Era & Technical Workflows
 - Vellum AI Blog, ByteByteGo
 
 ### Open Source & Infrastructure
-- HuggingFace blog and model hub, Anyscale, SemiAnalysis
+- HuggingFace blog and model hub, vLLM, Ollama, Anyscale, SemiAnalysis
 
 ### Macro & Hardware Watch
-- Computing.co.uk, SemiAnalysis, Cerebras, Groq, Tom's Hardware
+- **Primary**: NVIDIA News, NVIDIA Developer Blog
+- **Infrastructure press**: The Next Platform, Datacenter Dynamics, Computing.co.uk
+- Analysis: SemiAnalysis, Cerebras, Groq, Tom's Hardware
 
-### Model Evaluations & Transparency *(new category)*
-- LMSYS blog and Chatbot Arena, Artificial Analysis, Scale AI SEAL leaderboard, HELM (Stanford CRFM), HuggingFace Open LLM Leaderboard, WhatLLM.org
+### Model Evaluations & Transparency
+- LMSYS blog and Chatbot Arena, Artificial Analysis, Scale AI SEAL leaderboard, HELM (Stanford CRFM), **LiveBench**, **AlpacaEval**, HuggingFace Open LLM Leaderboard, WhatLLM.org
 
 ### Product & Company News
-- OpenRouter, LMSYS Chatbot Arena, Crunchbase, TechCrunch AI, LinkedIn
+- OpenRouter, LMSYS Chatbot Arena, Crunchbase, TechCrunch AI, Axios AI, LinkedIn
 
 ---
 
