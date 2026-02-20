@@ -201,6 +201,27 @@ Use this exact structure when writing the newsletter output.
 
 ---
 
+## Model Evaluations & Transparency
+*How models are being measured, compared, and held accountable*
+
+### [Headline]
+`[Eval]`
+
+[2–4 sentences: what was evaluated or benchmarked, what the results reveal, what practitioners should conclude about model selection or deployment.]
+
+[Source: [LMSYS / Artificial Analysis / Scale SEAL / HELM / HF Leaderboard](URL)]
+
+---
+
+### [Next item]
+`[Eval]`
+
+[2–4 sentences.]
+
+[Source: [LMSYS / Artificial Analysis / Scale SEAL / HELM / HF Leaderboard](URL)]
+
+---
+
 ## Quick Links
 *Worth a bookmark — no summary needed*
 

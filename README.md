@@ -1,6 +1,6 @@
 # newsletter-ai — Claude Code Skill
 
-A Claude Code skill that curates a ready-to-publish weekly newsletter covering **agentic AI and LLM developments**. It searches across Reddit, research papers, technical blogs, analyst reports, LinkedIn, and AI security sources (OWASP, MITRE, NIST), then writes a structured, opinionated digest for technical practitioners.
+A Claude Code skill that curates a ready-to-publish weekly newsletter covering **agentic AI and LLM developments** across 11 source categories. Sources span Reddit, alignment safety labs, academic research groups, technical blogs, infra company engineering posts, analyst reports, AI security frameworks, government regulatory feeds, agent-era workflow content, open-source infrastructure, hardware/compute news, and a dedicated model evaluations track. Produces a structured, opinionated digest for technical practitioners.
 
 ---
 
@@ -55,15 +55,16 @@ A markdown newsletter with these sections:
 |---|---|
 | **Editor's Picks** | Top 3 stories of the week with a connecting theme |
 | **Community Pulse** | High-signal Reddit discussions |
-| **Research Highlights** | Notable arXiv papers and findings |
-| **Engineering & Technical Blogs** | What labs and practitioners are shipping |
-| **Industry & Analyst Watch** | Gartner, McKinsey, Forrester, Stanford HAI |
+| **Research Highlights** | arXiv, alignment labs (ARC, CAIUS, Apollo, METR), academic labs (BAIR, AI2, EleutherAI) |
+| **Engineering & Technical Blogs** | Labs, infra companies, AI media, individual researchers |
+| **Industry & Analyst Watch** | Gartner, McKinsey, AI Now Institute, OECD AI |
 | **AI Security & Safety** | OWASP, MITRE ATLAS, NIST, CVEs, prompt injection |
 | **Product & Company News** | Model releases, funding, partnerships |
-| **Regulatory & Policy** | IAPP, Covington, HSF Kramer, AI Act updates |
+| **Regulatory & Policy** | EU Commission, UK AISI, White House OSTP, IAPP, Covington, HSF Kramer |
 | **Agent Era & Technical Workflows** | Vellum AI, ByteByteGo, production agent patterns |
-| **Open Source & Infrastructure** | WhatLLM.org rankings, HF leaderboard shifts |
-| **Hardware & Macro Watch** | Computing.co.uk, SemiAnalysis, chip/data centre news |
+| **Open Source & Infrastructure** | HuggingFace, Anyscale, SemiAnalysis |
+| **Hardware & Macro Watch** | Computing.co.uk, Cerebras, Groq, chip/data centre news |
+| **Model Evaluations & Transparency** | LMSYS, Artificial Analysis, Scale SEAL, HELM, HF Leaderboard, WhatLLM |
 | **Quick Links** | Bookmarks without summaries |
 
 Output is clean markdown, ready to paste into an email tool or publish directly.
@@ -76,54 +77,45 @@ Output is clean markdown, ready to paste into an email tool or publish directly.
 - r/MachineLearning, r/LocalLLaMA, r/artificial, r/AIAssistants, r/LanguageModelAPI, r/singularity, r/AIdev
 
 ### Research & Papers
-- arXiv (cs.AI, cs.CL, cs.LG, cs.CR)
-- Hugging Face daily papers
-- Papers with Code
-- Semantic Scholar
-- Google DeepMind publications
+- arXiv (cs.AI, cs.CL, cs.LG, cs.CR), HuggingFace daily papers, Papers with Code, Semantic Scholar
+- **Alignment & safety labs**: Alignment Research Center, Center for AI Safety (CAIUS), Apollo Research, METR
+- **Academic labs**: Stanford HAI, Berkeley AI Research (BAIR), Allen Institute for AI (AI2), EleutherAI
 
 ### Technical Blogs
-- Anthropic, OpenAI, Google DeepMind, Meta AI, Hugging Face
-- LangChain, LlamaIndex, Cohere, Mistral, Together AI
-- Individual researchers: Lilian Weng, Simon Willison, Sebastian Raschka, Andrej Karpathy, Chip Huyen, Nathan Lambert
+- Major labs: Anthropic, OpenAI, Google DeepMind, Meta AI, Hugging Face
+- **Infra companies**: Cerebras, Groq, Lambda Labs, CoreWeave, Fireworks AI, Anyscale
+- **AI-only media**: The Decoder, VentureBeat AI, ML News
+- Framework blogs: LangChain, LlamaIndex, Cohere, Mistral, Together AI
+- **Individual researchers**: Lilian Weng, Simon Willison, Sebastian Raschka, Andrej Karpathy, Chip Huyen, Nathan Lambert, Dwarkesh Patel, Ethan Mollick, Dan Hendrycks, Percy Liang
 
 ### Analyst & Industry
 - Gartner, Forrester, IDC, McKinsey, BCG, Deloitte
-- Stanford HAI AI Index, RAND, Epoch AI
+- Stanford HAI AI Index, RAND, Epoch AI, **AI Now Institute**, **OECD AI**
 - The Gradient, Import AI (Jack Clark), Stratechery
 
 ### AI Security
-- OWASP Top 10 for LLM Applications
-- OWASP AI Exchange
-- MITRE ATLAS (adversarial ML threat matrix)
-- MITRE CVE (AI/LLM-related)
-- NIST AI Risk Management Framework
-- AI Village, Lakera, Protect AI, Adversa AI
-- Dark Reading, Wired, Krebs on Security
+- OWASP Top 10 for LLM Applications, OWASP AI Exchange
+- MITRE ATLAS, MITRE CVE, NIST AI RMF
+- AI Village, Lakera, Protect AI, Adversa AI, Dark Reading, Wired, Krebs on Security
 
 ### Regulatory & Policy
-- IAPP News & Analysis, AI Governance archive
-- Covington & Burling — Inside Privacy, Inside Global Tech
-- HSF Kramer — Behind the Prompt (LinkedIn newsletter)
+- **Government primary**: EU Commission AI Act, UK AI Safety Institute, White House OSTP
+- Legal commentary: IAPP, Covington (Inside Privacy + Inside Global Tech), HSF Kramer *Behind the Prompt*
 
 ### Agent Era & Technical Workflows
-- Vellum AI Blog (evaluation, orchestration, production agents)
-- ByteByteGo (system design patterns for AI, Substack)
+- Vellum AI Blog, ByteByteGo
 
-### Open Source & Specialised Infrastructure
-- WhatLLM.org (weekly open-source model rankings)
-- Hugging Face Open LLM Leaderboard
+### Open Source & Infrastructure
+- HuggingFace blog and model hub, Anyscale, SemiAnalysis
 
 ### Macro & Hardware Watch
-- Computing.co.uk (AI & ML, Infrastructure verticals)
-- SemiAnalysis (chip industry, GPU economics)
-- Tom's Hardware AI
+- Computing.co.uk, SemiAnalysis, Cerebras, Groq, Tom's Hardware
+
+### Model Evaluations & Transparency *(new category)*
+- LMSYS blog and Chatbot Arena, Artificial Analysis, Scale AI SEAL leaderboard, HELM (Stanford CRFM), HuggingFace Open LLM Leaderboard, WhatLLM.org
 
 ### Product & Company News
-- OpenRouter model releases
-- LMSYS Chatbot Arena leaderboard
-- Crunchbase, TechCrunch AI
-- LinkedIn posts tagged #AgenticAI, #LLM, #AIAgents
+- OpenRouter, LMSYS Chatbot Arena, Crunchbase, TechCrunch AI, LinkedIn
 
 ---
 
