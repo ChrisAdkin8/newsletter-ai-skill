@@ -164,32 +164,18 @@ Defined in `.claude/skills/newsletter-ai/SKILL.md`:
 
 The skill's token efficiency rules live in `~/.claude/CLAUDE.md` under a `## Newsletter Skill` section so they apply regardless of working directory. The section was added alongside this skill.
 
-A review of the full global `~/.claude/CLAUDE.md` identified three improvements not yet made:
+A review of the full global `~/.claude/CLAUDE.md` identified three improvements:
 
-### 1. Subagent Strategy rule is too broad
+### 1. ~~Subagent Strategy rule is too broad~~ ✓ applied
 
-The current rule says:
-> Use subagents to maintain context cleanliness. Offload research, parallel analysis, and isolated investigations.
+Added an exception for `WebSearch`-heavy tasks: parallel subagents each consume independent search quota and can exhaust it simultaneously while producing nothing. Sequential execution is required for `/newsletter-ai` and similar tasks.
 
-"Parallel analysis" directly contradicts the newsletter rule (which requires sequential search to avoid exhausting web search quota). The rule should be tightened to add an exception for web-search-heavy tasks:
+### 2. Hardcoded project paths in a global file — left as-is
 
-```
-Subagent Strategy — Use subagents to maintain context cleanliness. Offload research,
-parallel analysis, and isolated investigations. Exception: for tasks that are primarily
-WebSearch calls (e.g. /newsletter-ai), run sequentially in the main session — parallel
-subagents each consume independent quota and can exhaust it simultaneously.
-```
+`tasks/todo.md` and `tasks/lessons.md` are a deliberate personal convention. Generalising to vague language would weaken the instructions. Treat these paths as the standard for any project.
 
-### 2. Hardcoded project paths in a global file
+### 3. ~~Self-Improvement Loop should point to auto-memory~~ ✓ applied
 
-`tasks/todo.md` and `tasks/lessons.md` appear three times in a global file but are specific directory paths. In repos that don't use a `tasks/` convention these instructions are noise. Options:
-
-- Generalise: replace `tasks/todo.md` with *"a checklist file"* and `tasks/lessons.md` with *"a lessons file"*
-- Or annotate them as a personal convention: *"(or equivalent in current project)"*
-
-### 3. Self-Improvement Loop should point to auto-memory, not a project file
-
-The current rule says to record mistakes in `tasks/lessons.md`. Lessons that should persist *across projects* (like the newsletter rate-limit lesson) belong in the Claude auto-memory system at `~/.claude/projects/<id>/memory/MEMORY.md`, not a per-project file that gets left behind when switching repos. The rule should distinguish:
-
+Rule now distinguishes:
 - **Per-project lessons** → `tasks/lessons.md` (regression guards specific to the codebase)
-- **Cross-project lessons** → `~/.claude/projects/.../memory/MEMORY.md` (patterns that should travel with Claude everywhere)
+- **Cross-project lessons** → `~/.claude/projects/.../memory/MEMORY.md` (patterns that should persist across all sessions)
