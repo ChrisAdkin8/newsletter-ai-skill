@@ -60,6 +60,10 @@ A markdown newsletter with these sections:
 | **Industry & Analyst Watch** | Gartner, McKinsey, Forrester, Stanford HAI |
 | **AI Security & Safety** | OWASP, MITRE ATLAS, NIST, CVEs, prompt injection |
 | **Product & Company News** | Model releases, funding, partnerships |
+| **Regulatory & Policy** | IAPP, Covington, HSF Kramer, AI Act updates |
+| **Agent Era & Technical Workflows** | Vellum AI, ByteByteGo, production agent patterns |
+| **Open Source & Infrastructure** | WhatLLM.org rankings, HF leaderboard shifts |
+| **Hardware & Macro Watch** | Computing.co.uk, SemiAnalysis, chip/data centre news |
 | **Quick Links** | Bookmarks without summaries |
 
 Output is clean markdown, ready to paste into an email tool or publish directly.
@@ -96,6 +100,24 @@ Output is clean markdown, ready to paste into an email tool or publish directly.
 - NIST AI Risk Management Framework
 - AI Village, Lakera, Protect AI, Adversa AI
 - Dark Reading, Wired, Krebs on Security
+
+### Regulatory & Policy
+- IAPP News & Analysis, AI Governance archive
+- Covington & Burling — Inside Privacy, Inside Global Tech
+- HSF Kramer — Behind the Prompt (LinkedIn newsletter)
+
+### Agent Era & Technical Workflows
+- Vellum AI Blog (evaluation, orchestration, production agents)
+- ByteByteGo (system design patterns for AI, Substack)
+
+### Open Source & Specialised Infrastructure
+- WhatLLM.org (weekly open-source model rankings)
+- Hugging Face Open LLM Leaderboard
+
+### Macro & Hardware Watch
+- Computing.co.uk (AI & ML, Infrastructure verticals)
+- SemiAnalysis (chip industry, GPU economics)
+- Tom's Hardware AI
 
 ### Product & Company News
 - OpenRouter model releases

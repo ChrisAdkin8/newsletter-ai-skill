@@ -135,6 +135,72 @@ Use this exact structure when writing the newsletter output.
 
 ---
 
+## Regulatory & Policy
+*Laws, frameworks, and compliance moves shaping AI deployment*
+
+### [Headline]
+`[Policy]`
+
+[2–4 sentences: what the regulation, ruling, or guidance says, who it affects, and what teams need to know.]
+
+[Source: [IAPP / Covington / Regulator / Law firm](URL)]
+
+---
+
+### [Next item]
+`[Policy]`
+
+[2–4 sentences.]
+
+[Source: [IAPP / Covington / Regulator / Law firm](URL)]
+
+---
+
+## Agent Era & Technical Workflows
+*Patterns, tools, and architectures for building production agents*
+
+### [Headline]
+`[Tool]`
+
+[2–4 sentences: what pattern or tool was described, what problem it solves, what teams should consider adopting.]
+
+[Source: [Vellum AI / ByteByteGo / Blog](URL)]
+
+---
+
+### [Next item]
+`[Tool]`
+
+[2–4 sentences.]
+
+[Source: [Vellum AI / ByteByteGo / Blog](URL)]
+
+---
+
+## Open Source & Infrastructure
+*Model rankings, benchmarks, and the stack underneath*
+
+### [Headline]
+`[Research]`
+
+[2–4 sentences: what changed in the rankings or benchmarks, what it means for practitioners choosing models.]
+
+[Source: [WhatLLM / HuggingFace Leaderboard / Papers with Code](URL)]
+
+---
+
+## Hardware & Macro Watch
+*Chips, compute, and the infrastructure layer*
+
+### [Headline]
+`[Industry]`
+
+[2–4 sentences: what the hardware or infrastructure development is, why it matters for AI capacity or cost.]
+
+[Source: [Computing.co.uk / SemiAnalysis / Publication](URL)]
+
+---
+
 ## Quick Links
 *Worth a bookmark — no summary needed*
 
@@ -144,5 +210,5 @@ Use this exact structure when writing the newsletter output.
 
 ---
 
-*Curated by Claude Code · Sources span Reddit, arXiv, OWASP, MITRE, analyst reports, and technical blogs*
+*Curated by Claude Code · Sources span Reddit, arXiv, OWASP, MITRE, IAPP, Covington, analyst reports, technical blogs, and hardware press*
 ```

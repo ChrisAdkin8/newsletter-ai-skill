@@ -1,6 +1,6 @@
 ---
 name: newsletter-ai
-description: Curate a newsletter covering agentic AI and LLM news from Reddit, research papers, blogs, LinkedIn, analyst reports, and security sources (OWASP, MITRE). Use when the user asks for AI news, an LLM digest, an agentic AI roundup, or a newsletter.
+description: Curate a newsletter covering agentic AI and LLM news from Reddit, research papers, blogs, LinkedIn, analyst reports, security sources (OWASP, MITRE), regulatory and policy trackers (IAPP, Covington), agent workflow blogs (Vellum, ByteByteGo), open-source model benchmarks, and hardware/infrastructure news. Use when the user asks for AI news, an LLM digest, an agentic AI roundup, or a newsletter.
 argument-hint: "[topic-focus or date-range, optional]"
 disable-model-invocation: true
 allowed-tools: WebSearch, WebFetch
@@ -31,6 +31,10 @@ Refer to [sources.md](sources.md) for the full list of URLs and search queries p
 4. **Analyst & Industry Reports** (Gartner, Forrester, McKinsey, etc.)
 5. **AI Security** (OWASP, MITRE ATLAS, NIST, CVEs)
 6. **Product & Company News** (model releases, funding, partnerships)
+7. **Regulatory & Policy** (IAPP, Covington & Burling, HSF Kramer)
+8. **Agent Era & Technical Workflows** (Vellum AI, ByteByteGo)
+9. **Open Source & Specialised Infrastructure** (WhatLLM.org, model benchmarks)
+10. **Macro & Hardware Watch** (Computing.co.uk, chip/infrastructure news)
 
 ---
 

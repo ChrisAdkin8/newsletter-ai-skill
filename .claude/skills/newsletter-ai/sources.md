@@ -138,6 +138,90 @@ Search these subreddits for high-engagement posts (100+ upvotes preferred):
 
 ---
 
+## 7. Regulatory & Policy
+
+Track government, legal, and compliance developments affecting AI deployment.
+
+### IAPP (International Association of Privacy Professionals)
+- **News & Analysis**: https://iapp.org/news/
+- **AI Governance section**: https://iapp.org/resources/article-archive/ai-governance/
+- **Search strategy**: `site:iapp.org "AI governance" OR "LLM regulation" OR "agentic AI"`
+- Covers: privacy law, AI Act implementation, data protection rulings, global regulatory moves
+
+### Covington & Burling — Inside Privacy / Inside Global Tech
+- **Inside Privacy blog**: https://www.insideprivacy.com
+- **Inside Global Tech blog**: https://www.insideglobaltech.com
+- **Search strategy**: `site:insideprivacy.com AI` or `site:insideglobaltech.com "artificial intelligence"`
+- Covers: US and EU AI regulation, enforcement actions, legislative updates, compliance guidance
+
+### HSF Kramer — Behind the Prompt (LinkedIn Newsletter)
+- **LinkedIn newsletter**: search `"Behind the Prompt" HSF Kramer site:linkedin.com`
+- **Search strategy**: `"Behind the Prompt" AI regulation site:linkedin.com`
+- Covers: curated monthly AI insights, legal and policy trends, enterprise AI governance
+
+**Search strategy for the category**: `"AI regulation" OR "AI Act" OR "AI governance" site:iapp.org OR site:insideprivacy.com`, `"EU AI Act" enforcement`, `"Executive Order AI" site:whitehouse.gov`.
+
+---
+
+## 8. Agent Era & Technical Workflows
+
+Practitioner-focused sources on building and operating agentic AI systems.
+
+### Vellum AI Blog
+- **URL**: https://www.vellum.ai/blog
+- **Focus**: LLM evaluation, orchestration patterns, prompt engineering, production agent workflows
+- **Search strategy**: `site:vellum.ai/blog` or `"Vellum AI" LLM evaluation agent`
+
+### ByteByteGo
+- **Newsletter / Substack**: https://blog.bytebytego.com
+- **Focus**: System design patterns for AI, scalable architectures, LLM infrastructure diagrams
+- **Search strategy**: `site:blog.bytebytego.com AI OR LLM OR "large language model"`
+- Note: One of the highest-circulation technical system design newsletters; posts are highly visual and diagram-driven
+
+**Search strategy for the category**: `"agentic workflow" OR "LLM orchestration" site:vellum.ai OR site:blog.bytebytego.com`, `"agent architecture" production 2026`.
+
+---
+
+## 9. Open Source & Specialised Infrastructure
+
+Sources focused on open-source model rankings, benchmarking, and the infrastructure layer.
+
+### WhatLLM.org
+- **URL**: https://whatllm.org
+- **Focus**: Weekly updates on open-source LLM rankings, benchmark comparisons, model performance
+- **Search strategy**: `site:whatllm.org` or `"WhatLLM" model ranking benchmark`
+
+### Hugging Face Blog & Model Hub (open-source angle)
+- Already listed in section 3; use specifically for:
+  - Open-source model releases: https://huggingface.co/models?sort=trending
+  - Community model evaluations and leaderboards: https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard
+
+**Search strategy for the category**: `open-source LLM benchmark ranking 2026`, `"model evaluation" site:huggingface.co`, `site:whatllm.org`.
+
+---
+
+## 10. Macro & Hardware Watch
+
+The chip, compute, and infrastructure layer that constrains and enables everything above it.
+
+### Computing.co.uk
+- **AI & Machine Learning section**: https://www.computing.co.uk/knowledge/artificial-intelligence
+- **Infrastructure section**: https://www.computing.co.uk/knowledge/infrastructure
+- **Focus**: Enterprise AI adoption, GPU/TPU supply chain, data centre capacity, UK/EU market moves
+- **Search strategy**: `site:computing.co.uk "AI" OR "GPU" OR "data centre"`, `site:computing.co.uk LLM`
+
+### Supplementary hardware & infrastructure sources
+| Source | URL | Focus |
+|---|---|---|
+| SemiAnalysis | https://www.semianalysis.com | Deep chip industry analysis, GPU economics |
+| The Information (AI hardware) | search `"AI chips" OR "GPU" site:theinformation.com` | Insider reporting on Nvidia, AMD, custom silicon |
+| Wired Hardware | https://www.wired.com/tag/hardware/ | Mainstream coverage of chip developments |
+| Tom's Hardware AI | search `"AI" site:tomshardware.com` | GPU benchmarks, hardware releases |
+
+**Search strategy**: `"Nvidia" OR "GPU cluster" OR "AI infrastructure" 2026`, `"data centre AI" site:computing.co.uk`, `"H100" OR "Blackwell" supply shortage`.
+
+---
+
 ## 6. Product & Company News
 
 ### Model releases & benchmarks

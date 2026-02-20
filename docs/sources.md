@@ -163,6 +163,90 @@ Independent researchers and specialist vendors covering AI-specific threats.
 
 ---
 
+## Regulatory & Policy
+
+Government, legal, and compliance developments that affect how AI systems can be built and deployed. This is the fastest-moving category for enterprise teams right now.
+
+### IAPP (International Association of Privacy Professionals)
+The IAPP is the largest global community of privacy and data protection professionals. Its AI governance coverage tracks how privacy law intersects with AI deployments — essential reading as regulators increasingly treat LLM outputs as personal data processing.
+
+| Resource | URL | What it covers |
+|---|---|---|
+| IAPP News & Analysis | https://iapp.org/news/ | Daily news on privacy law, AI regulation |
+| AI Governance archive | https://iapp.org/resources/article-archive/ai-governance/ | In-depth guides, frameworks, practitioner tools |
+
+### Covington & Burling
+Covington is one of the leading international law firms for technology regulation. Their blogs are written by lawyers, for practitioners, and are unusually readable. Covers US, EU, UK, and APAC regulatory moves.
+
+| Resource | URL | What it covers |
+|---|---|---|
+| Inside Privacy | https://www.insideprivacy.com | Data protection, AI Act, privacy enforcement |
+| Inside Global Tech | https://www.insideglobaltech.com | Cross-border tech regulation, AI policy |
+
+### HSF Kramer — Behind the Prompt
+Herbert Smith Freehills Kramer publishes a monthly LinkedIn newsletter called *Behind the Prompt* covering curated AI insights, legal trends, and enterprise AI governance — useful for tracking how the legal profession is interpreting and responding to agentic AI.
+
+- Search: `"Behind the Prompt" HSF Kramer site:linkedin.com`
+
+---
+
+## Agent Era & Technical Workflows
+
+Practitioner content focused specifically on designing, building, and operating agentic AI systems in production — distinct from general LLM blogs.
+
+### Vellum AI Blog
+Vellum is an LLM development platform. Their blog covers evaluation frameworks, orchestration patterns, and production agent architectures with a bias toward practical implementation over theory.
+
+- **URL**: https://www.vellum.ai/blog
+- **Strength**: Evaluation methodology, prompt versioning, multi-step agent design
+
+### ByteByteGo
+One of the highest-circulation technical newsletters on system design. ByteByteGo increasingly covers AI infrastructure and agent architecture patterns using clear diagrams and worked examples. Hosted on Substack.
+
+- **URL**: https://blog.bytebytego.com
+- **Strength**: Diagram-driven explanations, scalable system design for AI, broad technical audience
+
+---
+
+## Open Source & Specialised Infrastructure
+
+Sources focused on open-source model rankings, independent benchmarking, and the infrastructure required to run models at scale.
+
+### WhatLLM.org
+Weekly model ranking and benchmarking updates specifically for open-source LLMs. Useful for tracking which models are gaining ground in capability evaluations without waiting for arXiv papers.
+
+- **URL**: https://whatllm.org
+
+### Hugging Face Open LLM Leaderboard
+Community-maintained benchmark leaderboard comparing open-source models across standard tasks. Leaderboard shifts indicate meaningful capability changes in the open-source ecosystem.
+
+- **URL**: https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard
+- Note: Hugging Face blog and model hub already listed in Technical Blogs; this entry covers the benchmarking angle specifically.
+
+---
+
+## Macro & Hardware Watch
+
+The chip supply chain and data centre capacity constrain everything else in the AI stack. These sources cover the infrastructure layer below the model.
+
+### Computing.co.uk
+UK-based enterprise IT publication with dedicated AI & Machine Learning and Infrastructure verticals. Strong on European enterprise adoption, data centre investment, and infrastructure procurement angles that US-centric sources miss.
+
+| Resource | URL |
+|---|---|
+| AI & Machine Learning | https://www.computing.co.uk/knowledge/artificial-intelligence |
+| Infrastructure | https://www.computing.co.uk/knowledge/infrastructure |
+
+### Supplementary hardware sources
+
+| Source | URL | Strength |
+|---|---|---|
+| SemiAnalysis | https://www.semianalysis.com | Deep chip industry analysis, GPU economics, supply chain |
+| Tom's Hardware | https://www.tomshardware.com/tag/artificial-intelligence | GPU benchmarks, hardware release coverage |
+| Wired Hardware | https://www.wired.com/tag/hardware/ | Mainstream coverage of chip developments |
+
+---
+
 ## Product & Company News
 
 ### Model releases & benchmarks
