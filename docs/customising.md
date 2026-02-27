@@ -153,6 +153,65 @@ Change this to adjust the writing tone for the whole newsletter. Examples:
 
 ---
 
+## Web publishing (Astro + Vercel)
+
+The skill can auto-publish each issue to a public website using an [Astro Paper](https://github.com/satnaing/astro-paper) static site deployed on Vercel or Netlify. The site gives you dark mode, full-text archives, tag filtering, RSS, and fast CDN delivery — all for free.
+
+### One-time setup
+
+**1. Create the Astro site:**
+
+```bash
+npm create astro@latest -- --template satnaing/astro-paper
+cd my-astro-site
+git init && git add . && git commit -m "Initial Astro Paper site"
+```
+
+**2. Push to GitHub:**
+
+```bash
+gh repo create my-newsletter-site --public --push
+```
+
+**3. Connect to Vercel (free tier):**
+
+Go to [vercel.com](https://vercel.com), click **Add New Project**, import the GitHub repo, and click **Deploy**. That's it — Vercel auto-deploys on every `git push`.
+
+*(Netlify works identically — drag the repo into [netlify.com](https://netlify.com) → **Import from Git**.)*
+
+### Using it
+
+Pass the path to your Astro repo when invoking the skill:
+
+```
+/newsletter-ai web:~/my-astro-site
+/newsletter-ai vault:~/Obsidian/AI-News/ web:~/my-astro-site
+```
+
+The skill writes `src/data/blog/YYYY-MM-DD.md` with Astro Paper-compatible frontmatter and the clean newsletter body, then runs `git commit && git push`. Vercel deploys within ~30 seconds.
+
+### Changing the default web path permanently
+
+Edit `SKILL.md` Step 6a to hard-code your repo path instead of reading it from `$ARGUMENTS`:
+
+```markdown
+**Web repo path**: `~/my-astro-site`
+```
+
+Then invoke the skill without the `web:` argument and it will always publish.
+
+### What the site looks like
+
+Each issue becomes a post at `https://your-site.vercel.app/posts/YYYY-MM-DD`. The Astro Paper theme provides:
+
+- Chronological issue archive on the home page
+- Tag pages (e.g. `/tags/newsletter`) grouping all issues
+- RSS feed at `/rss.xml`
+- Dark/light mode based on system preference
+- Mobile-responsive layout with clean typography
+
+---
+
 ## Installing into a specific project only
 
 Instead of the global `~/.claude/skills/` location, copy the skill into the project:
@@ -163,3 +222,108 @@ cp -r .claude/skills/newsletter-ai/ /path/to/your-project/.claude/skills/newslet
 ```
 
 This makes `/newsletter-ai` available only when working inside that project.
+
+---
+
+## Scheduled automation (GitHub Actions)
+
+The skill can run on a weekly schedule using GitHub Actions — no local machine required. Claude Code CLI is installed on the runner, the skill is loaded from your Astro repo, and the generated issue is committed and pushed, triggering your Vercel or GitHub Pages deployment automatically.
+
+### One-time setup
+
+**1. Copy the skill files into your Astro repo:**
+
+```bash
+mkdir -p ~/my-astro-site/.claude/skills/newsletter-ai
+cp ~/.claude/skills/newsletter-ai/* ~/my-astro-site/.claude/skills/newsletter-ai/
+```
+
+**2. Create the workflow file** at `.github/workflows/newsletter.yml` in your Astro repo:
+
+```yaml
+name: Generate Weekly Newsletter
+
+on:
+  schedule:
+    - cron: '0 9 * * 5'  # Every Friday at 09:00 UTC
+  workflow_dispatch:       # Allow manual trigger from GitHub UI
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Install newsletter skill
+        run: |
+          mkdir -p ~/.claude/skills
+          cp -r .claude/skills/newsletter-ai ~/.claude/skills/
+
+      - name: Configure git
+        run: |
+          git config user.name "Newsletter Bot"
+          git config user.email "bot@yourdomain.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+
+      - name: Generate and publish newsletter
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          claude --dangerously-skip-permissions -p "/newsletter-ai web:$(pwd)"
+
+      - name: Push any unpushed changes
+        run: |
+          git add src/data/blog/ || true
+          git diff --staged --quiet || git commit -m "Newsletter $(date -u +%Y-%m-%d)"
+          git push || true
+```
+
+**3. Add your Anthropic API key as a GitHub secret:**
+
+Go to `https://github.com/YOUR-ORG/YOUR-REPO/settings/secrets/actions`, click **New repository secret**, and add:
+
+- **Name:** `ANTHROPIC_API_KEY`
+- **Value:** your key from [console.anthropic.com](https://console.anthropic.com)
+
+That's it. A new issue publishes every Friday at 09:00 UTC. You can also trigger a run at any time from the **Actions** tab → **Generate Weekly Newsletter** → **Run workflow**.
+
+### Changing the schedule
+
+Edit the `cron` expression in the workflow file. Examples:
+
+| Cron | Schedule |
+|---|---|
+| `0 9 * * 5` | Every Friday at 09:00 UTC (default) |
+| `0 7 * * 1` | Every Monday at 07:00 UTC |
+| `0 9 1 * *` | First day of each month at 09:00 UTC |
+
+### Keeping skill files in sync
+
+When you update the skill (e.g. add a source to `sources.md`), copy the updated files into the Astro repo and commit:
+
+```bash
+cp ~/.claude/skills/newsletter-ai/* ~/my-astro-site/.claude/skills/newsletter-ai/
+cd ~/my-astro-site && git add .claude/ && git commit -m "Update newsletter skill" && git push
+```
+
+### Obsidian vault during automated runs
+
+The Obsidian vault is **not** written during automated runs — the GitHub Actions runner is ephemeral. Only the web publish step (Step 6) runs. If you want a local vault copy of a particular issue, run the skill manually:
+
+```
+/newsletter-ai vault:~/Documents/AI-Newsletter-Vault/
+```

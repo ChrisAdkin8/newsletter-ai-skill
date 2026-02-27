@@ -19,12 +19,14 @@ cp -r .claude/skills/newsletter-ai/ ~/.claude/skills/newsletter-ai/
 /newsletter-ai
 ```
 
-With an optional focus, date range, or vault path:
+With an optional focus, date range, vault path, or web publish path:
 
 ```
 /newsletter-ai security focus — last 14 days
 /newsletter-ai agentic frameworks only
 /newsletter-ai vault:~/Obsidian/AI-News/
+/newsletter-ai web:~/my-astro-site
+/newsletter-ai vault:~/Obsidian/AI-News/ web:~/my-astro-site
 ```
 
 ---
@@ -72,6 +74,8 @@ A markdown newsletter with these sections:
 | **Quick Links** | Bookmarks without summaries |
 
 Output is clean markdown, ready to paste into an email tool or publish directly.
+
+Optionally, the skill can **auto-publish to a public website** — pass `web:~/path/to/astro-site` and it writes an Astro-compatible issue file and pushes to your git remote, triggering an automatic Vercel or Netlify deployment. See [Customising → Web publishing](docs/customising.md#web-publishing-astro--vercel) for one-time setup.
 
 The skill also writes every issue to an **Obsidian vault** at `~/Documents/AI-Newsletter-Vault/` (configurable). The vault implements a four-level graph hierarchy:
 
@@ -128,7 +132,7 @@ Open **Graph View** (`Cmd+G`) in Obsidian: issue at the centre, topics one hop o
 ### AI Security
 - Standards: OWASP LLM Top 10, OWASP AI Exchange, MITRE ATLAS, MITRE CVE, NIST AI RMF
 - **Government agencies**: CISA (US), ENISA (EU), NCSC (UK)
-- Research: AI Village, Lakera, Protect AI, Adversa AI, Trail of Bits, Microsoft Security
+- Research: AI Village, **Lakera** (blog + research + news), **HiddenLayer** (adversarial ML — Policy Puppetry, EchoGram), **Embrace the Red** (Johann Rehberger's prompt injection CVE research), **Snyk Labs / ex-Invariant Labs** (MCP security — Tool Poisoning Attacks, MCP-Scan), Protect AI, Adversa AI, Trail of Bits, Microsoft Security
 - News: Dark Reading, Wired, Krebs on Security
 
 ### Regulatory & Policy
@@ -136,7 +140,7 @@ Open **Graph View** (`Cmd+G`) in Obsidian: issue at the centre, topics one hop o
 - Legal commentary: IAPP, Covington (Inside Privacy + Inside Global Tech), HSF Kramer *Behind the Prompt*
 
 ### Agent Era & Technical Workflows
-- Vellum AI Blog, ByteByteGo
+- Vellum AI Blog, ByteByteGo, **LangChain / LangGraph Blog** (agent framework releases, State of Agent Engineering reports), **Pydantic AI** (production agent framework with first-class MCP support)
 
 ### Open Source & Infrastructure
 - HuggingFace blog and model hub, vLLM, Ollama, Anyscale, SemiAnalysis
@@ -162,16 +166,35 @@ Defined in `.claude/skills/newsletter-ai/SKILL.md`:
 |---|---|---|
 | `name` | `newsletter-ai` | Invoked as `/newsletter-ai` |
 | `disable-model-invocation` | `true` | Only runs when you explicitly call `/newsletter-ai` |
-| `allowed-tools` | `WebSearch, WebFetch, Bash, Write` | Granted without per-use approval (`Bash`/`Write` used for vault output) |
-| `argument-hint` | `[topic-focus or date-range, optional]` | Shown in autocomplete |
+| `allowed-tools` | `WebSearch, WebFetch, Bash, Write` | Granted without per-use approval (`Bash`/`Write` used for vault and web output) |
+| `argument-hint` | `[topic-focus or date-range or vault:~/path or web:~/path, optional]` | Shown in autocomplete |
+
+---
+
+## Scheduled automation
+
+The skill can run on a weekly schedule using GitHub Actions — no local machine required. A cron workflow installs Claude Code CLI on a GitHub runner, loads the skill from your Astro repo, and pushes the new issue, triggering deployment automatically.
+
+**One-time setup (three steps):**
+
+1. Copy the skill files into your Astro repo:
+   ```bash
+   cp -r ~/.claude/skills/newsletter-ai/ ~/my-astro-site/.claude/skills/newsletter-ai/
+   ```
+2. Add `.github/workflows/newsletter.yml` to your Astro repo (see [Customising → Scheduled automation](docs/customising.md#scheduled-automation-github-actions) for the full workflow file)
+3. Add `ANTHROPIC_API_KEY` to your repo's GitHub Secrets
+
+After that, a new issue publishes every Friday at 09:00 UTC. Manual runs are available any time from the **Actions** tab.
+
+> The Obsidian vault is not written during automated runs — the runner is ephemeral. Run the skill locally with `vault:~/path` when you want a vault copy.
 
 ---
 
 ## Docs
 
-- [How it works](docs/how-it-works.md) — the 5-step workflow including Obsidian vault output
+- [How it works](docs/how-it-works.md) — the 6-step workflow including Obsidian vault output and web publishing
 - [Sources](docs/sources.md) — full annotated source list
-- [Customising](docs/customising.md) — adding sources, changing format, configuring vault path, updating canvas mindmaps
+- [Customising](docs/customising.md) — adding sources, changing format, configuring vault path, scheduled automation
 
 ---
 
