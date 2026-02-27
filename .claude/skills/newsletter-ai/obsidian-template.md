@@ -160,6 +160,10 @@ Use these slugs consistently in article frontmatter so Dataview queries aggregat
 | `enisa` | ENISA | Government |
 | `ncsc` | NCSC | Government |
 | `trail-of-bits` | Trail of Bits | Security Research |
+| `lakera` | Lakera | AI Security |
+| `hiddenlayer` | HiddenLayer | AI Security Research |
+| `embrace-the-red` | Embrace the Red (Johann Rehberger) | AI Security Research |
+| `snyk-labs` | Snyk Labs (ex-Invariant Labs) | AI Security Research |
 | `uk-aisi` | UK AI Safety Institute | Government |
 | `eu-commission` | EU Commission | Government |
 | `ftc` | FTC | Government |
@@ -185,7 +189,23 @@ Use these slugs consistently in article frontmatter so Dataview queries aggregat
 | `semianalysis` | SemiAnalysis | Analyst |
 | `bytebytego` | ByteByteGo | Engineering |
 | `vellum-ai` | Vellum AI | Engineering |
+| `pydantic-ai` | Pydantic AI | Engineering |
+| `langchain` | LangChain / LangGraph Blog | Engineering |
 | `redwood-research` | Redwood Research | Alignment Research |
+| `alignment-forum` | Alignment Forum | Alignment Research |
+| `lesswrong` | LessWrong | Alignment Research |
+| `modal` | Modal | Infrastructure |
+| `ms-semantic-kernel` | Microsoft Semantic Kernel / AutoGen | Engineering |
+| `ada-lovelace` | Ada Lovelace Institute | Policy |
+| `cdt` | Center for Democracy & Technology | Policy |
+| `eff` | Electronic Frontier Foundation | Policy |
+| `composio` | Composio | Engineering |
+| `amd-ai` | AMD AI / ROCm | Infrastructure |
+| `chips-and-cheese` | Chips and Cheese | Media |
+| `fabricated-knowledge` | Fabricated Knowledge | Analyst |
+| `the-batch` | The Batch (deeplearning.ai) | Media |
+| `latent-space` | Latent Space | Media |
+| `twiml` | TWIML AI Podcast | Media |
 
 If a story comes from a source not in this table, create a new source note using the source note format above, and add its slug to article frontmatter consistently.
 
@@ -198,15 +218,15 @@ Use these source wikilinks in the **Sources** line of each topic note:
 | Topic | Sources line |
 |---|---|
 | community | `[[sources/hacker-news\|Hacker News]] · [[sources/reddit\|Reddit]] · [[sources/x-twitter\|X / Twitter]]` |
-| research | `[[sources/arxiv\|arXiv]] · [[sources/huggingface\|HuggingFace]] · [[sources/microsoft-research\|Microsoft Research]] · [[sources/google-deepmind\|Google DeepMind]] · [[sources/redwood-research\|Redwood Research]] · [[sources/uk-aisi\|UK AI Safety Institute]]` |
-| engineering | `[[sources/anthropic\|Anthropic]] · [[sources/openai\|OpenAI]] · [[sources/google-deepmind\|Google DeepMind]] · [[sources/meta-ai\|Meta AI]] · [[sources/nvidia\|NVIDIA]] · [[sources/microsoft-research\|Microsoft Research]] · [[sources/huggingface\|HuggingFace]] · [[sources/mit-tech-review\|MIT Tech Review]] · [[sources/ars-technica\|Ars Technica]] · [[sources/venturebeat-ai\|VentureBeat AI]]` |
+| research | `[[sources/arxiv\|arXiv]] · [[sources/huggingface\|HuggingFace]] · [[sources/alignment-forum\|Alignment Forum]] · [[sources/lesswrong\|LessWrong]] · [[sources/microsoft-research\|Microsoft Research]] · [[sources/google-deepmind\|Google DeepMind]] · [[sources/redwood-research\|Redwood Research]] · [[sources/uk-aisi\|UK AI Safety Institute]]` |
+| engineering | `[[sources/anthropic\|Anthropic]] · [[sources/openai\|OpenAI]] · [[sources/google-deepmind\|Google DeepMind]] · [[sources/meta-ai\|Meta AI]] · [[sources/nvidia\|NVIDIA]] · [[sources/microsoft-research\|Microsoft Research]] · [[sources/ms-semantic-kernel\|Microsoft Semantic Kernel]] · [[sources/modal\|Modal]] · [[sources/huggingface\|HuggingFace]] · [[sources/mit-tech-review\|MIT Tech Review]] · [[sources/ars-technica\|Ars Technica]] · [[sources/venturebeat-ai\|VentureBeat AI]]` |
 | industry | `[[sources/a16z-ai\|a16z AI]] · [[sources/sequoia-ai\|Sequoia AI]] · [[sources/mckinsey\|McKinsey]] · [[sources/brookings\|Brookings]] · [[sources/epoch-ai\|Epoch AI]] · [[sources/venturebeat-ai\|VentureBeat AI]] · [[sources/techcrunch-ai\|TechCrunch AI]]` |
-| security | `[[sources/owasp\|OWASP]] · [[sources/mitre-atlas\|MITRE ATLAS]] · [[sources/nist\|NIST]] · [[sources/cisa\|CISA]] · [[sources/enisa\|ENISA]] · [[sources/ncsc\|NCSC]] · [[sources/trail-of-bits\|Trail of Bits]] · [[sources/microsoft-research\|Microsoft Research]]` |
+| security | `[[sources/owasp\|OWASP]] · [[sources/mitre-atlas\|MITRE ATLAS]] · [[sources/nist\|NIST]] · [[sources/cisa\|CISA]] · [[sources/enisa\|ENISA]] · [[sources/ncsc\|NCSC]] · [[sources/trail-of-bits\|Trail of Bits]] · [[sources/lakera\|Lakera]] · [[sources/hiddenlayer\|HiddenLayer]] · [[sources/embrace-the-red\|Embrace the Red]] · [[sources/snyk-labs\|Snyk Labs]] · [[sources/microsoft-research\|Microsoft Research]]` |
 | product | `[[sources/anthropic\|Anthropic]] · [[sources/openai\|OpenAI]] · [[sources/google-deepmind\|Google DeepMind]] · [[sources/meta-ai\|Meta AI]] · [[sources/techcrunch-ai\|TechCrunch AI]] · [[sources/venturebeat-ai\|VentureBeat AI]]` |
-| policy | `[[sources/eu-commission\|EU Commission]] · [[sources/uk-aisi\|UK AI Safety Institute]] · [[sources/ftc\|FTC]] · [[sources/iapp\|IAPP]] · [[sources/future-of-life\|Future of Life Institute]] · [[sources/covington\|Covington]]` |
-| agent-era | `[[sources/vellum-ai\|Vellum AI]] · [[sources/bytebytego\|ByteByteGo]] · [[sources/aws\|Amazon Web Services]]` |
+| policy | `[[sources/eu-commission\|EU Commission]] · [[sources/uk-aisi\|UK AI Safety Institute]] · [[sources/ftc\|FTC]] · [[sources/iapp\|IAPP]] · [[sources/future-of-life\|Future of Life Institute]] · [[sources/covington\|Covington]] · [[sources/ada-lovelace\|Ada Lovelace Institute]] · [[sources/cdt\|CDT]] · [[sources/eff\|EFF]]` |
+| agent-era | `[[sources/vellum-ai\|Vellum AI]] · [[sources/bytebytego\|ByteByteGo]] · [[sources/langchain\|LangChain]] · [[sources/pydantic-ai\|Pydantic AI]] · [[sources/composio\|Composio]] · [[sources/aws\|Amazon Web Services]]` |
 | open-source | `[[sources/huggingface\|HuggingFace]] · [[sources/semianalysis\|SemiAnalysis]] · [[sources/whatllm\|WhatLLM.org]]` |
-| hardware | `[[sources/nvidia\|NVIDIA]] · [[sources/next-platform\|The Next Platform]] · [[sources/semianalysis\|SemiAnalysis]]` |
+| hardware | `[[sources/nvidia\|NVIDIA]] · [[sources/amd-ai\|AMD AI]] · [[sources/next-platform\|The Next Platform]] · [[sources/semianalysis\|SemiAnalysis]] · [[sources/chips-and-cheese\|Chips and Cheese]] · [[sources/fabricated-knowledge\|Fabricated Knowledge]]` |
 | evaluations | `[[sources/chatbot-arena\|LMSYS / Chatbot Arena]] · [[sources/artificial-analysis\|Artificial Analysis]] · [[sources/scale-seal\|Scale AI SEAL]] · [[sources/helm\|HELM]] · [[sources/hf-leaderboard\|HF Open LLM Leaderboard]] · [[sources/whatllm\|WhatLLM.org]]` |
 
 ---

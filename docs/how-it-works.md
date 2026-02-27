@@ -1,6 +1,6 @@
 # How It Works
 
-The `newsletter-ai` skill runs a 5-step curation workflow when you invoke `/newsletter-ai`. It uses `WebSearch` and `WebFetch` to gather content, and `Bash` and `Write` to persist output to an Obsidian vault.
+The `newsletter-ai` skill runs a 6-step curation workflow when you invoke `/newsletter-ai`. It uses `WebSearch` and `WebFetch` to gather content, and `Bash` and `Write` to persist output to an Obsidian vault and (optionally) a public website.
 
 ---
 
@@ -55,6 +55,17 @@ The `newsletter-ai` skill runs a 5-step curation workflow when you invoke `/news
                  │
                  ▼
    ~/Documents/AI-Newsletter-Vault/
+                 │
+                 ▼  (if web: argument given)
+┌─────────────────────────────────┐
+│  Step 6: Web Publish (optional) │
+│  Write Astro-compatible .md     │
+│  git commit + push              │
+│  Vercel/Netlify auto-deploys    │
+└────────────────┬────────────────┘
+                 │
+                 ▼
+   https://your-site.vercel.app/
 ```
 
 ---
@@ -67,10 +78,10 @@ Claude searches each of the 11 source categories defined in `sources.md`:
 2. **Research & Papers** — arXiv, HuggingFace daily papers, Papers with Code, Semantic Scholar; alignment labs (ARC, CAIUS, Apollo, METR, Redwood, FAR AI); academic labs (Stanford HAI, BAIR, AI2, EleutherAI); industry research (Google DeepMind, Microsoft Research, Apple ML, Amazon Science)
 3. **Technical Blogs** — Lab blogs, infra companies (NVIDIA, W&B, vLLM, Databricks, Ollama, CrewAI), AI-only media (MIT Tech Review, Ars Technica, IEEE Spectrum, The Information), individual writers (Chollet, Marcus, Wolfe + 10 more)
 4. **Analyst & Industry** — Gartner, McKinsey, Forrester, a16z, Sequoia, Brookings, Stanford HAI AI Index, Epoch AI, OECD AI, etc.
-5. **AI Security** — OWASP, MITRE ATLAS, NIST AI RMF, CISA, ENISA, NCSC, Trail of Bits, Microsoft Security
+5. **AI Security** — OWASP, MITRE ATLAS, NIST AI RMF, CISA, ENISA, NCSC, Lakera (blog + research + news), HiddenLayer, Embrace the Red, Snyk Labs (ex-Invariant Labs), Trail of Bits, Microsoft Security
 6. **Product & Company News** — Model releases, funding rounds, TechCrunch AI, Axios AI
 7. **Regulatory & Policy** — EU Commission, UK AISI, White House OSTP, FTC, UK ICO, Canada AIDA, Future of Life Institute, IAPP, Covington, HSF Kramer
-8. **Agent Era & Technical Workflows** — Vellum AI, ByteByteGo
+8. **Agent Era & Technical Workflows** — Vellum AI, ByteByteGo, LangChain / LangGraph Blog, Pydantic AI
 9. **Open Source & Infrastructure** — HuggingFace, vLLM, Ollama, Anyscale, SemiAnalysis
 10. **Macro & Hardware Watch** — NVIDIA (primary), Next Platform, Datacenter Dynamics, Computing.co.uk, SemiAnalysis
 11. **Model Evaluations & Transparency** — LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench, AlpacaEval, HF Open LLM Leaderboard, WhatLLM.org
@@ -188,6 +199,39 @@ Canvas files are static — they describe the system structure and are only writ
 
 ---
 
+## Step 6: Web publish (optional)
+
+Only runs when you pass a `web:` argument: `/newsletter-ai web:~/my-astro-site`.
+
+Claude writes the issue as an [Astro Paper](https://github.com/satnaing/astro-paper)-compatible markdown file to `{WEB_REPO}/src/data/blog/YYYY-MM-DD.md` with the correct frontmatter, then runs `git commit && git push`. Vercel or Netlify picks up the push and deploys the site automatically — typically within 30 seconds.
+
+The web version uses the clean newsletter body from Step 3 (identical to the chat output). Obsidian wikilinks are not included.
+
+**Frontmatter written for Astro Paper:**
+
+```yaml
+---
+title: "Agentic AI & LLM Weekly — YYYY-Www"
+pubDatetime: YYYY-MM-DDT09:00:00Z
+description: "[one-sentence theme]"
+tags:
+  - newsletter
+  - agentic-ai
+  - weekly
+featured: false
+draft: false
+---
+```
+
+**One-time setup** (outside the skill):
+1. `npm create astro@latest -- --template satnaing/astro-paper`
+2. Push to a GitHub repo
+3. Connect the repo to [Vercel](https://vercel.com) or [Netlify](https://netlify.com) free tier
+
+After that, every `/newsletter-ai web:~/my-astro-site` run auto-publishes. See [Customising → Web publishing](customising.md#web-publishing-astro--vercel) for full details.
+
+---
+
 ## File roles
 
 | File | Role |
@@ -208,9 +252,11 @@ The skill has `disable-model-invocation: true`, meaning Claude will **not** trig
 Argument passing:
 
 ```
-/newsletter-ai                                  # Full newsletter, last 7 days
-/newsletter-ai security only                    # Filters to security category
-/newsletter-ai last 14 days                     # Extends the time window
-/newsletter-ai open-source models only          # Topic-scoped
-/newsletter-ai vault:~/Obsidian/AI-News/        # Custom vault path
+/newsletter-ai                                          # Full newsletter, last 7 days
+/newsletter-ai security only                            # Filters to security category
+/newsletter-ai last 14 days                             # Extends the time window
+/newsletter-ai open-source models only                  # Topic-scoped
+/newsletter-ai vault:~/Obsidian/AI-News/                # Custom vault path
+/newsletter-ai web:~/my-astro-site                      # Auto-publish to website
+/newsletter-ai vault:~/Obsidian/ web:~/my-astro-site    # Both vault and web
 ```

@@ -105,7 +105,7 @@ Open **Graph View** (`Cmd+G`) in Obsidian: issue at the centre, topics one hop o
 ## Sources covered
 
 ### Community
-- Reddit: r/MachineLearning, r/LocalLLaMA, r/artificial, r/AIAssistants, r/LanguageModelAPI, r/singularity, r/AIdev, r/ChatGPT, r/ClaudeAI, r/OpenAI
+- Reddit: r/MachineLearning, r/LocalLLaMA, r/artificial, r/AIAssistants, r/LanguageModelAPI, r/singularity, r/AIdev, r/ChatGPT, r/ClaudeAI, r/OpenAI, **r/MLOps**
 - **Hacker News** (news.ycombinator.com) — highest-signal technical AI discussion
 - **X/Twitter** — @AnthropicAI, @OpenAI, @karpathy, @ylecun, @fchollet, @GaryMarcus, @emollick, @danhendrycks
 - **LinkedIn** (named profiles, WebSearch only) — Andrew Ng, Yann LeCun, Ethan Mollick, Mustafa Suleyman, Cassie Kozyrkov, Sebastian Raschka, Jay Alammar, Chip Huyen, Harrison Chase, Jerry Liu, Gary Marcus, Jeff Dean
@@ -114,11 +114,12 @@ Open **Graph View** (`Cmd+G`) in Obsidian: issue at the centre, topics one hop o
 - arXiv (cs.AI, cs.CL, cs.LG, cs.CR), HuggingFace daily papers, Papers with Code, Semantic Scholar, Nature Machine Intelligence
 - **Major lab research**: Google DeepMind, Microsoft Research, Apple ML Research, Amazon Science
 - **Alignment & safety labs**: ARC, Center for AI Safety (CAIUS), Apollo Research, METR, Redwood Research, FAR AI
+- **Alignment forums**: **Alignment Forum** (alignmentforum.org — priority; major safety papers appear here before arXiv), **LessWrong AI tag**
 - **Academic labs**: Stanford HAI, BAIR, Allen Institute for AI (AI2), EleutherAI
 
 ### Technical Blogs
 - Major labs: Anthropic, OpenAI, Google DeepMind, Meta AI, Hugging Face, Microsoft Research, Microsoft Azure AI, Apple ML Research, Amazon Science
-- **Infra companies**: NVIDIA (Developer + News), Cerebras, Groq, Lambda Labs, CoreWeave, Fireworks AI, Anyscale, Weights & Biases, vLLM, Scale AI, Databricks, Ollama, CrewAI
+- **Infra companies**: NVIDIA (Developer + News), Cerebras, Groq, Lambda Labs, CoreWeave, Fireworks AI, Anyscale, Weights & Biases, vLLM, Scale AI, Databricks, Ollama, CrewAI, **Modal**, **Microsoft Semantic Kernel / AutoGen**
 - **AI-only media**: The Decoder, VentureBeat AI, MIT Technology Review, Ars Technica AI, IEEE Spectrum, The Information, ML News
 - Framework blogs: LangChain, LlamaIndex, Cohere, Mistral, Together AI
 - **Individual researchers**: Lilian Weng, Simon Willison, Sebastian Raschka, Andrej Karpathy, Chip Huyen, Nathan Lambert, Dwarkesh Patel, Ethan Mollick, Dan Hendrycks, Percy Liang, **François Chollet**, **Gary Marcus**, **Cameron Wolfe**
@@ -138,23 +139,30 @@ Open **Graph View** (`Cmd+G`) in Obsidian: issue at the centre, topics one hop o
 ### Regulatory & Policy
 - **Government primary**: EU Commission AI Act, UK AI Safety Institute, White House OSTP, FTC (US), UK ICO, Canada AIDA, Future of Life Institute
 - Legal commentary: IAPP, Covington (Inside Privacy + Inside Global Tech), HSF Kramer *Behind the Prompt*
+- **Policy think tanks**: **Ada Lovelace Institute** (rigorous UK AI governance research), **Center for Democracy & Technology** (US civil liberties + FTC enforcement), **EFF** (IP, surveillance, civil liberties dimensions)
 
 ### Agent Era & Technical Workflows
-- Vellum AI Blog, ByteByteGo, **LangChain / LangGraph Blog** (agent framework releases, State of Agent Engineering reports), **Pydantic AI** (production agent framework with first-class MCP support)
+- Vellum AI Blog, ByteByteGo, **LangChain / LangGraph Blog** (agent framework releases, State of Agent Engineering reports), **Pydantic AI** (production agent framework with first-class MCP support), **Composio** (MCP tool integration layer), **HuggingFace Agents tag**
 
 ### Open Source & Infrastructure
 - HuggingFace blog and model hub, vLLM, Ollama, Anyscale, SemiAnalysis
 
 ### Macro & Hardware Watch
-- **Primary**: NVIDIA News, NVIDIA Developer Blog
+- **Primary**: NVIDIA News, NVIDIA Developer Blog, **AMD AI / ROCm blog** (MI300X/MI350 — genuine NVIDIA alternative for inference)
 - **Infrastructure press**: The Next Platform, Datacenter Dynamics, Computing.co.uk
-- Analysis: SemiAnalysis, Cerebras, Groq, Tom's Hardware
+- Analysis: SemiAnalysis, **Chips and Cheese** (deep chip architecture), **Fabricated Knowledge** (semiconductor supply chain), Cerebras, Groq, Tom's Hardware
 
 ### Model Evaluations & Transparency
 - LMSYS blog and Chatbot Arena, Artificial Analysis, Scale AI SEAL leaderboard, HELM (Stanford CRFM), **LiveBench**, **AlpacaEval**, HuggingFace Open LLM Leaderboard, WhatLLM.org
 
 ### Product & Company News
 - OpenRouter, LMSYS Chatbot Arena, Crunchbase, TechCrunch AI, Axios AI, LinkedIn
+
+### Newsletters & Podcasts (secondary sources)
+Used to identify stories — content is filed under the appropriate primary category and always cites the original source, not the newsletter/podcast.
+- **The Batch** (deeplearning.ai) — Andrew Ng's curation; surfaces enterprise adoption signals
+- **Latent Space** — developer interviews, often first to surface new research directions
+- **TWIML AI Podcast** — technical ML and AI interviews, strong on production and hardware
 
 ---
 

@@ -297,9 +297,14 @@ These are the primary government sources for operational AI security guidance �
 | Source | URL | Focus |
 |---|---|---|
 | AI Village | https://aivillage.org | DEF CON AI track, red-teaming, community |
-| Lakera | https://www.lakera.ai/blog | Prompt injection, guardrails, production security |
+| Lakera Blog | https://www.lakera.ai/blog | Prompt injection, guardrails, production LLM security |
+| Lakera Research | https://www.lakera.ai/research | Gandalf adversarial attack analysis (279k real attacks), AI Model Risk Index |
+| Lakera News | https://www.lakera.ai/news | Threat intelligence bulletins and product announcements |
+| HiddenLayer | https://www.hiddenlayer.com/innovation-hub | Adversarial ML research. Discovered **Policy Puppetry** (2025) — zero-day exploiting XML/JSON to bypass all major safety filters — and **EchoGram** (adversarial attack on defensive classifiers) |
+| Embrace the Red | https://embracethered.com/blog/ | Johann Rehberger's documented prompt injection CVEs against GitHub Copilot (RCE via CVE-2025-53773), Claude Code, Amazon Q Developer, Windsurf, and others. The most prolific real-world prompt injection researcher |
+| Snyk Labs (ex-Invariant) | https://invariantlabs.ai/blog | ETH Zurich spin-off acquired by Snyk (2025). Discovered **Tool Poisoning Attacks** (TPAs) on MCP and built MCP-Scan. Primary source for MCP security research |
 | Protect AI | https://protectai.com/blog | MLOps security, model supply chain |
-| Adversa AI | https://adversa.ai/blog | Adversarial attacks, evasion techniques |
+| Adversa AI | https://adversa.ai/blog | Adversarial attacks, evasion techniques; publishes MCP Security Digests |
 | Trail of Bits | https://blog.trailofbits.com/ | Hands-on AI red-teaming and model audits; highly respected security firm |
 | Microsoft Security | https://www.microsoft.com/en-us/security/blog/ | AI-assisted attacks, enterprise threat intelligence at scale |
 | Simon Willison (prompt injection) | https://simonwillison.net/tags/prompt-injection/ | Real-world prompt injection incident tracker |
@@ -375,6 +380,18 @@ One of the highest-circulation technical newsletters on system design. Increasin
 
 - **URL**: https://blog.bytebytego.com
 - **Strength**: Diagram-driven explanations, scalable system design for AI
+
+### LangChain / LangGraph Blog
+The primary source for updates to LangGraph (the dominant graph-based agent orchestration framework) and LangChain. Also publishes the periodic **State of Agent Engineering** report — a survey-based snapshot of what agents are being built in production and where the blockers are.
+
+- **URL**: https://blog.langchain.com
+- **Strength**: Authoritative on agent framework patterns; release notes for LangGraph Platform, LangGraph Studio, and LangChain 1.0
+
+### Pydantic AI
+Production-grade Python agent framework from the Pydantic team, with first-class MCP (Model Context Protocol) support. The docs/blog covers agent design patterns, multi-agent orchestration, and typed agent APIs.
+
+- **URL**: https://ai.pydantic.dev/blog/
+- **Strength**: Strong typing, MCP-native, practical production focus; increasingly referenced alongside LangGraph for typed agent patterns
 
 ---
 
