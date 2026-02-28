@@ -179,6 +179,24 @@ Defined in `.claude/skills/newsletter-ai/SKILL.md`:
 
 ---
 
+## Where to run the skill
+
+The skill supports two outputs — Obsidian vault and web publish — and which ones are produced depends on where and how you invoke it:
+
+| How you run it | Obsidian vault | Web publish |
+|---|---|---|
+| `/newsletter-ai` locally | ✅ Written to `~/Documents/AI-Newsletter-Vault/` | ❌ |
+| `/newsletter-ai vault:~/path web:~/my-astro-site` locally | ✅ | ✅ |
+| GitHub Actions (automated weekly) | ❌ Runner is ephemeral — files don't persist | ✅ |
+
+To get both outputs in one run, invoke the skill locally with both arguments:
+
+```
+/newsletter-ai vault:~/Documents/AI-Newsletter-Vault/ web:~/my-astro-site
+```
+
+---
+
 ## Scheduled automation
 
 The skill can run on a weekly schedule using GitHub Actions — no local machine required. A cron workflow installs Claude Code CLI on a GitHub runner, loads the skill from your Astro repo, and pushes the new issue, triggering deployment automatically.
