@@ -1,10 +1,19 @@
-# newsletter-ai — Claude Code Skill
+# newsletter-ai & claude-hacks — Claude Code Skills
 
 A Claude Code skill that curates a ready-to-publish weekly newsletter covering **agentic AI and LLM developments** across 11 source categories. Sources span Reddit, Hacker News, X/Twitter, alignment safety labs, major lab research publications, academic research groups, technical blogs, infra company engineering posts, AI-only media, analyst reports and VC firms, AI security frameworks (OWASP, MITRE, NIST, CISA, ENISA, NCSC), government regulatory feeds, agent-era workflow content, open-source infrastructure, hardware/compute news (NVIDIA, Next Platform, Datacenter Dynamics), and a dedicated model evaluations track (LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench, AlpacaEval). Produces a structured, opinionated digest for technical practitioners.
 
 ---
 
-## Quick start
+## Skills in this repo
+
+| Skill | Invocation | Output |
+|---|---|---|
+| `newsletter-ai` | `/newsletter-ai` | Weekly digest of agentic AI & LLM news → Obsidian vault + Astro website |
+| `claude-hacks` | `/claude-hacks` | Curated Claude Code productivity hacks → awesome-list README in a GitHub repo |
+
+---
+
+## Quick start — newsletter-ai
 
 ### Install globally (all projects)
 
@@ -216,7 +225,52 @@ After that, a new issue publishes every Friday at 09:00 UTC. Manual runs are ava
 
 ---
 
-## Docs
+## Quick start — claude-hacks
+
+### Install
+
+```bash
+mkdir -p ~/.claude/skills/claude-hacks
+cp -r .claude/skills/claude-hacks/ ~/.claude/skills/claude-hacks/
+```
+
+### Run it
+
+```
+/claude-hacks
+```
+
+By default writes to `~/claude-code-hacks/`. Pass a custom repo path with `repo:`:
+
+```
+/claude-hacks repo:~/my-lists/claude-code-hacks
+```
+
+Each run appends only new items to the README — no duplicates, no regeneration. On first run it creates the full awesome-list README structure. A GitHub repo to push to is required (run `gh repo create claude-code-hacks --public --source=. --push` once to set it up).
+
+### What it searches
+
+Reddit (r/ClaudeAI, r/AIdev), Hacker News, X/Twitter (@bcherny, @simonw), GitHub repos and gists, Anthropic official docs and blog, YouTube tutorials, personal blogs (Simon Willison etc.), MCP ecosystem (modelcontextprotocol.io, Composio), and podcasts as secondary sources.
+
+### What it produces
+
+An [awesome-list](https://github.com/ChrisAdkin8/claude-code-hacks) style README with 9 sections:
+
+| Section | Covers |
+|---|---|
+| Setup & Configuration | Initial setup, model selection, global config |
+| CLAUDE.md Recipes | CLAUDE.md patterns, instruction templates, memory configs |
+| Prompt Techniques | Prompting strategies, request phrasing, conversation management |
+| MCP Servers & Tools | MCP servers that extend Claude Code's capabilities |
+| Custom Skills & Commands | Slash commands, SKILL.md files, repeatable workflows |
+| Agentic Workflows | Multi-step autonomous tasks, subagent patterns, plan mode |
+| IDE & Editor | VS Code, Cursor, JetBrains, keyboard shortcuts |
+| CI/CD & Automation | GitHub Actions, headless `claude -p`, scheduled automation |
+| Video Tutorials | YouTube walkthroughs and screencasts |
+
+---
+
+## Docs — newsletter-ai
 
 - [How it works](docs/how-it-works.md) — the 6-step workflow including Obsidian vault output and web publishing
 - [Sources](docs/sources.md) — full annotated source list
