@@ -1,4 +1,4 @@
-baseURL = "https://example.pages.dev/"
+baseURL = "https://newsletter-ai-skill.tfanalyze.workers.dev/"
 languageCode = "en-gb"
 title = "Agentic AI & LLM Weekly"
 theme = "PaperMod"

@@ -185,9 +185,13 @@ The bootstrap script verifies your Hugo version, initialises a Hugo site, clones
 |---|---|
 | Production branch | `main` |
 | Framework preset | Hugo |
-| Build command | `cd site && hugo --gc --minify` |
-| Build output directory | `site/public` |
-| Environment variable | `HUGO_VERSION=0.135.0` *(or whatever you have locally)* |
+| Root directory (advanced) | `site` |
+| Build command | `hugo --gc --minify` |
+| Build output directory | `public` |
+| Environment variable | `HUGO_VERSION=0.161.1` *(or whatever you have locally — see `hugo version`)* |
+| Build system version | **v2** *(Settings → Builds & deployments — v1 ignores `HUGO_VERSION`)* |
+
+> **Heads-up on path consistency:** root and output must agree. Cloudflare `cd`s into the root directory before building and resolves the output path relative to it, so setting root to `site` *and* output to `site/public` makes it look for `site/site/public` → *"Could not detect a directory containing static files"*. And without `HUGO_VERSION` on Build system v2, the Hugo preset's `npx hugo` step fails with `npm error could not determine executable to run`.
 
 **3. Add `ANTHROPIC_API_KEY`** to **Settings → Secrets and variables → Actions**.
 

@@ -71,12 +71,20 @@ git push
 |---|---|
 | Production branch | `main` |
 | Framework preset | Hugo |
-| Build command | `cd site && hugo --gc --minify` |
-| Build output directory | `site/public` |
-| Root directory | *(leave blank — repo root)* |
-| Environment variable | `HUGO_VERSION=0.135.0` *(or whatever you have locally)* |
+| Root directory (advanced) | `site` |
+| Build command | `hugo --gc --minify` |
+| Build output directory | `public` |
+| Environment variable | `HUGO_VERSION=0.161.1` *(or whatever you have locally — see `hugo version`)* |
+| Build system version | **v2** *(Settings → Builds & deployments — v1 ignores `HUGO_VERSION`)* |
+
+Root directory and output directory must be **consistent**: Cloudflare `cd`s into the root before building, and resolves the output path relative to it. Setting root to `site` *and* output to `site/public` makes Cloudflare look for `site/site/public` and fail with *"Could not detect a directory containing static files"*.
 
 Click **Save and Deploy**. The first build takes ~30 seconds.
+
+#### Troubleshooting
+
+- **`Could not detect a directory containing static files`** — root/output mismatch (see above), or the build command never ran (framework preset with empty build command).
+- **`Command failed with exit code 1: npx hugo` / `npm error could not determine executable to run`** — `HUGO_VERSION` env var is missing, or Build system version is v1. Cloudflare's Hugo preset shells out to `npx hugo`, which only works when the Hugo binary is provisioned via `HUGO_VERSION` on build system **v2**. Fix: set both, then **Retry deployment** (no new commit needed).
 
 ### 3. Enable the scheduled newsletter workflow
 
