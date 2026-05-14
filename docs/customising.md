@@ -266,7 +266,9 @@ This makes `/newsletter-ai` available only when working inside that project.
 
 ## Scheduled automation (GitHub Actions)
 
-This repo ships `.github/workflows/newsletter.yml`, a weekly cron workflow that generates the newsletter on a GitHub-hosted runner, commits it to `site/src/data/blog/`, and pushes — Cloudflare Pages then deploys automatically. No local machine required.
+This repo ships `.github/workflows/newsletter.yml`, a weekly cron workflow that generates the newsletter on a GitHub-hosted runner, commits it to `site/content/posts/`, and pushes — Cloudflare Pages then deploys automatically. No local machine required.
+
+> ⚠️ **Cost note:** the workflow runs `claude -p` on a GitHub runner, which authenticates against `ANTHROPIC_API_KEY` and bills your **Anthropic API account per token**. A single full-category run can be costly. If you already have a Claude Code subscription, running `/newsletter-ai web:./site` locally is free (it uses subscription quota) and performs the same commit/push — see [`CLAUDE.md` → Publishing a new issue](../CLAUDE.md#publishing-a-new-issue). Keep the scheduled workflow only if hands-off automation is worth the API cost to you.
 
 ### One-time setup
 

@@ -86,11 +86,11 @@ Click **Save and Deploy**. The first build takes ~30 seconds.
 - **`Could not detect a directory containing static files`** — root/output mismatch (see above), or the build command never ran (framework preset with empty build command).
 - **`Command failed with exit code 1: npx hugo` / `npm error could not determine executable to run`** — `HUGO_VERSION` env var is missing, or Build system version is v1. Cloudflare's Hugo preset shells out to `npx hugo`, which only works when the Hugo binary is provisioned via `HUGO_VERSION` on build system **v2**. Fix: set both, then **Retry deployment** (no new commit needed).
 
-### 3. Enable the scheduled newsletter workflow
+### 3. (Optional) Enable the scheduled newsletter workflow
 
-Add `ANTHROPIC_API_KEY` to **Settings → Secrets and variables → Actions → New repository secret**. The workflow at `.github/workflows/newsletter.yml` runs every Friday at 09:00 UTC; the commit it produces triggers Cloudflare Pages to deploy.
+Skip this step if you'd rather publish manually with `/newsletter-ai web:./site` from a local Claude Code session — that flow uses your Claude Code subscription quota (no per-token billing) and performs the same commit/push. See [`../CLAUDE.md` → Publishing a new issue](../CLAUDE.md#publishing-a-new-issue).
 
-Trigger a manual run any time from **Actions → Generate Weekly Newsletter → Run workflow**.
+To enable hands-off weekly automation instead, add `ANTHROPIC_API_KEY` to **Settings → Secrets and variables → Actions → New repository secret**. The workflow at `.github/workflows/newsletter.yml` runs every Friday at 09:00 UTC and bills your **Anthropic API account** per token — a single full-category run can be costly. Trigger a manual run any time from **Actions → Generate Weekly Newsletter → Run workflow**.
 
 ---
 

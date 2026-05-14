@@ -208,6 +208,8 @@ Only runs when you pass a `web:` argument:
 
 Claude writes the issue as a [Hugo](https://gohugo.io) + [PaperMod](https://github.com/adityatelange/hugo-PaperMod)-compatible markdown file to `{WEB_REPO}/content/posts/YYYY-MM-DD.md` with the correct frontmatter, then runs `git commit && git push`. **Cloudflare Pages** picks up the push and deploys the site automatically — typically within 30 seconds. Vercel and Netlify also support Hugo natively.
 
+> 💡 When invoked from a local Claude Code session, this step uses your **Claude Code subscription quota** — no Anthropic API tokens are billed. The scheduled GitHub Action in [`.github/workflows/newsletter.yml`](../.github/workflows/newsletter.yml) does the same work but bills against `ANTHROPIC_API_KEY`. Most users should prefer the local invocation; see [`CLAUDE.md` → Publishing a new issue](../CLAUDE.md#publishing-a-new-issue) and [`docs/customising.md` → Scheduled automation](customising.md#scheduled-automation-github-actions) for the tradeoff.
+
 The web version uses the clean newsletter body from Step 3 (identical to the chat output). Obsidian wikilinks are not included.
 
 **Frontmatter written for Hugo + PaperMod:**

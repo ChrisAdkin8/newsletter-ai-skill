@@ -15,6 +15,40 @@ These rules override global Subagent Strategy and Task Management when running `
 
 ---
 
+## Publishing a new issue
+
+Single command, from a Claude Code session in this repo:
+
+```text
+/newsletter-ai web:./site
+```
+
+End to end this:
+
+1. Gathers and writes the issue.
+2. Writes `site/content/posts/YYYY-MM-DD.md` with Hugo + PaperMod frontmatter.
+3. Writes the Obsidian vault copies (issue note, article notes, etc.).
+4. `git add` + `git commit -m "Newsletter YYYY-MM-DD"` + `git push`.
+5. Cloudflare Pages auto-deploys → https://newsletter-ai-skill.pages.dev/ (~30s).
+
+The commit/push is **Step 6c** in `.claude/skills/newsletter-ai/SKILL.md`. Uses your Claude Code subscription quota — no Anthropic API credits consumed.
+
+### Pre-flight
+
+- On `main`, working tree otherwise clean.
+- `baseURL` in `site/hugo.toml` matches the live Pages URL.
+- The skill is synced (`~/.claude/skills/newsletter-ai/` up to date — see *Updating the skill* below).
+
+### Recovery
+
+If `git push` fails (remote diverged), the local commit still exists:
+
+```bash
+git pull --rebase && git push
+```
+
+---
+
 ## Updating the skill
 
 Files live in two places that must stay in sync:
