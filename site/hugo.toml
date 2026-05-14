@@ -30,6 +30,14 @@ TocOpen = false
 ShowRssButtonInSectionTermList = true
 disableScrollToTop = false
 
+[params.social]
+twitter = ""
+facebook_admin = ""
+
+[params.author]
+name = "Agentic AI & LLM Weekly"
+email = ""
+
 [params.homeInfoParams]
 Title = "Agentic AI & LLM Weekly"
 Content = "Curated weekly digest of agentic AI and LLM developments — research, security, products, and policy. New issues every Friday."
