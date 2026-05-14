@@ -1,6 +1,17 @@
 # newsletter-ai — Project Guidelines
 
-This repo contains the `/newsletter-ai` Claude Code skill. Token efficiency rules for running it live in `~/.claude/CLAUDE.md` under **Newsletter Skill** and apply globally.
+This repo contains the `/newsletter-ai` Claude Code skill.
+
+## Running /newsletter-ai
+
+These rules override global Subagent Strategy and Task Management when running `/newsletter-ai`.
+
+- **No parallel subagents for gathering** — search all 11 categories sequentially in the main session.
+- **WebSearch before WebFetch** — use snippets to identify stories; only fetch when snippet lacks enough detail. One fetch per story maximum.
+- **One query per category** — if first query returns 3+ usable results, move on. Skip sections with nothing newsworthy.
+- **No intermediate output** — output only the finished newsletter, then the vault confirmation line.
+- **Cap at 4 items per category.**
+- **Check canvas existence before writing** — run `test -f <vault>/canvas/newsletter-structure.canvas` before reading canvas files.
 
 ---
 

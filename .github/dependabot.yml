@@ -1,0 +1,16 @@
+version: 2
+updates:
+  # Keep GitHub Actions pinned to recent secure versions.
+  # The Hugo + PaperMod site has no npm dependency tree, so there is
+  # no `npm` ecosystem to scan — PaperMod is vendored as a frozen copy
+  # and bumped manually via the bootstrap script.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Etc/UTC"
+    labels:
+      - "dependencies"
+      - "ci"

@@ -164,8 +164,18 @@ Use these slugs consistently in article frontmatter so Dataview queries aggregat
 | `hiddenlayer` | HiddenLayer | AI Security Research |
 | `embrace-the-red` | Embrace the Red (Johann Rehberger) | AI Security Research |
 | `snyk-labs` | Snyk Labs (ex-Invariant Labs) | AI Security Research |
+| `gtig` | Google Threat Intelligence Group | Threat Intelligence |
+| `ms-threat-intel` | Microsoft Threat Intelligence | Threat Intelligence |
+| `unit-42` | Palo Alto Unit 42 | Threat Intelligence |
+| `mandiant` | Mandiant (Google Cloud) | Threat Intelligence |
+| `the-hacker-news` | The Hacker News | Media |
+| `the-register` | The Register (AI/ML) | Media |
+| `cyberscoop` | CyberScoop | Media |
+| `bloomberg-cyber` | Bloomberg Cyber | Media |
 | `uk-aisi` | UK AI Safety Institute | Government |
 | `eu-commission` | EU Commission | Government |
+| `eu-council` | EU Council (Consilium) | Government |
+| `eu-parliament` | European Parliament | Government |
 | `ftc` | FTC | Government |
 | `iapp` | IAPP | Legal |
 | `future-of-life` | Future of Life Institute | Policy |
@@ -221,9 +231,9 @@ Use these source wikilinks in the **Sources** line of each topic note:
 | research | `[[sources/arxiv\|arXiv]] · [[sources/huggingface\|HuggingFace]] · [[sources/alignment-forum\|Alignment Forum]] · [[sources/lesswrong\|LessWrong]] · [[sources/microsoft-research\|Microsoft Research]] · [[sources/google-deepmind\|Google DeepMind]] · [[sources/redwood-research\|Redwood Research]] · [[sources/uk-aisi\|UK AI Safety Institute]]` |
 | engineering | `[[sources/anthropic\|Anthropic]] · [[sources/openai\|OpenAI]] · [[sources/google-deepmind\|Google DeepMind]] · [[sources/meta-ai\|Meta AI]] · [[sources/nvidia\|NVIDIA]] · [[sources/microsoft-research\|Microsoft Research]] · [[sources/ms-semantic-kernel\|Microsoft Semantic Kernel]] · [[sources/modal\|Modal]] · [[sources/huggingface\|HuggingFace]] · [[sources/mit-tech-review\|MIT Tech Review]] · [[sources/ars-technica\|Ars Technica]] · [[sources/venturebeat-ai\|VentureBeat AI]]` |
 | industry | `[[sources/a16z-ai\|a16z AI]] · [[sources/sequoia-ai\|Sequoia AI]] · [[sources/mckinsey\|McKinsey]] · [[sources/brookings\|Brookings]] · [[sources/epoch-ai\|Epoch AI]] · [[sources/venturebeat-ai\|VentureBeat AI]] · [[sources/techcrunch-ai\|TechCrunch AI]]` |
-| security | `[[sources/owasp\|OWASP]] · [[sources/mitre-atlas\|MITRE ATLAS]] · [[sources/nist\|NIST]] · [[sources/cisa\|CISA]] · [[sources/enisa\|ENISA]] · [[sources/ncsc\|NCSC]] · [[sources/trail-of-bits\|Trail of Bits]] · [[sources/lakera\|Lakera]] · [[sources/hiddenlayer\|HiddenLayer]] · [[sources/embrace-the-red\|Embrace the Red]] · [[sources/snyk-labs\|Snyk Labs]] · [[sources/microsoft-research\|Microsoft Research]]` |
+| security | `[[sources/owasp\|OWASP]] · [[sources/mitre-atlas\|MITRE ATLAS]] · [[sources/nist\|NIST]] · [[sources/cisa\|CISA]] · [[sources/enisa\|ENISA]] · [[sources/ncsc\|NCSC]] · [[sources/trail-of-bits\|Trail of Bits]] · [[sources/lakera\|Lakera]] · [[sources/hiddenlayer\|HiddenLayer]] · [[sources/embrace-the-red\|Embrace the Red]] · [[sources/snyk-labs\|Snyk Labs]] · [[sources/microsoft-research\|Microsoft Research]] · [[sources/gtig\|GTIG]] · [[sources/ms-threat-intel\|Microsoft Threat Intel]] · [[sources/unit-42\|Unit 42]] · [[sources/mandiant\|Mandiant]] · [[sources/the-hacker-news\|The Hacker News]] · [[sources/the-register\|The Register]] · [[sources/cyberscoop\|CyberScoop]] · [[sources/bloomberg-cyber\|Bloomberg Cyber]]` |
 | product | `[[sources/anthropic\|Anthropic]] · [[sources/openai\|OpenAI]] · [[sources/google-deepmind\|Google DeepMind]] · [[sources/meta-ai\|Meta AI]] · [[sources/techcrunch-ai\|TechCrunch AI]] · [[sources/venturebeat-ai\|VentureBeat AI]]` |
-| policy | `[[sources/eu-commission\|EU Commission]] · [[sources/uk-aisi\|UK AI Safety Institute]] · [[sources/ftc\|FTC]] · [[sources/iapp\|IAPP]] · [[sources/future-of-life\|Future of Life Institute]] · [[sources/covington\|Covington]] · [[sources/ada-lovelace\|Ada Lovelace Institute]] · [[sources/cdt\|CDT]] · [[sources/eff\|EFF]]` |
+| policy | `[[sources/eu-commission\|EU Commission]] · [[sources/eu-council\|EU Council]] · [[sources/eu-parliament\|European Parliament]] · [[sources/uk-aisi\|UK AI Safety Institute]] · [[sources/ftc\|FTC]] · [[sources/iapp\|IAPP]] · [[sources/future-of-life\|Future of Life Institute]] · [[sources/covington\|Covington]] · [[sources/ada-lovelace\|Ada Lovelace Institute]] · [[sources/cdt\|CDT]] · [[sources/eff\|EFF]]` |
 | agent-era | `[[sources/vellum-ai\|Vellum AI]] · [[sources/bytebytego\|ByteByteGo]] · [[sources/langchain\|LangChain]] · [[sources/pydantic-ai\|Pydantic AI]] · [[sources/composio\|Composio]] · [[sources/aws\|Amazon Web Services]]` |
 | open-source | `[[sources/huggingface\|HuggingFace]] · [[sources/semianalysis\|SemiAnalysis]] · [[sources/whatllm\|WhatLLM.org]]` |
 | hardware | `[[sources/nvidia\|NVIDIA]] · [[sources/amd-ai\|AMD AI]] · [[sources/next-platform\|The Next Platform]] · [[sources/semianalysis\|SemiAnalysis]] · [[sources/chips-and-cheese\|Chips and Cheese]] · [[sources/fabricated-knowledge\|Fabricated Knowledge]]` |

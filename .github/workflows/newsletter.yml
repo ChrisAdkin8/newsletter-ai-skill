@@ -1,0 +1,71 @@
+name: Generate Weekly Newsletter
+
+on:
+  schedule:
+    - cron: '0 9 * * 5'   # Every Friday at 09:00 UTC
+  workflow_dispatch:       # Allow manual trigger from GitHub UI
+
+permissions:
+  contents: write          # Required for git push back to main
+
+# Don't pile up parallel newsletter runs if one is slow
+concurrency:
+  group: newsletter
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          # Use a token that can push back to main; GITHUB_TOKEN suffices when
+          # branch protection allows the default actor or this workflow is
+          # added to the allowlist.
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Pin the Claude Code CLI version and disable postinstall scripts.
+      # Bump this only after reviewing the release.
+      - name: Install Claude Code CLI (pinned, --ignore-scripts)
+        env:
+          CLAUDE_CODE_VERSION: '2.0.13'
+        run: |
+          npm install -g --ignore-scripts --no-audit --fund=false \
+            "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}"
+          claude --version
+
+      - name: Install newsletter skill into runner
+        run: |
+          mkdir -p ~/.claude/skills
+          cp -r .claude/skills/newsletter-ai ~/.claude/skills/
+
+      - name: Configure git committer
+        run: |
+          git config user.name  "Newsletter Bot"
+          git config user.email "${{ github.actor_id }}+newsletter-bot@users.noreply.github.com"
+
+      - name: Generate newsletter and write to site/
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          claude --dangerously-skip-permissions \
+                 -p "/newsletter-ai web:$(pwd)/site"
+
+      - name: Commit and push if a new issue landed
+        run: |
+          git add site/content/posts/
+          if git diff --staged --quiet; then
+            echo "No new newsletter to commit — nothing to do."
+            exit 0
+          fi
+          git commit -m "Newsletter $(date -u +%Y-%m-%d)"
+          git push
+          echo "Pushed — Cloudflare Pages will deploy within ~30 seconds."

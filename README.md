@@ -1,42 +1,113 @@
-# newsletter-ai & claude-hacks — Claude Code Skills
+# newsletter-ai
 
-A Claude Code skill that curates a ready-to-publish weekly newsletter covering **agentic AI and LLM developments** across 11 source categories. Sources span Reddit, Hacker News, X/Twitter, alignment safety labs, major lab research publications, academic research groups, technical blogs, infra company engineering posts, AI-only media, analyst reports and VC firms, AI security frameworks (OWASP, MITRE, NIST, CISA, ENISA, NCSC), government regulatory feeds, agent-era workflow content, open-source infrastructure, hardware/compute news (NVIDIA, Next Platform, Datacenter Dynamics), and a dedicated model evaluations track (LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench, AlpacaEval). Produces a structured, opinionated digest for technical practitioners.
+> A Claude Code skill that curates a weekly newsletter on agentic AI and LLM developments. Outputs a clean Markdown digest to chat, writes a permanent copy to an Obsidian vault, and (optionally) publishes a public website using Hugo + PaperMod on Cloudflare Pages — zero npm dependencies in the build.
+
+Invoke `/newsletter-ai` and Claude searches eleven source categories — community discussion, research papers, engineering blogs, analyst reports, AI security, product news, regulation, agent frameworks, open source, hardware, and model evaluations — then produces a digest with rewritten headlines, two-to-four sentence summaries, a connecting "Editor's Picks" theme, and a tag on every item.
+
+The full annotated source list lives in [`docs/sources.md`](docs/sources.md).
 
 ---
 
-## Skills in this repo
+## What you get
 
-| Skill | Invocation | Output |
+| Output | Where it lands | When |
 |---|---|---|
-| `newsletter-ai` | `/newsletter-ai` | Weekly digest of agentic AI & LLM news → Obsidian vault + Astro website |
-| `claude-hacks` | `/claude-hacks` | Curated Claude Code productivity hacks → awesome-list README in a GitHub repo |
+| Markdown newsletter | Chat | Every run |
+| Obsidian vault | `~/Documents/AI-Newsletter-Vault/` | Every local run (configurable) |
+| Public website | Cloudflare Pages | When you pass `web:./site` (or any Hugo + PaperMod repo path) |
+
+### Output preview
+
+````markdown
+# Agentic AI & LLM Weekly
+**Issue #20 — 7–14 May 2026**
+
+> The week AI agents became both the attacker and the defender — from the
+> first AI-built zero-day exploit to Microsoft's 100-agent vulnerability hunter.
+
+## Editor's Picks
+
+Three stories this week crystallise a single uncomfortable truth: AI agents
+are now powerful enough to find and exploit zero-day vulnerabilities, defend
+against them at scale, and operate with enough autonomy that governments are
+writing joint security frameworks to contain them.
+
+## AI Security & Safety
+
+### Google Discloses First Confirmed AI-Generated Zero-Day Exploit Used in the Wild
+`[Security]`
+
+Google's Threat Intelligence Group disclosed on May 11 the first confirmed
+case of attackers using an AI model to discover a vulnerability and build a
+working exploit — a 2FA bypass in a popular open-source admin tool…
+````
+
+The full workflow — gather, filter, write, editor's picks, vault, web — is documented in [`docs/how-it-works.md`](docs/how-it-works.md).
 
 ---
 
-## Quick start — newsletter-ai
+## Quick start
 
-### Install globally (all projects)
+**1. Install the skill globally:**
 
 ```bash
-mkdir -p ~/.claude/skills/newsletter-ai
 cp -r .claude/skills/newsletter-ai/ ~/.claude/skills/newsletter-ai/
 ```
 
-### Run it
+**2. Run it:**
 
 ```
 /newsletter-ai
 ```
 
-With an optional focus, date range, vault path, or web publish path:
+**Invocation patterns:**
 
 ```
-/newsletter-ai security focus — last 14 days
-/newsletter-ai agentic frameworks only
-/newsletter-ai vault:~/Obsidian/AI-News/
-/newsletter-ai web:~/my-astro-site
-/newsletter-ai vault:~/Obsidian/AI-News/ web:~/my-astro-site
+/newsletter-ai                                          # Last 7 days, all 11 categories
+/newsletter-ai security focus — last 14 days            # Topic + extended window
+/newsletter-ai agentic frameworks only                  # Topic-scoped
+/newsletter-ai vault:~/Obsidian/AI-News/                # Custom vault path
+/newsletter-ai web:./site                               # Publish via the bundled site/
+/newsletter-ai web:~/my-hugo-site                       # Publish to a separate Hugo repo
+/newsletter-ai vault:~/Obsidian/AI-News/ web:./site     # Vault + web in one run
 ```
+
+---
+
+## Obsidian vault
+
+Every local run writes the issue to an Obsidian vault that implements a four-level graph hierarchy:
+
+```
+Issue note → Topic note → Source note ← Article note
+```
+
+On first run the skill creates eleven topic index notes, ~65 source notes, two Canvas mindmaps, and a vault dashboard. Each subsequent run adds one issue note plus one article note per story. Open Graph View (`Cmd+G`) to see the live coverage map — sources with many articles form denser clusters; topics covered every week pull more connections.
+
+Format details: [`docs/how-it-works.md#step-5-obsidian-vault`](docs/how-it-works.md#step-5-obsidian-vault).
+
+---
+
+## Publishing to the web
+
+This repo includes everything needed to host the newsletter as a static site on [Cloudflare Pages](https://pages.cloudflare.com/) — free tier, unlimited bandwidth. The site uses **[Hugo](https://gohugo.io) + [PaperMod](https://github.com/adityatelange/hugo-PaperMod)**: one signed Go binary plus one vendored theme. No npm tree, no transitive dependencies, ~5 MB to audit instead of ~700 packages.
+
+**Prerequisites:** install Hugo Extended locally (`brew install hugo` on macOS).
+
+**One-time setup:**
+
+```bash
+./site/scripts/bootstrap.sh                      # Scaffold Hugo + PaperMod into site/
+git add site/ && git commit -m "Scaffold site" && git push
+```
+
+Then connect this repo to Cloudflare Pages (see [`site/README.md`](site/README.md) for the exact dashboard settings — Hugo framework preset, `HUGO_VERSION` env var) and add `ANTHROPIC_API_KEY` to **Settings → Secrets and variables → Actions**.
+
+After that, the scheduled workflow at [`.github/workflows/newsletter.yml`](.github/workflows/newsletter.yml) runs every Friday at 09:00 UTC. It generates the newsletter, commits to `site/content/posts/`, and pushes — Cloudflare Pages deploys within ~30 seconds. Manual runs are available any time from the **Actions** tab.
+
+**Supply-chain story**: Hugo is a single Go binary distributed with SHA256SUMS. PaperMod is vendored as a frozen copy pinned to a known commit SHA (recorded in `site/themes/PaperMod/.papermod-sha`). No `npm install` ever runs in this repo for the website build. The only npm exposure is the Claude Code CLI installed in CI, pinned to a specific version with `--ignore-scripts`. Dependabot scans GitHub Actions versions weekly.
+
+Vercel and Netlify both support Hugo natively if you prefer them over Cloudflare Pages.
 
 ---
 
@@ -44,256 +115,51 @@ With an optional focus, date range, vault path, or web publish path:
 
 ```
 newsletter-ai-skill/
-├── README.md                               # This file
+├── .claude/skills/newsletter-ai/        # Skill source — SKILL.md + sources + templates + canvas
+├── .claude/skills/claude-hacks/         # Companion skill (see below)
 ├── docs/
-│   ├── how-it-works.md                     # Skill architecture and workflow
-│   ├── sources.md                          # Source catalogue (human-readable)
-│   └── customising.md                      # How to add sources, change output format
-└── .claude/
-    └── skills/
-        └── newsletter-ai/
-            ├── SKILL.md                    # Main skill — Claude reads this
-            ├── sources.md                  # Source list referenced by SKILL.md
-            ├── template.md                 # Newsletter output template
-            ├── obsidian-template.md        # Obsidian vault note format + vault structure
-            ├── newsletter-structure.canvas # Mindmap: 13 newsletter sections (Obsidian Canvas)
-            └── sources.canvas              # Mindmap: 11 source categories (Obsidian Canvas)
+│   ├── how-it-works.md                  # 6-step workflow, vault structure, web publish
+│   ├── sources.md                       # Annotated source catalogue (human-readable)
+│   └── customising.md                   # Adding sources, format changes, scheduling
+├── site/                                # Hugo + PaperMod static site
+│   ├── README.md                        # Bootstrap + Cloudflare Pages dashboard setup
+│   └── scripts/bootstrap.sh             # Scaffold Hugo site, vendor PaperMod at pinned ref
+├── .github/
+│   ├── workflows/newsletter.yml         # Weekly cron — generate, commit, deploy
+│   └── dependabot.yml                   # Weekly npm + GitHub Actions CVE scans
+├── CLAUDE.md                            # Project-local Claude Code rules
+└── README.md                            # This file
 ```
+
+The skill files in `.claude/skills/newsletter-ai/` are the source of truth — they are copied to `~/.claude/skills/newsletter-ai/` for global use. See [`CLAUDE.md`](CLAUDE.md#updating-the-skill) for the sync command.
 
 ---
 
-## What it produces
+## Documentation
 
-A markdown newsletter with these sections:
-
-| Section | Content |
+| Doc | Covers |
 |---|---|
-| **Editor's Picks** | Top 3 stories of the week with a connecting theme |
-| **Community Pulse** | Reddit, Hacker News, X/Twitter, LinkedIn (12 named profiles) — real-time practitioner signal |
-| **Research Highlights** | arXiv, alignment labs (ARC, CAIUS, Apollo, METR, Redwood, FAR AI), academic labs, Microsoft/Apple/Amazon research |
-| **Engineering & Technical Blogs** | Labs, NVIDIA, W&B, vLLM, Databricks, Ollama, CrewAI, MIT Tech Review, Ars Technica, IEEE Spectrum, Chollet, Marcus, Wolfe |
-| **Industry & Analyst Watch** | Gartner, McKinsey, a16z, Sequoia, Brookings, AI Now Institute, OECD AI |
-| **AI Security & Safety** | OWASP, MITRE ATLAS, NIST, CISA, ENISA, NCSC, Trail of Bits, Microsoft Security |
-| **Product & Company News** | Model releases, funding, partnerships |
-| **Regulatory & Policy** | EU Commission, UK AISI, FTC, UK ICO, White House OSTP, Canada AIDA, Future of Life Institute, IAPP, Covington |
-| **Agent Era & Technical Workflows** | Vellum AI, ByteByteGo, production agent patterns |
-| **Open Source & Infrastructure** | HuggingFace, Anyscale, SemiAnalysis |
-| **Hardware & Macro Watch** | Computing.co.uk, Cerebras, Groq, chip/data centre news |
-| **Model Evaluations & Transparency** | LMSYS, Artificial Analysis, Scale SEAL, HELM, HF Leaderboard, WhatLLM |
-| **Quick Links** | Bookmarks without summaries |
-
-Output is clean markdown, ready to paste into an email tool or publish directly.
-
-Optionally, the skill can **auto-publish to a public website** — pass `web:~/path/to/astro-site` and it writes an Astro-compatible issue file and pushes to your git remote, triggering an automatic Vercel or Netlify deployment. See [Customising → Web publishing](docs/customising.md#web-publishing-astro--vercel) for one-time setup.
-
-The skill also writes every issue to an **Obsidian vault** at `~/Documents/AI-Newsletter-Vault/` (configurable). The vault implements a four-level graph hierarchy:
-
-```
-Issue note → Topic note → Source note ← Article note
-```
-
-On first run it creates:
-
-| Asset | What it does |
-|---|---|
-| `topics/*.md` (11 notes) | Topic index notes — link to their catalogue sources via wikilinks |
-| `sources/*.md` (~45 notes) | Source notes — one per publication; auto-aggregate articles via Dataview |
-| `canvas/newsletter-structure.canvas` | Canvas mindmap: 13 output sections and their tags |
-| `canvas/sources.canvas` | Canvas mindmap: 11 source categories and all 100+ sources |
-
-Each run also creates:
-
-| Asset | What it does |
-|---|---|
-| `articles/*.md` (~25 per issue) | One note per story — links back to source and topic |
-
-Open **Graph View** (`Cmd+G`) in Obsidian: issue at the centre, topics one hop out, sources two hops out, individual article titles at the leaves. Sources with many articles and topics covered every week form denser clusters over time — a live map of the newsletter's coverage history.
+| [`docs/how-it-works.md`](docs/how-it-works.md) | The 6-step workflow, Obsidian vault format, web publish step |
+| [`docs/sources.md`](docs/sources.md) | Annotated source catalogue across all 11 categories, with search strategies |
+| [`docs/customising.md`](docs/customising.md) | Adding sources, output format, vault path, web publishing, scheduled automation |
+| [`site/README.md`](site/README.md) | Hugo + PaperMod bootstrap, Cloudflare Pages dashboard, theme update process |
+| [`CLAUDE.md`](CLAUDE.md) | Project-local rules that override global Claude Code defaults when running the skill |
 
 ---
 
-## Sources covered
+## Companion skill: `claude-hacks`
 
-### Community
-- Reddit: r/MachineLearning, r/LocalLLaMA, r/artificial, r/AIAssistants, r/LanguageModelAPI, r/singularity, r/AIdev, r/ChatGPT, r/ClaudeAI, r/OpenAI, **r/MLOps**
-- **Hacker News** (news.ycombinator.com) — highest-signal technical AI discussion
-- **X/Twitter** — @AnthropicAI, @OpenAI, @karpathy, @ylecun, @fchollet, @GaryMarcus, @emollick, @danhendrycks
-- **LinkedIn** (named profiles, WebSearch only) — Andrew Ng, Yann LeCun, Ethan Mollick, Mustafa Suleyman, Cassie Kozyrkov, Sebastian Raschka, Jay Alammar, Chip Huyen, Harrison Chase, Jerry Liu, Gary Marcus, Jeff Dean
-
-### Research & Papers
-- arXiv (cs.AI, cs.CL, cs.LG, cs.CR), HuggingFace daily papers, Papers with Code, Semantic Scholar, Nature Machine Intelligence
-- **Major lab research**: Google DeepMind, Microsoft Research, Apple ML Research, Amazon Science
-- **Alignment & safety labs**: ARC, Center for AI Safety (CAIUS), Apollo Research, METR, Redwood Research, FAR AI
-- **Alignment forums**: **Alignment Forum** (alignmentforum.org — priority; major safety papers appear here before arXiv), **LessWrong AI tag**
-- **Academic labs**: Stanford HAI, BAIR, Allen Institute for AI (AI2), EleutherAI
-
-### Technical Blogs
-- Major labs: Anthropic, OpenAI, Google DeepMind, Meta AI, Hugging Face, Microsoft Research, Microsoft Azure AI, Apple ML Research, Amazon Science
-- **Infra companies**: NVIDIA (Developer + News), Cerebras, Groq, Lambda Labs, CoreWeave, Fireworks AI, Anyscale, Weights & Biases, vLLM, Scale AI, Databricks, Ollama, CrewAI, **Modal**, **Microsoft Semantic Kernel / AutoGen**
-- **AI-only media**: The Decoder, VentureBeat AI, MIT Technology Review, Ars Technica AI, IEEE Spectrum, The Information, ML News
-- Framework blogs: LangChain, LlamaIndex, Cohere, Mistral, Together AI
-- **Individual researchers**: Lilian Weng, Simon Willison, Sebastian Raschka, Andrej Karpathy, Chip Huyen, Nathan Lambert, Dwarkesh Patel, Ethan Mollick, Dan Hendrycks, Percy Liang, **François Chollet**, **Gary Marcus**, **Cameron Wolfe**
-
-### Analyst & Industry
-- Tier-1: Gartner, Forrester, IDC, McKinsey, BCG, Deloitte
-- Research: Stanford HAI AI Index, RAND, Epoch AI, AI Now Institute, OECD AI, Brookings
-- **VC firms**: a16z AI, Sequoia Capital AI
-- Independent: AI Snake Oil, Import AI (Jack Clark), The Gradient, Stratechery
-
-### AI Security
-- Standards: OWASP LLM Top 10, OWASP AI Exchange, MITRE ATLAS, MITRE CVE, NIST AI RMF
-- **Government agencies**: CISA (US), ENISA (EU), NCSC (UK)
-- Research: AI Village, **Lakera** (blog + research + news), **HiddenLayer** (adversarial ML — Policy Puppetry, EchoGram), **Embrace the Red** (Johann Rehberger's prompt injection CVE research), **Snyk Labs / ex-Invariant Labs** (MCP security — Tool Poisoning Attacks, MCP-Scan), Protect AI, Adversa AI, Trail of Bits, Microsoft Security
-- News: Dark Reading, Wired, Krebs on Security
-
-### Regulatory & Policy
-- **Government primary**: EU Commission AI Act, UK AI Safety Institute, White House OSTP, FTC (US), UK ICO, Canada AIDA, Future of Life Institute
-- Legal commentary: IAPP, Covington (Inside Privacy + Inside Global Tech), HSF Kramer *Behind the Prompt*
-- **Policy think tanks**: **Ada Lovelace Institute** (rigorous UK AI governance research), **Center for Democracy & Technology** (US civil liberties + FTC enforcement), **EFF** (IP, surveillance, civil liberties dimensions)
-
-### Agent Era & Technical Workflows
-- Vellum AI Blog, ByteByteGo, **LangChain / LangGraph Blog** (agent framework releases, State of Agent Engineering reports), **Pydantic AI** (production agent framework with first-class MCP support), **Composio** (MCP tool integration layer), **HuggingFace Agents tag**
-
-### Open Source & Infrastructure
-- HuggingFace blog and model hub, vLLM, Ollama, Anyscale, SemiAnalysis
-
-### Macro & Hardware Watch
-- **Primary**: NVIDIA News, NVIDIA Developer Blog, **AMD AI / ROCm blog** (MI300X/MI350 — genuine NVIDIA alternative for inference)
-- **Infrastructure press**: The Next Platform, Datacenter Dynamics, Computing.co.uk
-- Analysis: SemiAnalysis, **Chips and Cheese** (deep chip architecture), **Fabricated Knowledge** (semiconductor supply chain), Cerebras, Groq, Tom's Hardware
-
-### Model Evaluations & Transparency
-- LMSYS blog and Chatbot Arena, Artificial Analysis, Scale AI SEAL leaderboard, HELM (Stanford CRFM), **LiveBench**, **AlpacaEval**, HuggingFace Open LLM Leaderboard, WhatLLM.org
-
-### Product & Company News
-- OpenRouter, LMSYS Chatbot Arena, Crunchbase, TechCrunch AI, Axios AI, LinkedIn
-
-### Newsletters & Podcasts (secondary sources)
-Used to identify stories — content is filed under the appropriate primary category and always cites the original source, not the newsletter/podcast.
-- **The Batch** (deeplearning.ai) — Andrew Ng's curation; surfaces enterprise adoption signals
-- **Latent Space** — developer interviews, often first to surface new research directions
-- **TWIML AI Podcast** — technical ML and AI interviews, strong on production and hardware
-
----
-
-## Skill configuration
-
-Defined in `.claude/skills/newsletter-ai/SKILL.md`:
-
-| Frontmatter field | Value | Effect |
-|---|---|---|
-| `name` | `newsletter-ai` | Invoked as `/newsletter-ai` |
-| `disable-model-invocation` | `true` | Only runs when you explicitly call `/newsletter-ai` |
-| `allowed-tools` | `WebSearch, WebFetch, Bash, Write` | Granted without per-use approval (`Bash`/`Write` used for vault and web output) |
-| `argument-hint` | `[topic-focus or date-range or vault:~/path or web:~/path, optional]` | Shown in autocomplete |
-
----
-
-## Where to run the skill
-
-The skill supports two outputs — Obsidian vault and web publish — and which ones are produced depends on where and how you invoke it:
-
-| How you run it | Obsidian vault | Web publish |
-|---|---|---|
-| `/newsletter-ai` locally | ✅ Written to `~/Documents/AI-Newsletter-Vault/` | ❌ |
-| `/newsletter-ai vault:~/path web:~/my-astro-site` locally | ✅ | ✅ |
-| GitHub Actions (automated weekly) | ❌ Runner is ephemeral — files don't persist | ✅ |
-
-To get both outputs in one run, invoke the skill locally with both arguments:
-
-```
-/newsletter-ai vault:~/Documents/AI-Newsletter-Vault/ web:~/my-astro-site
-```
-
----
-
-## Scheduled automation
-
-The skill can run on a weekly schedule using GitHub Actions — no local machine required. A cron workflow installs Claude Code CLI on a GitHub runner, loads the skill from your Astro repo, and pushes the new issue, triggering deployment automatically.
-
-**One-time setup (three steps):**
-
-1. Copy the skill files into your Astro repo:
-   ```bash
-   cp -r ~/.claude/skills/newsletter-ai/ ~/my-astro-site/.claude/skills/newsletter-ai/
-   ```
-2. Add `.github/workflows/newsletter.yml` to your Astro repo (see [Customising → Scheduled automation](docs/customising.md#scheduled-automation-github-actions) for the full workflow file)
-3. Add `ANTHROPIC_API_KEY` to your repo's GitHub Secrets
-
-After that, a new issue publishes every Friday at 09:00 UTC. Manual runs are available any time from the **Actions** tab.
-
-> The Obsidian vault is not written during automated runs — the runner is ephemeral. Run the skill locally with `vault:~/path` when you want a vault copy.
-
----
-
-## Quick start — claude-hacks
-
-### Install
+This repo also contains the `claude-hacks` skill, which curates Claude Code productivity hacks into an [awesome-list](https://github.com/ChrisAdkin8/claude-code-hacks)-style README.
 
 ```bash
-mkdir -p ~/.claude/skills/claude-hacks
 cp -r .claude/skills/claude-hacks/ ~/.claude/skills/claude-hacks/
 ```
 
-### Run it
-
 ```
-/claude-hacks
-```
-
-By default writes to `~/claude-code-hacks/`. Pass a custom repo path with `repo:`:
-
-```
+/claude-hacks                                  # Writes to ~/claude-code-hacks/
 /claude-hacks repo:~/my-lists/claude-code-hacks
 ```
 
-Each run appends only new items to the README — no duplicates, no regeneration. On first run it creates the full awesome-list README structure. A GitHub repo to push to is required (run `gh repo create claude-code-hacks --public --source=. --push` once to set it up).
+Each run appends only new items — no duplicates, no regeneration. On first run it creates the full README structure. A target GitHub repo is required (`gh repo create claude-code-hacks --public --source=. --push`).
 
-### What it searches
-
-Reddit (r/ClaudeAI, r/AIdev), Hacker News, X/Twitter (@bcherny, @simonw), GitHub repos and gists, Anthropic official docs and blog, YouTube tutorials, personal blogs (Simon Willison etc.), MCP ecosystem (modelcontextprotocol.io, Composio), and podcasts as secondary sources.
-
-### What it produces
-
-An [awesome-list](https://github.com/ChrisAdkin8/claude-code-hacks) style README with 9 sections:
-
-| Section | Covers |
-|---|---|
-| Setup & Configuration | Initial setup, model selection, global config |
-| CLAUDE.md Recipes | CLAUDE.md patterns, instruction templates, memory configs |
-| Prompt Techniques | Prompting strategies, request phrasing, conversation management |
-| MCP Servers & Tools | MCP servers that extend Claude Code's capabilities |
-| Custom Skills & Commands | Slash commands, SKILL.md files, repeatable workflows |
-| Agentic Workflows | Multi-step autonomous tasks, subagent patterns, plan mode |
-| IDE & Editor | VS Code, Cursor, JetBrains, keyboard shortcuts |
-| CI/CD & Automation | GitHub Actions, headless `claude -p`, scheduled automation |
-| Video Tutorials | YouTube walkthroughs and screencasts |
-
----
-
-## Docs — newsletter-ai
-
-- [How it works](docs/how-it-works.md) — the 6-step workflow including Obsidian vault output and web publishing
-- [Sources](docs/sources.md) — full annotated source list
-- [Customising](docs/customising.md) — adding sources, changing format, configuring vault path, scheduled automation
-
----
-
-## Global CLAUDE.md
-
-The skill's token efficiency rules live in `~/.claude/CLAUDE.md` under a `## Newsletter Skill` section so they apply regardless of working directory. The section was added alongside this skill.
-
-A review of the full global `~/.claude/CLAUDE.md` identified three improvements:
-
-### 1. ~~Subagent Strategy rule is too broad~~ ✓ applied
-
-Added an exception for `WebSearch`-heavy tasks: parallel subagents each consume independent search quota and can exhaust it simultaneously while producing nothing. Sequential execution is required for `/newsletter-ai` and similar tasks.
-
-### 2. Hardcoded project paths in a global file — left as-is
-
-`tasks/todo.md` and `tasks/lessons.md` are a deliberate personal convention. Generalising to vague language would weaken the instructions. Treat these paths as the standard for any project.
-
-### 3. ~~Self-Improvement Loop should point to auto-memory~~ ✓ applied
-
-Rule now distinguishes:
-- **Per-project lessons** → `tasks/lessons.md` (regression guards specific to the codebase)
-- **Cross-project lessons** → `~/.claude/projects/.../memory/MEMORY.md` (patterns that should persist across all sessions)
+The skill searches Reddit (r/ClaudeAI, r/AIdev), Hacker News, X/Twitter (@bcherny, @simonw), GitHub repos and gists, Anthropic docs and blog, YouTube tutorials, personal blogs, and the MCP ecosystem. The output README has nine sections: Setup & Configuration, CLAUDE.md Recipes, Prompt Techniques, MCP Servers & Tools, Custom Skills & Commands, Agentic Workflows, IDE & Editor, CI/CD & Automation, and Video Tutorials.

@@ -288,6 +288,19 @@ Primary government sources for operational AI security guidance — essential al
 
 **Search strategy**: `site:cisa.gov AI`, `site:enisa.europa.eu "artificial intelligence"`, `site:ncsc.gov.uk AI`.
 
+### Threat intelligence labs
+
+These labs publish the actual zero-day disclosures, campaign analyses, and incident write-ups — they break the stories that corporate security blogs (Lakera, HiddenLayer) interpret. Distinct from §5 vendor security blogs in that their primary output is threat reporting, not product marketing.
+
+| Lab | URL | Focus |
+|---|---|---|
+| Google Threat Intelligence Group (GTIG) | https://cloud.google.com/blog/topics/threat-intelligence | AI-assisted attacks, zero-day discovery, state-sponsored campaigns — publishes Google's confirmed AI exploit disclosures |
+| Microsoft Threat Intelligence | https://www.microsoft.com/en-us/security/blog/topic/threat-intelligence/ | Enterprise threat actor reporting, AI-assisted intrusions, ransomware campaigns |
+| Palo Alto Unit 42 | https://unit42.paloaltonetworks.com | MCP attack vectors, prompt injection research, agent framework vulnerabilities |
+| Mandiant (Google Cloud) | https://cloud.google.com/blog/topics/threat-intelligence/mandiant | Incident response, nation-state AI use, breach forensics |
+
+**Search strategy**: `site:cloud.google.com/blog "threat intelligence"`, `site:microsoft.com/en-us/security/blog "threat intelligence"`, `site:unit42.paloaltonetworks.com`, `"GTIG" OR "Mandiant" AI 2026`.
+
 ### Security research & news
 
 | Source | URL | Focus |
@@ -307,6 +320,10 @@ Primary government sources for operational AI security guidance — essential al
 | Wired AI & Security | https://www.wired.com/tag/artificial-intelligence/ | Mainstream AI security incidents |
 | Dark Reading AI | https://www.darkreading.com/keyword/artificial-intelligence | Enterprise security practitioner coverage |
 | Krebs on Security (AI-related) | https://krebsonsecurity.com | High-quality incident coverage |
+| The Hacker News | https://thehackernews.com | Fast, detailed AI security incident coverage; consistently first to publish AI exploit and vulnerability stories |
+| The Register (AI/ML) | https://www.theregister.com/ai-and-ml/ | Sceptical, technically literate AI and security incident reporting |
+| CyberScoop | https://cyberscoop.com | Government cybersecurity reporting; strong on CISA, NSA, and Five Eyes advisories |
+| Bloomberg Cyber | https://www.bloomberg.com/cybersecurity | Breaking enterprise incidents and AI-related breach disclosures (paywalled) |
 
 **Search strategy**: `site:owasp.org LLM`, `site:cisa.gov AI security`, `site:lakera.ai/research`, `site:hiddenlayer.com/innovation-hub`, `site:embracethered.com`, `site:invariantlabs.ai`, `"prompt injection" site:github.com`, `"AI security" CVE 2026`, `MITRE ATLAS new technique`, `MCP security vulnerability 2026`.
 
@@ -339,6 +356,8 @@ Track government, legal, and compliance developments. **Always go to primary gov
 | Source | URL | Covers |
 |---|---|---|
 | European Commission — AI Act | https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai | EU AI Act implementation, delegated acts, enforcement |
+| EU Council (Consilium) | https://www.consilium.europa.eu/en/press/press-releases/ | Council press releases — political agreements (e.g. AI omnibus deal) land here before Commission digital strategy |
+| European Parliament — AI | https://www.europarl.europa.eu/topics/en/artificial-intelligence | Parliament position, plenary votes, MEP statements on AI legislation |
 | UK AI Safety Institute | https://www.gov.uk/government/organisations/ai-safety-institute | UK frontier AI safety, evaluations, international coordination |
 | White House OSTP | https://www.whitehouse.gov/ostp/ | US AI executive policy, national strategy |
 | FTC (US) | https://www.ftc.gov/policy/advocacy-research/tech-at-ftc | US enforcement on AI deception, unfair practices, data misuse |
@@ -346,7 +365,7 @@ Track government, legal, and compliance developments. **Always go to primary gov
 | Canada AI (AIDA) | https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai.html | First G7 AI legislation (Artificial Intelligence and Data Act) |
 | Future of Life Institute | https://futureoflife.org/ | AI policy advocacy, open letters, international governance |
 
-**Search strategy**: `"EU AI Act" enforcement site:ec.europa.eu`, `site:gov.uk "AI Safety Institute"`, `site:ftc.gov AI`, `site:ico.org.uk artificial-intelligence`, `"AIDA" Canada AI legislation`.
+**Search strategy**: `"EU AI Act" enforcement site:ec.europa.eu`, `site:consilium.europa.eu AI`, `site:europarl.europa.eu artificial-intelligence`, `site:gov.uk "AI Safety Institute"`, `site:ftc.gov AI`, `site:ico.org.uk artificial-intelligence`, `"AIDA" Canada AI legislation`.
 
 ### Legal & compliance commentary
 

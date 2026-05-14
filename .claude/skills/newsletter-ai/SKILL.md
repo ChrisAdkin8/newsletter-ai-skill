@@ -1,7 +1,7 @@
 ---
 name: newsletter-ai
 description: Curate a newsletter covering agentic AI and LLM news across 12 categories: community (Reddit incl. r/MLOps, Hacker News, X/Twitter), research and alignment safety labs (ARC, CAIUS, Apollo, METR, Redwood, FAR AI, BAIR, AI2, Alignment Forum, LessWrong), technical blogs and infra companies (NVIDIA, W&B, vLLM, Databricks, Ollama, CrewAI, Modal, Microsoft Semantic Kernel), AI-only media (MIT Tech Review, Ars Technica, IEEE Spectrum), individual writers (Chollet, Marcus, Wolfe), analyst and VC reports (Gartner, a16z, Sequoia, Brookings), AI security (OWASP, MITRE, NIST, CISA, ENISA, NCSC, Trail of Bits, Lakera, HiddenLayer, Embrace the Red, Snyk Labs), regulatory/policy (EU Commission, UK AISI, FTC, ICO, OSTP, Future of Life Institute, Ada Lovelace Institute, CDT, EFF), agent era (LangChain, Pydantic AI, Composio, HF Agents), open-source infra, macro/hardware (NVIDIA, AMD, Next Platform, Datacenter Dynamics, Chips and Cheese, Fabricated Knowledge), model evaluations (LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench, AlpacaEval), and newsletters/podcasts as secondary sources (The Batch, Latent Space, TWIML). Use when the user asks for AI news, an LLM digest, an agentic AI roundup, or a newsletter.
-argument-hint: "[topic-focus or date-range or vault:~/path or web:~/path/to/astro-site, optional]"
+argument-hint: "[topic-focus or date-range or vault:~/path or web:~/path/to/hugo-site, optional]"
 disable-model-invocation: true
 allowed-tools: WebSearch, WebFetch, Bash, Write
 model: claude-opus-4-6
@@ -174,31 +174,35 @@ Source notes      → ~/Documents/AI-Newsletter-Vault/sources/ (created on first
 
 ## Step 6: Publish to web (optional)
 
-Only run this step if the user passed a `web:` argument (e.g. `/newsletter-ai web:~/my-astro-site`). If no `web:` argument was given, skip this step entirely.
+Only run this step if the user passed a `web:` argument (e.g. `/newsletter-ai web:~/my-hugo-site` or `/newsletter-ai web:./site` for this repo's built-in site). If no `web:` argument was given, skip this step entirely.
 
-This step publishes the newsletter to an [Astro Paper](https://github.com/satnaing/astro-paper) static site that auto-deploys to Vercel or Netlify on push. One-time setup: create the Astro project, connect it to a GitHub repo, and link that repo to Vercel or Netlify free tier — thereafter every push deploys automatically.
+This step publishes the newsletter to a [Hugo](https://gohugo.io) static site themed with [PaperMod](https://github.com/adityatelange/hugo-PaperMod) that auto-deploys to **Cloudflare Pages** on push. One-time setup: scaffold the Hugo site (the in-repo `site/scripts/bootstrap.sh` does this — a single Go binary plus a vendored, frozen theme copy, no npm), connect the GitHub repo to Cloudflare Pages, and every push to `main` triggers an automatic deploy. Vercel and Netlify also work; their Hugo support is built in.
 
 ### 6a. Extract the web repo path
 
 Parse the `web:` value from `$ARGUMENTS`, expanding `~` to the user's home directory.
 
-### 6b. Write the issue to the Astro content directory
+### 6b. Write the issue to the Hugo content directory
 
-Write `{WEB_REPO}/src/data/blog/YYYY-MM-DD.md` with Astro Paper-compatible frontmatter and the clean newsletter body.
+Write `{WEB_REPO}/content/posts/YYYY-MM-DD.md` with Hugo + PaperMod-compatible frontmatter and the clean newsletter body.
 
-**Frontmatter** (Astro Paper conventions):
+**Frontmatter** (Hugo + PaperMod conventions):
 
 ```yaml
 ---
 title: "Agentic AI & LLM Weekly — YYYY-Www"
-pubDatetime: YYYY-MM-DDT09:00:00Z
-description: "[one-sentence theme from the newsletter's opening framing line]"
+date: YYYY-MM-DDT09:00:00Z
+draft: false
+summary: "[one-sentence theme from the newsletter's opening framing line]"
+description: "[same as summary — used in <meta> tags]"
 tags:
   - newsletter
   - agentic-ai
   - weekly
-featured: false
-draft: false
+ShowToc: true
+TocOpen: false
+ShowReadingTime: true
+ShowBreadCrumbs: true
 ---
 ```
 
@@ -208,17 +212,17 @@ draft: false
 
 ```bash
 cd {WEB_REPO} && \
-  git add src/data/blog/YYYY-MM-DD.md && \
+  git add content/posts/YYYY-MM-DD.md && \
   git commit -m "Newsletter YYYY-MM-DD" && \
   git push
 ```
 
-Vercel and Netlify pick up the push and deploy within ~30 seconds.
+Cloudflare Pages picks up the push and deploys within ~30 seconds.
 
 ### 6d. Confirm
 
 Append to the confirmation block from Step 5e:
 
 ```
-Web publish       → {WEB_REPO}/src/data/blog/YYYY-MM-DD.md (pushed)
+Web publish       → {WEB_REPO}/content/posts/YYYY-MM-DD.md (pushed)
 ```

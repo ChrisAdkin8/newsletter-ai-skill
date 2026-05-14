@@ -59,13 +59,13 @@ The `newsletter-ai` skill runs a 6-step curation workflow when you invoke `/news
                  ▼  (if web: argument given)
 ┌─────────────────────────────────┐
 │  Step 6: Web Publish (optional) │
-│  Write Astro-compatible .md     │
+│  Write Hugo-compatible .md      │
 │  git commit + push              │
-│  Vercel/Netlify auto-deploys    │
+│  Cloudflare Pages auto-deploys  │
 └────────────────┬────────────────┘
                  │
                  ▼
-   https://your-site.vercel.app/
+   https://your-site.pages.dev/
 ```
 
 ---
@@ -201,34 +201,42 @@ Canvas files are static — they describe the system structure and are only writ
 
 ## Step 6: Web publish (optional)
 
-Only runs when you pass a `web:` argument: `/newsletter-ai web:~/my-astro-site`.
+Only runs when you pass a `web:` argument:
 
-Claude writes the issue as an [Astro Paper](https://github.com/satnaing/astro-paper)-compatible markdown file to `{WEB_REPO}/src/data/blog/YYYY-MM-DD.md` with the correct frontmatter, then runs `git commit && git push`. Vercel or Netlify picks up the push and deploys the site automatically — typically within 30 seconds.
+- `/newsletter-ai web:./site` — this repo's bundled Hugo + PaperMod site (auto-deploys to Cloudflare Pages)
+- `/newsletter-ai web:~/my-hugo-site` — your own separate Hugo repo
+
+Claude writes the issue as a [Hugo](https://gohugo.io) + [PaperMod](https://github.com/adityatelange/hugo-PaperMod)-compatible markdown file to `{WEB_REPO}/content/posts/YYYY-MM-DD.md` with the correct frontmatter, then runs `git commit && git push`. **Cloudflare Pages** picks up the push and deploys the site automatically — typically within 30 seconds. Vercel and Netlify also support Hugo natively.
 
 The web version uses the clean newsletter body from Step 3 (identical to the chat output). Obsidian wikilinks are not included.
 
-**Frontmatter written for Astro Paper:**
+**Frontmatter written for Hugo + PaperMod:**
 
 ```yaml
 ---
 title: "Agentic AI & LLM Weekly — YYYY-Www"
-pubDatetime: YYYY-MM-DDT09:00:00Z
-description: "[one-sentence theme]"
+date: YYYY-MM-DDT09:00:00Z
+draft: false
+summary: "[one-sentence theme]"
+description: "[same as summary]"
 tags:
   - newsletter
   - agentic-ai
   - weekly
-featured: false
-draft: false
+ShowToc: true
+TocOpen: false
+ShowReadingTime: true
+ShowBreadCrumbs: true
 ---
 ```
 
 **One-time setup** (outside the skill):
-1. `npm create astro@latest -- --template satnaing/astro-paper`
-2. Push to a GitHub repo
-3. Connect the repo to [Vercel](https://vercel.com) or [Netlify](https://netlify.com) free tier
+1. Install Hugo Extended locally (`brew install hugo` on macOS, see [Hugo releases](https://github.com/gohugoio/hugo/releases) for other platforms)
+2. Run `./site/scripts/bootstrap.sh` to scaffold the bundled Hugo + PaperMod site (or follow [Customising → Option B](customising.md#option-b--separate-hugo-repo-manual-local-publishing) for a separate repo)
+3. Push to GitHub
+4. Connect the repo to [Cloudflare Pages](https://dash.cloudflare.com/) — set `HUGO_VERSION` in the build environment
 
-After that, every `/newsletter-ai web:~/my-astro-site` run auto-publishes. See [Customising → Web publishing](customising.md#web-publishing-astro--vercel) for full details.
+After that, every `/newsletter-ai web:./site` (or `web:~/my-hugo-site`) run auto-publishes. See [Customising → Web publishing](customising.md#web-publishing-hugo--papermod-on-cloudflare-pages) for full details.
 
 ---
 
@@ -257,6 +265,7 @@ Argument passing:
 /newsletter-ai last 14 days                             # Extends the time window
 /newsletter-ai open-source models only                  # Topic-scoped
 /newsletter-ai vault:~/Obsidian/AI-News/                # Custom vault path
-/newsletter-ai web:~/my-astro-site                      # Auto-publish to website
-/newsletter-ai vault:~/Obsidian/ web:~/my-astro-site    # Both vault and web
+/newsletter-ai web:./site                               # Publish via this repo's bundled site
+/newsletter-ai web:~/my-hugo-site                       # Publish to a separate Hugo + PaperMod repo
+/newsletter-ai vault:~/Obsidian/ web:./site             # Both vault and web
 ```

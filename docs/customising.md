@@ -153,62 +153,97 @@ Change this to adjust the writing tone for the whole newsletter. Examples:
 
 ---
 
-## Web publishing (Astro + Vercel)
+## Web publishing (Hugo + PaperMod on Cloudflare Pages)
 
-The skill can auto-publish each issue to a public website using an [Astro Paper](https://github.com/satnaing/astro-paper) static site deployed on Vercel or Netlify. The site gives you dark mode, full-text archives, tag filtering, RSS, and fast CDN delivery — all for free.
+The skill can auto-publish each issue to a public website using a [Hugo](https://gohugo.io) static site themed with [PaperMod](https://github.com/adityatelange/hugo-PaperMod) and deployed on **Cloudflare Pages**. You get dark mode, full-text search, tag pages, archive view, RSS, and fast CDN delivery — all on a free tier with **unlimited bandwidth**.
 
-### One-time setup
+Vercel and Netlify both support Hugo natively if you prefer them.
 
-**1. Create the Astro site:**
+**Why Hugo + PaperMod over npm-based stacks?** One Go binary plus one theme repo to audit, no transitive dependency tree, builds in under a second, and no exposure to npm supply-chain incidents (Shai-Hulud, `eslint-config-prettier`, `node-ipc`, etc.).
+
+### Option A — in-repo (recommended for scheduled publishing)
+
+This repo ships a `site/` directory and a `.github/workflows/newsletter.yml` workflow that publish a new issue every Friday.
+
+**Prerequisite:** Hugo Extended on your local PATH (`brew install hugo` on macOS).
+
+**1. Scaffold the site:**
 
 ```bash
-npm create astro@latest -- --template satnaing/astro-paper
-cd my-astro-site
-git init && git add . && git commit -m "Initial Astro Paper site"
+./site/scripts/bootstrap.sh
+git add site/ && git commit -m "Scaffold Hugo + PaperMod site"
+git push
 ```
 
-**2. Push to GitHub:**
+The bootstrap script verifies your Hugo version, initialises a Hugo site, clones PaperMod at the pinned ref (`v8.0` by default), strips the `.git` directory to vendor it as a frozen copy, and records the resolved commit SHA in `site/themes/PaperMod/.papermod-sha`. See [`site/README.md`](../site/README.md) for the full rationale and how to bump PaperMod later.
+
+**2. Connect Cloudflare Pages:**
+
+[Cloudflare dashboard](https://dash.cloudflare.com/) → Workers & Pages → Create → Pages → Connect to Git → select your repo, then set:
+
+| Setting | Value |
+|---|---|
+| Production branch | `main` |
+| Framework preset | Hugo |
+| Build command | `cd site && hugo --gc --minify` |
+| Build output directory | `site/public` |
+| Environment variable | `HUGO_VERSION=0.135.0` *(or whatever you have locally)* |
+
+**3. Add `ANTHROPIC_API_KEY`** to **Settings → Secrets and variables → Actions**.
+
+That's it. The scheduled workflow generates the newsletter, writes `site/content/posts/YYYY-MM-DD.md`, and pushes. Cloudflare Pages auto-deploys within ~30 seconds.
+
+### Option B — separate Hugo repo (manual local publishing)
+
+If you'd rather keep the site in its own repo:
 
 ```bash
+hugo new site my-newsletter-site --format toml
+cd my-newsletter-site
+git clone --depth 1 --branch v8.0 \
+  https://github.com/adityatelange/hugo-PaperMod.git themes/PaperMod
+rm -rf themes/PaperMod/.git           # vendor as frozen copy
+echo 'theme = "PaperMod"' >> hugo.toml
+git init && git add . && git commit -m "Initial Hugo + PaperMod site"
 gh repo create my-newsletter-site --public --push
 ```
 
-**3. Connect to Vercel (free tier):**
-
-Go to [vercel.com](https://vercel.com), click **Add New Project**, import the GitHub repo, and click **Deploy**. That's it — Vercel auto-deploys on every `git push`.
-
-*(Netlify works identically — drag the repo into [netlify.com](https://netlify.com) → **Import from Git**.)*
+Then connect that repo to Cloudflare Pages (same dashboard steps as Option A).
 
 ### Using it
 
-Pass the path to your Astro repo when invoking the skill:
+Pass the path to your Hugo repo when invoking the skill:
 
 ```
-/newsletter-ai web:~/my-astro-site
-/newsletter-ai vault:~/Obsidian/AI-News/ web:~/my-astro-site
+/newsletter-ai web:./site                          # Option A — this repo
+/newsletter-ai web:~/my-newsletter-site            # Option B — separate repo
+/newsletter-ai vault:~/Obsidian/AI-News/ web:./site
 ```
 
-The skill writes `src/data/blog/YYYY-MM-DD.md` with Astro Paper-compatible frontmatter and the clean newsletter body, then runs `git commit && git push`. Vercel deploys within ~30 seconds.
+The skill writes `<web-path>/content/posts/YYYY-MM-DD.md` with Hugo + PaperMod-compatible frontmatter and the clean newsletter body, then runs `git commit && git push`. Cloudflare Pages deploys within ~30 seconds.
 
 ### Changing the default web path permanently
 
 Edit `SKILL.md` Step 6a to hard-code your repo path instead of reading it from `$ARGUMENTS`:
 
 ```markdown
-**Web repo path**: `~/my-astro-site`
+**Web repo path**: `./site`
 ```
 
 Then invoke the skill without the `web:` argument and it will always publish.
 
 ### What the site looks like
 
-Each issue becomes a post at `https://your-site.vercel.app/posts/YYYY-MM-DD`. The Astro Paper theme provides:
+Each issue becomes a post at `https://your-site.pages.dev/posts/YYYY-MM-DD/`. PaperMod provides:
 
-- Chronological issue archive on the home page
-- Tag pages (e.g. `/tags/newsletter`) grouping all issues
-- RSS feed at `/rss.xml`
+- Chronological post list on the home page with reading time + summary
+- Archive page at `/archives/` with one-line entries grouped by year
+- Tag pages (e.g. `/tags/newsletter/`) grouping all issues with that tag
+- Full-text search via the built-in Fuse-style index
+- RSS feed at `/index.xml`
 - Dark/light mode based on system preference
 - Mobile-responsive layout with clean typography
+- Reading time, table of contents, breadcrumbs, and "back to top" on each post
 
 ---
 
@@ -227,79 +262,38 @@ This makes `/newsletter-ai` available only when working inside that project.
 
 ## Scheduled automation (GitHub Actions)
 
-The skill can run on a weekly schedule using GitHub Actions — no local machine required. Claude Code CLI is installed on the runner, the skill is loaded from your Astro repo, and the generated issue is committed and pushed, triggering your Vercel or GitHub Pages deployment automatically.
+This repo ships `.github/workflows/newsletter.yml`, a weekly cron workflow that generates the newsletter on a GitHub-hosted runner, commits it to `site/src/data/blog/`, and pushes — Cloudflare Pages then deploys automatically. No local machine required.
 
 ### One-time setup
 
-**1. Copy the skill files into your Astro repo:**
+**1. Scaffold the Hugo site** (only needed once — see [Web publishing → Option A](#option-a--in-repo-recommended-for-scheduled-publishing) above):
 
 ```bash
-mkdir -p ~/my-astro-site/.claude/skills/newsletter-ai
-cp ~/.claude/skills/newsletter-ai/* ~/my-astro-site/.claude/skills/newsletter-ai/
+./site/scripts/bootstrap.sh
+git add site/ && git commit -m "Scaffold Hugo + PaperMod site" && git push
 ```
 
-**2. Create the workflow file** at `.github/workflows/newsletter.yml` in your Astro repo:
-
-```yaml
-name: Generate Weekly Newsletter
-
-on:
-  schedule:
-    - cron: '0 9 * * 5'  # Every Friday at 09:00 UTC
-  workflow_dispatch:       # Allow manual trigger from GitHub UI
-
-permissions:
-  contents: write
-
-jobs:
-  generate:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install Claude Code CLI
-        run: npm install -g @anthropic-ai/claude-code
-
-      - name: Install newsletter skill
-        run: |
-          mkdir -p ~/.claude/skills
-          cp -r .claude/skills/newsletter-ai ~/.claude/skills/
-
-      - name: Configure git
-        run: |
-          git config user.name "Newsletter Bot"
-          git config user.email "bot@yourdomain.com"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-
-      - name: Generate and publish newsletter
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          claude --dangerously-skip-permissions -p "/newsletter-ai web:$(pwd)"
-
-      - name: Push any unpushed changes
-        run: |
-          git add src/data/blog/ || true
-          git diff --staged --quiet || git commit -m "Newsletter $(date -u +%Y-%m-%d)"
-          git push || true
-```
-
-**3. Add your Anthropic API key as a GitHub secret:**
+**2. Add your Anthropic API key as a GitHub secret:**
 
 Go to `https://github.com/YOUR-ORG/YOUR-REPO/settings/secrets/actions`, click **New repository secret**, and add:
 
 - **Name:** `ANTHROPIC_API_KEY`
 - **Value:** your key from [console.anthropic.com](https://console.anthropic.com)
 
+**3. Connect the repo to Cloudflare Pages** (one-time dashboard step — see [Web publishing → Option A](#option-a--in-repo-recommended-for-scheduled-publishing) above for the exact build settings).
+
 That's it. A new issue publishes every Friday at 09:00 UTC. You can also trigger a run at any time from the **Actions** tab → **Generate Weekly Newsletter** → **Run workflow**.
+
+### Supply-chain protections in the workflow
+
+The shipped workflow's only npm dependency is the Claude Code CLI itself, installed inside the GitHub-hosted runner. Mitigations applied:
+
+- Claude Code CLI is installed at a **pinned version** with `--ignore-scripts` (no postinstall code runs)
+- The Cloudflare Pages build runs only Hugo — no `npm install` is ever invoked there
+- PaperMod is vendored as a frozen copy at a known commit SHA, recorded in `site/themes/PaperMod/.papermod-sha`
+- `.github/dependabot.yml` scans GitHub Actions versions weekly
+
+Bump `CLAUDE_CODE_VERSION` in the workflow file only after reviewing the upstream release. Bump PaperMod by re-running the bootstrap script with `PAPERMOD_REF=<new-ref>` and committing the result (see [`site/README.md`](../site/README.md#updating-papermod)).
 
 ### Changing the schedule
 
@@ -313,11 +307,14 @@ Edit the `cron` expression in the workflow file. Examples:
 
 ### Keeping skill files in sync
 
-When you update the skill (e.g. add a source to `sources.md`), copy the updated files into the Astro repo and commit:
+When you update the skill (e.g. add a source to `sources.md`):
+
+- **Option A (in-repo)**: the skill files live in this repo at `.claude/skills/newsletter-ai/`. Just commit and push as normal — the next scheduled workflow run picks up the change.
+- **Option B (separate Hugo repo)**: copy the updated files into that repo and commit:
 
 ```bash
-cp ~/.claude/skills/newsletter-ai/* ~/my-astro-site/.claude/skills/newsletter-ai/
-cd ~/my-astro-site && git add .claude/ && git commit -m "Update newsletter skill" && git push
+cp -r ~/.claude/skills/newsletter-ai/ ~/my-newsletter-site/.claude/skills/newsletter-ai/
+cd ~/my-newsletter-site && git add .claude/ && git commit -m "Update newsletter skill" && git push
 ```
 
 ### Obsidian vault during automated runs

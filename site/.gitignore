@@ -1,0 +1,12 @@
+# Hugo build output
+public/
+resources/_gen/
+.hugo_build.lock
+hugo_stats.json
+
+# Hugo cache
+.cache/
+
+# Editor / OS
+.DS_Store
+*.swp
