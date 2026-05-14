@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           # Use a token that can push back to main; GITHUB_TOKEN suffices when
           # branch protection allows the default actor or this workflow is
