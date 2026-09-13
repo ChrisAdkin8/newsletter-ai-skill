@@ -192,8 +192,8 @@ Next steps:
        git add site/ && git commit -m "Scaffold Hugo + PaperMod site"
   4. Push, then connect this repo to Cloudflare Pages
      (see site/README.md for the dashboard settings)
-  5. Add ANTHROPIC_API_KEY to GitHub repo Secrets so the scheduled
-     newsletter workflow can run
+  5. To publish weekly without you, see docs/customising.md,
+     "Scheduled publishing (launchd)"
 
 ==============================================================================
 EOF

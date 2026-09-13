@@ -163,7 +163,7 @@ Vercel and Netlify both support Hugo natively if you prefer them.
 
 ### Option A — in-repo (recommended for scheduled publishing)
 
-This repo ships a `site/` directory and a `.github/workflows/newsletter.yml` workflow that publish a new issue every Friday.
+This repo ships a `site/` directory that the skill publishes into. To publish every week without you, see [Scheduled publishing (launchd)](#scheduled-publishing-launchd).
 
 **Prerequisite:** Hugo Extended on your local PATH (`brew install hugo` on macOS).
 
@@ -193,9 +193,7 @@ The bootstrap script verifies your Hugo version, initialises a Hugo site, clones
 
 > **Heads-up on path consistency:** root and output must agree. Cloudflare `cd`s into the root directory before building and resolves the output path relative to it, so setting root to `site` *and* output to `site/public` makes it look for `site/site/public` → *"Could not detect a directory containing static files"*. And without `HUGO_VERSION` on Build system v2, the Hugo preset's `npx hugo` step fails with `npm error could not determine executable to run`.
 
-**3. Add `ANTHROPIC_API_KEY`** to **Settings → Secrets and variables → Actions**.
-
-That's it. The scheduled workflow generates the newsletter, writes `site/content/posts/YYYY-MM-DD.md`, and pushes. Cloudflare Pages auto-deploys within ~30 seconds.
+That's it. Each run writes `site/content/posts/YYYY-MM-DD.md` and pushes it, and Cloudflare Pages auto-deploys within ~30 seconds.
 
 ### Option B — separate Hugo repo (manual local publishing)
 
@@ -264,69 +262,4 @@ This makes `/newsletter-ai` available only when working inside that project.
 
 ---
 
-## Scheduled automation (GitHub Actions)
-
-This repo ships `.github/workflows/newsletter.yml`, a weekly cron workflow that generates the newsletter on a GitHub-hosted runner, commits it to `site/content/posts/`, and pushes — Cloudflare Pages then deploys automatically. No local machine required.
-
-> ⚠️ **Cost note:** the workflow runs `claude -p` on a GitHub runner, which authenticates against `ANTHROPIC_API_KEY` and bills your **Anthropic API account per token**. A single full-category run can be costly. If you already have a Claude Code subscription, running `/newsletter-ai web:./site` locally is free (it uses subscription quota) and performs the same commit/push — see [`CLAUDE.md` → Publishing a new issue](../CLAUDE.md#publishing-a-new-issue). Keep the scheduled workflow only if hands-off automation is worth the API cost to you.
-
-### One-time setup
-
-**1. Scaffold the Hugo site** (only needed once — see [Web publishing → Option A](#option-a--in-repo-recommended-for-scheduled-publishing) above):
-
-```bash
-./site/scripts/bootstrap.sh
-git add site/ && git commit -m "Scaffold Hugo + PaperMod site" && git push
-```
-
-**2. Add your Anthropic API key as a GitHub secret:**
-
-Go to `https://github.com/YOUR-ORG/YOUR-REPO/settings/secrets/actions`, click **New repository secret**, and add:
-
-- **Name:** `ANTHROPIC_API_KEY`
-- **Value:** your key from [console.anthropic.com](https://console.anthropic.com)
-
-**3. Connect the repo to Cloudflare Pages** (one-time dashboard step — see [Web publishing → Option A](#option-a--in-repo-recommended-for-scheduled-publishing) above for the exact build settings).
-
-That's it. A new issue publishes every Friday at 09:00 UTC. You can also trigger a run at any time from the **Actions** tab → **Generate Weekly Newsletter** → **Run workflow**.
-
-### Supply-chain protections in the workflow
-
-The shipped workflow's only npm dependency is the Claude Code CLI itself, installed inside the GitHub-hosted runner. Mitigations applied:
-
-- Claude Code CLI is installed at a **pinned version** with `--ignore-scripts` (no postinstall code runs)
-- The Cloudflare Pages build runs only Hugo — no `npm install` is ever invoked there
-- PaperMod is vendored as a frozen copy at a known commit SHA, recorded in `site/themes/PaperMod/.papermod-sha`
-- `.github/dependabot.yml` scans GitHub Actions versions weekly
-
-Bump `CLAUDE_CODE_VERSION` in the workflow file only after reviewing the upstream release. Bump PaperMod by re-running the bootstrap script with `PAPERMOD_REF=<new-ref>` and committing the result (see [`site/README.md`](../site/README.md#updating-papermod)).
-
-### Changing the schedule
-
-Edit the `cron` expression in the workflow file. Examples:
-
-| Cron | Schedule |
-|---|---|
-| `0 9 * * 5` | Every Friday at 09:00 UTC (default) |
-| `0 7 * * 1` | Every Monday at 07:00 UTC |
-| `0 9 1 * *` | First day of each month at 09:00 UTC |
-
-### Keeping skill files in sync
-
-When you update the skill (e.g. add a source to `sources.md`):
-
-- **Option A (in-repo)**: the skill files live in this repo at `.claude/skills/newsletter-ai/`. Just commit and push as normal — the next scheduled workflow run picks up the change.
-- **Option B (separate Hugo repo)**: copy the updated files into that repo and commit:
-
-```bash
-cp -r ~/.claude/skills/newsletter-ai/ ~/my-newsletter-site/.claude/skills/newsletter-ai/
-cd ~/my-newsletter-site && git add .claude/ && git commit -m "Update newsletter skill" && git push
-```
-
-### Obsidian vault during automated runs
-
-The Obsidian vault is **not** written during automated runs — the GitHub Actions runner is ephemeral. Only the web publish step (Step 6) runs. If you want a local vault copy of a particular issue, run the skill manually:
-
-```
-/newsletter-ai vault:~/Documents/AI-Newsletter-Vault/
-```
+## Scheduled publishing (launchd)

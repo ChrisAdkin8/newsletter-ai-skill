@@ -108,15 +108,13 @@ Then connect this repo to Cloudflare Pages (see [`site/README.md`](site/README.m
 | Path | Command | Auth | Cost |
 |---|---|---|---|
 | **Local (recommended)** | `/newsletter-ai web:./site` in Claude Code | Claude Code subscription | Subscription quota — no per-token billing |
-| **Scheduled** | `.github/workflows/newsletter.yml` runs every Friday 09:00 UTC | `ANTHROPIC_API_KEY` secret on the repo | Anthropic API per token — full-category runs add up fast |
+| **Scheduled** | A launchd agent on your Mac — see [`docs/customising.md` → Scheduled publishing (launchd)](docs/customising.md#scheduled-publishing-launchd) | Claude Code subscription | Subscription quota — no per-token billing |
 
 Both paths produce the same output: a Hugo-compatible Markdown file under `site/content/posts/YYYY-MM-DD.md`, committed and pushed. Cloudflare Pages then deploys within ~30 seconds.
 
-Pick the local path if you have a Claude Code subscription and don't mind triggering manually. Pick the scheduled path if you want fully hands-off automation and are happy paying API rates — and remember to add `ANTHROPIC_API_KEY` under **Settings → Secrets and variables → Actions** before the first scheduled run.
-
 See [`CLAUDE.md` → Publishing a new issue](CLAUDE.md#publishing-a-new-issue) for the local flow's pre-flight checklist and recovery steps.
 
-**Supply-chain story**: Hugo is a single Go binary distributed with SHA256SUMS. PaperMod is vendored as a frozen copy pinned to a known commit SHA (recorded in `site/themes/PaperMod/.papermod-sha`). No `npm install` ever runs in this repo for the website build. The only npm exposure is the Claude Code CLI installed in CI, pinned to a specific version with `--ignore-scripts`. Dependabot scans GitHub Actions versions weekly.
+**Supply-chain story**: Hugo is a single Go binary distributed with SHA256SUMS. PaperMod is vendored as a frozen copy pinned to a known commit SHA (recorded in `site/themes/PaperMod/.papermod-sha`). No `npm install` ever runs in this repo for the website build.
 
 Vercel and Netlify both support Hugo natively if you prefer them over Cloudflare Pages.
 
@@ -135,9 +133,6 @@ newsletter-ai-skill/
 ├── site/                                # Hugo + PaperMod static site
 │   ├── README.md                        # Bootstrap + Cloudflare Pages dashboard setup
 │   └── scripts/bootstrap.sh             # Scaffold Hugo site, vendor PaperMod at pinned ref
-├── .github/
-│   ├── workflows/newsletter.yml         # Weekly cron — generate, commit, deploy
-│   └── dependabot.yml                   # Weekly npm + GitHub Actions CVE scans
 ├── CLAUDE.md                            # Project-local Claude Code rules
 └── README.md                            # This file
 ```
