@@ -70,12 +70,12 @@ When `scripts/weekly.sh` runs the skill, it then checks the post, commits and pu
 Claude searches each of the 14 source categories defined in `sources.md`:
 
 1. **Community & Discussion** — Reddit (10 subreddits), Hacker News, X/Twitter (11 key accounts)
-2. **Research & Papers** — arXiv, HuggingFace daily and trending papers, Semantic Scholar; alignment labs (ARC, CAIUS, Apollo, METR, Redwood, FAR AI); academic labs (Stanford HAI, BAIR, AI2, EleutherAI); industry research (Google DeepMind, Microsoft Research, Apple ML, Amazon Science)
+2. **Research & Papers** — arXiv, HuggingFace daily and trending papers, Semantic Scholar; alignment labs (ARC, CAIS, Apollo, METR, Redwood, FAR AI); academic labs (Stanford HAI, BAIR, AI2, EleutherAI); industry research (Google DeepMind, Microsoft Research, Apple ML, Amazon Science)
 3. **Technical Blogs** — Lab blogs, infra companies (NVIDIA, W&B, vLLM, Databricks, Ollama, CrewAI), AI-only media (MIT Tech Review, Ars Technica, IEEE Spectrum, The Information), individual writers (Chollet, Marcus, Wolfe + 10 more)
 4. **Analyst & Industry** — Gartner, McKinsey, Forrester, a16z, Sequoia, Brookings, Stanford HAI AI Index, Epoch AI, OECD AI, etc.
 5. **AI Security** — OWASP, MITRE ATLAS, NIST AI RMF, CISA, ENISA, NCSC, Lakera (blog + research + news), HiddenLayer, Embrace the Red, Snyk Labs (ex-Invariant Labs), Trail of Bits, Microsoft Security
 6. **Product & Company News** — Model releases, funding rounds, TechCrunch AI, Axios AI
-7. **Regulatory & Policy** — EU Commission, UK AISI, White House OSTP, FTC, UK ICO, Canada AIDA, Future of Life Institute, IAPP, Covington, HSF Kramer
+7. **Regulatory & Policy** — EU Commission, UK AISI, White House OSTP, FTC, UK ICO, Canada, Future of Life Institute, IAPP, Covington, HSF Kramer
 8. **Agent Era & Technical Workflows** — Vellum AI, ByteByteGo, LangChain / LangGraph Blog, Pydantic AI
 9. **Open Source & Infrastructure** — HuggingFace, vLLM, Ollama, Anyscale, SemiAnalysis
 10. **Macro & Hardware Watch** — NVIDIA (primary), Next Platform, Datacenter Dynamics, Computing.co.uk, SemiAnalysis

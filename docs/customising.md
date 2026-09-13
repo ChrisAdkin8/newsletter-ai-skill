@@ -11,7 +11,7 @@ Open `.claude/skills/newsletter-ai/sources.md` and add an entry to the relevant 
 **Example — adding a new security blog:**
 
 ```markdown
-| Snyk Security Blog | https://snyk.io/blog/tag/ai-security/ |
+| Wiz Research | https://www.wiz.io/blog | Cloud and AI infrastructure vulnerability research |
 ```
 
 Add it to the table under **5. AI Security → Security research & news**.
