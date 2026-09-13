@@ -12,7 +12,7 @@ The `newsletter-ai` skill runs a 6-step curation workflow when you invoke `/news
         ▼
 ┌─────────────────────────────────┐
 │  Step 1: Gather                 │
-│  Search all 13 source categories│
+│  Search all 14 source categories│
 │  Target: 2–3 items each         │
 └────────────────┬────────────────┘
                  │
@@ -67,10 +67,10 @@ When `scripts/weekly.sh` runs the skill, it then checks the post, commits and pu
 
 ## Step 1: Gather
 
-Claude searches each of the 13 source categories defined in `sources.md`:
+Claude searches each of the 14 source categories defined in `sources.md`:
 
 1. **Community & Discussion** — Reddit (10 subreddits), Hacker News, X/Twitter (11 key accounts)
-2. **Research & Papers** — arXiv, HuggingFace daily papers, Papers with Code, Semantic Scholar; alignment labs (ARC, CAIUS, Apollo, METR, Redwood, FAR AI); academic labs (Stanford HAI, BAIR, AI2, EleutherAI); industry research (Google DeepMind, Microsoft Research, Apple ML, Amazon Science)
+2. **Research & Papers** — arXiv, HuggingFace daily and trending papers, Semantic Scholar; alignment labs (ARC, CAIUS, Apollo, METR, Redwood, FAR AI); academic labs (Stanford HAI, BAIR, AI2, EleutherAI); industry research (Google DeepMind, Microsoft Research, Apple ML, Amazon Science)
 3. **Technical Blogs** — Lab blogs, infra companies (NVIDIA, W&B, vLLM, Databricks, Ollama, CrewAI), AI-only media (MIT Tech Review, Ars Technica, IEEE Spectrum, The Information), individual writers (Chollet, Marcus, Wolfe + 10 more)
 4. **Analyst & Industry** — Gartner, McKinsey, Forrester, a16z, Sequoia, Brookings, Stanford HAI AI Index, Epoch AI, OECD AI, etc.
 5. **AI Security** — OWASP, MITRE ATLAS, NIST AI RMF, CISA, ENISA, NCSC, Lakera (blog + research + news), HiddenLayer, Embrace the Red, Snyk Labs (ex-Invariant Labs), Trail of Bits, Microsoft Security
@@ -82,6 +82,7 @@ Claude searches each of the 13 source categories defined in `sources.md`:
 11. **Model Evaluations & Transparency** — LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench, AlpacaEval, HF Open LLM Leaderboard, WhatLLM.org
 12. **Newsletters & Podcasts** — The Batch, Latent Space, TWIML; secondary sources only, used to find stories whose primary source is then cited
 13. **Cloud Native & CNCF** — CNCF blog and announcements, Kubernetes blog, LWKD; AI-on-Kubernetes projects (Kubeflow, KServe, llm-d, kagent, KAITO, Volcano, HAMi, Dapr, OpenTelemetry); The New Stack
+14. **Trending Open Source AI** — projects gaining traction this week, from GitHub Trending, OSS Insight, Trendshift, Hugging Face trending, Show HN and OpenRouter rankings; each item states its evidence and cites the project itself
 
 The window is the **7 days up to the issue date**. The issue date is today unless `date:` sets it.
 

@@ -102,8 +102,8 @@ LinkedIn posts from named practitioners surface opinions, field notes, and previ
 - Search for: `agentic`, `agent`, `RAG`, `tool use`, `RLHF`, `alignment`, `jailbreak`, `prompt injection`
 - **Hugging Face daily papers**: https://huggingface.co/papers (aggregates top arXiv papers daily)
 
-### Papers with Code
-- **URL**: https://paperswithcode.com/latest
+### Hugging Face Trending Papers (formerly Papers with Code)
+- **URL**: https://huggingface.co/papers/trending (paperswithcode.com now redirects here)
 - Focus on: tasks tagged `language-modelling`, `question-answering`, `agents`, `code-generation`
 
 ### Semantic Scholar
@@ -591,3 +591,47 @@ CNCF maturity as listed in the CNCF landscape on 2026-09-13.
 | KubeWeekly | https://www.cncf.io/kubeweekly/ | The CNCF's weekly digest; secondary, so use it to find stories and cite the primary |
 
 **Search strategy**: `site:cncf.io/blog AI OR agent`, `site:cncf.io/announcements`, `site:kubernetes.io/blog`, `site:lwkd.info`, `site:thenewstack.io kubernetes AI`, `site:llm-d.ai`, `site:kagent.dev`, `KServe release`, `"Dynamic Resource Allocation" GPU kubernetes`, `KubeCon 2026 AI`.
+
+---
+
+## 14. Trending Open Source AI
+
+Open-source AI projects gaining traction this week: agent frameworks, coding agents, inference engines, MCP servers, and evaluation and developer tools. An item here is a project whose adoption grew in the window, not an established project's routine release (that belongs in section 9). Link the repository, or a release inside the window, and state the evidence in the summary with its source: stars gained this week, a trending rank, download growth or usage share.
+
+### Where traction shows
+
+These are lists and dashboards: evidence for a trend, not sources to cite. Fetch the first two directly, once each.
+
+| Source | URL | Signal |
+|---|---|---|
+| GitHub Trending (weekly) | https://github.com/trending?since=weekly | Most stars gained this week; filter by language, e.g. `/trending/python?since=weekly` |
+| OSS Insight Trending | https://ossinsight.io/trending | Trending repos, with star, fork and contributor growth from GitHub event data |
+| OSS Insight Collections | https://ossinsight.io/collections | Rankings within AI collections such as agent frameworks, LLM tools and MCP |
+| Trendshift | https://trendshift.io/ | Daily momentum ranking of GitHub repos, with history |
+| Star History | https://www.star-history.com/ | Star growth curves, to confirm a trend isn't a one-day spike |
+| Hugging Face trending models | https://huggingface.co/models?sort=trending | Open-weight models gaining downloads and likes |
+| Hugging Face trending Spaces | https://huggingface.co/spaces?sort=trending | Demos and apps gaining users |
+| Hugging Face Trending Papers | https://huggingface.co/papers/trending | Papers whose code is catching on |
+| Show HN | https://news.ycombinator.com/show | Launches of new open-source tools, with community reaction |
+| OpenRouter Rankings | https://openrouter.ai/rankings | Token usage by model and app, including open-weight models' share of real traffic |
+| Ollama Library (popular) | https://ollama.com/library?sort=popular | Which open models people run locally |
+| pepy.tech / PyPI Stats | https://pepy.tech/, https://pypistats.org/ | Python package downloads and their growth |
+| npm trends | https://npmtrends.com/ | JavaScript and TypeScript package downloads |
+
+### Foundations and hosts
+
+| Source | URL | Focus |
+|---|---|---|
+| Agentic AI Foundation (AAIF) | https://aaif.io/ | Linux Foundation home for open agent standards and projects: new projects and releases |
+| LF AI & Data | https://lfaidata.foundation/ | Linux Foundation AI and data projects: new hosted projects, graduations |
+| PyTorch Foundation blog | https://pytorch.org/blog/ | PyTorch and the projects the foundation hosts |
+| GitHub Blog — open source | https://github.blog/open-source/ | GitHub's own open-source reports and data |
+
+### Rules for this section
+
+- **Evidence, not hype.** Say what grew, by how much and according to what, e.g. "+6,200 stars this week (GitHub Trending)".
+- **Cite the project.** Link its repository or release, labelled with its publisher ("GitHub" for github.com), not a trending page, listicle or aggregator.
+- **Check the trend is real.** A star spike with little commit, issue or contributor activity is suspect, because fake stars are a known problem. Check Star History or OSS Insight before featuring it.
+- **Skip** awesome-lists, course and tutorial repos, prompt collections, and anything tied to a crypto token.
+
+**Search strategy**: fetch GitHub Trending (weekly) and OSS Insight Trending, pick 2–4 AI projects, and confirm each on Star History. Then search `"Show HN" open source AI agent`, `open source AI agent framework GitHub stars this week`, `site:aaif.io`, `site:lfaidata.foundation`.
