@@ -10,54 +10,36 @@ The run rules live in the skill itself (`.claude/skills/newsletter-ai/SKILL.md`,
 
 ## Publishing a new issue
 
-Single command, from a Claude Code session in this repo:
+A launchd agent publishes one issue a week; see [`docs/customising.md` → Scheduled publishing (launchd)](docs/customising.md#scheduled-publishing-launchd). To publish by hand, run the same wrapper from a terminal in this repo:
 
-```text
-/newsletter-ai web:./site
+```bash
+scripts/weekly.sh
 ```
 
 End to end this:
 
-1. Gathers and writes the issue.
-2. Writes `site/content/posts/YYYY-MM-DD.md` with Hugo + PaperMod frontmatter.
-3. Writes the Obsidian vault copies (issue note, article notes, etc.).
-4. `git add` + `git commit -m "Newsletter YYYY-MM-DD"` + `git push`.
-5. Cloudflare Pages auto-deploys → https://newsletter-ai-skill.pages.dev/ (~30s).
+1. Runs the pinned CLI headless: `/newsletter:newsletter-ai web:<repo>/site date:<date> week:<week> triage:<repo>/.newsletter`, with `--restricted`, no Bash and no MCP.
+2. The skill writes `site/content/posts/YYYY-MM-DD.md` and `.newsletter/triage.md`, and nothing else.
+3. Holds the issue unless the post is the only change and `scripts/check_issue.py` passes it.
+4. Commits `Newsletter YYYY-MM-DD` and pushes. Cloudflare Pages auto-deploys → https://newsletter-ai-skill.pages.dev/ (~30s).
+5. Filters the triage file into `~/notes/inbox/YYYY-MM-DD-newsletter-triage.md`.
 
-The commit/push is **Step 6c** in `.claude/skills/newsletter-ai/SKILL.md`. Uses your Claude Code subscription quota — no Anthropic API credits consumed.
+Uses your Claude Code subscription quota — no Anthropic API credits consumed. `/newsletter-ai web:./site` in a Claude Code session only writes the post, for a preview; the skill never commits or pushes.
 
 ### Pre-flight
 
-- On `main`, working tree otherwise clean.
+- On `main`, working tree clean.
 - `baseURL` in `site/hugo.toml` matches the live Pages URL.
-- The skill is synced (`~/.claude/skills/newsletter-ai/` up to date — see *Updating the skill* below).
+- The `claude-newsletter` Keychain item exists, and `scripts/install-agent.sh` has been re-run since `scripts/weekly.sh` last changed.
 
 ### Recovery
 
-If `git push` fails (remote diverged), the local commit still exists:
+- **Held issue**: the post stays uncommitted and blocks later runs. The checker's findings are in `~/Library/Logs/newsletter/<week>.check`; delete or fix the post as described in `docs/customising.md` → "When an issue is held".
+- **Push failed**: the commit stays local, and the next run pushes it without calling the model.
 
-```bash
-git pull --rebase && git push
-```
+### Checks
 
----
-
-## Updating the skill
-
-Files live in two places that must stay in sync:
-
-| Location | Purpose |
-|---|---|
-| `.claude/skills/newsletter-ai/` | Repo source of truth — version-controlled |
-| `~/.claude/skills/newsletter-ai/` | Live global install — what Claude Code uses |
-
-After editing any skill file, sync it to the global location:
-
-```bash
-cp -r .claude/skills/newsletter-ai/ ~/.claude/skills/newsletter-ai/
-```
-
-Then commit the repo change.
+Run `make check` after changing the skill, the checker or the scripts: unit tests for the checker, an offline test of `weekly.sh` against a fake `claude`, and lint.
 
 ---
 
@@ -68,7 +50,6 @@ Then commit the repo change.
 | `WebSearch` (1 query, ~10 results) | ~500–1,000 tokens |
 | `WebFetch` (full article) | 5,000–30,000 tokens |
 | Reading `sources.md` | ~3,000 tokens (loaded once via SKILL.md reference) |
-| Reading a canvas file | ~1,500 tokens |
 | Final newsletter output | ~3,000–5,000 tokens |
 
-Target for a full 11-category run: **~22 WebSearch + 5–10 selective WebFetch** = well within a session's budget.
+Target for a full 12-category run: **~24 WebSearch + 5–10 selective WebFetch** = well within a session's budget.

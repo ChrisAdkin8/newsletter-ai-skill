@@ -500,3 +500,17 @@ Community-maintained benchmark leaderboard comparing open-source models across s
 Weekly digest of model ranking changes — useful for tracking momentum without parsing raw leaderboard diffs.
 
 - **URL**: https://whatllm.org
+
+---
+
+## 12. Newsletters & Podcasts
+
+**Secondary sources only.** Other people's digests are good at spotting stories early, but the newsletter never cites them. The skill uses their snippets to find a story, then links the primary source, the paper, post or announcement, under whichever section fits it.
+
+| Source | URL | Strength |
+|---|---|---|
+| The Batch (deeplearning.ai) | https://www.deeplearning.ai/the-batch/ | Andrew Ng's weekly digest; surfaces enterprise adoption signals and research framing before mainstream press |
+| Latent Space | https://www.latent.space/podcast | Developer-focused interviews with AI researchers and builders; often first to surface new research directions |
+| TWIML AI Podcast | https://twimlai.com/podcast | Technical ML and AI interviews; strong on production ML, research and hardware |
+
+**Search strategy**: `site:deeplearning.ai/the-batch`, `site:latent.space`, `site:twimlai.com`. Use them to fill gaps: if a story appears here and not in the primary sources, find and link the primary source rather than the newsletter or podcast.
