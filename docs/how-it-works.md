@@ -228,5 +228,5 @@ Argument passing:
 /newsletter-ai open-source models only                  # Topic-scoped
 /newsletter-ai web:./site                               # Write the post into this repo's bundled site
 /newsletter-ai web:~/my-hugo-site                       # Write it into a separate Hugo + PaperMod repo
-/newsletter-ai web:./site date:2026-09-18 week:2026-W37 # Set the issue date and week
+/newsletter-ai web:./site date:2026-09-18 week:2026-W38 # Set the issue date and week
 ```
