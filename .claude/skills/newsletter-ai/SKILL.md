@@ -1,7 +1,7 @@
 ---
 name: newsletter-ai
 description: Curate a newsletter covering agentic AI and LLM news across 12 categories: community (Reddit incl. r/MLOps, Hacker News, X/Twitter), research and alignment safety labs (ARC, CAIUS, Apollo, METR, Redwood, FAR AI, BAIR, AI2, Alignment Forum, LessWrong), technical blogs and infra companies (NVIDIA, W&B, vLLM, Databricks, Ollama, CrewAI, Modal, Microsoft Semantic Kernel), AI-only media (MIT Tech Review, Ars Technica, IEEE Spectrum), individual writers (Chollet, Marcus, Wolfe), analyst and VC reports (Gartner, a16z, Sequoia, Brookings), AI security (OWASP, MITRE, NIST, CISA, ENISA, NCSC, Trail of Bits, Lakera, HiddenLayer, Embrace the Red, Snyk Labs), regulatory/policy (EU Commission, UK AISI, FTC, ICO, OSTP, Future of Life Institute, Ada Lovelace Institute, CDT, EFF), agent era (LangChain, Pydantic AI, Composio, HF Agents), open-source infra, macro/hardware (NVIDIA, AMD, Next Platform, Datacenter Dynamics, Chips and Cheese, Fabricated Knowledge), model evaluations (LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench, AlpacaEval), and newsletters/podcasts as secondary sources (The Batch, Latent Space, TWIML). Use when the user asks for AI news, an LLM digest, an agentic AI roundup, or a newsletter.
-argument-hint: "[topic-focus, optional] [web:<hugo-site>] [date:YYYY-MM-DD] [week:YYYY-Www]"
+argument-hint: "[topic-focus, optional] [web:<hugo-site>] [date:YYYY-MM-DD] [week:YYYY-Www] [triage:<dir>]"
 disable-model-invocation: true
 allowed-tools: WebSearch, WebFetch, Read
 ---
@@ -15,6 +15,7 @@ $ARGUMENTS
 
 - `web:<path>`: the Hugo site to write the post into (Step 6). Without it, the newsletter is only printed.
 - `date:<YYYY-MM-DD>` and `week:<YYYY-Www>`: the issue date and week (Step 6a).
+- `triage:<dir>`: read `<dir>/interests.txt` and write `<dir>/triage.md` (Step 5). Without it, skip Step 5.
 - Anything else is a topic focus. If there is none, cover the latest developments across all categories below.
 
 ## Run rules
@@ -94,6 +95,23 @@ After all sections, select your **top 3 items** across all categories and write 
 ## Output format
 
 Output the complete newsletter as clean markdown. Do not include your search process or intermediate steps in the output — only the finished newsletter. The newsletter should be ready to paste into an email or publish directly.
+
+---
+
+## Step 5: Triage for the reader's notes
+
+Only with a `triage:<dir>` argument; without one, skip this step.
+
+Read `<dir>/interests.txt`, which lists one interest per line. Then write `<dir>/triage.md` with up to five items that match those interests and are worth a closer look. The items can come from the issue, or be ones Step 2 cut for space. Every line is exactly:
+
+```
+- [title](url): why it matches
+```
+
+- One item per line, and nothing else in the file: no heading, no blank lines, no backticks.
+- Keep each line under 300 characters. The URL is the article's own, as in Step 2's hard rules.
+- Write no commands and no suggestions of what to run; the reader's tooling adds those.
+- If nothing matches, write an empty file.
 
 ---
 

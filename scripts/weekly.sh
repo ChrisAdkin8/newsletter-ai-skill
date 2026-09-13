@@ -146,7 +146,7 @@ else
   else
     rm -rf "$REPO/.newsletter" && mkdir -p "$REPO/.newsletter" &&
       cp "$REPO/scripts/interests.txt" "$REPO/.newsletter/" || fail "couldn't prepare .newsletter/"
-    PROMPT="/newsletter:newsletter-ai web:$REPO/site date:$DATE week:$WEEK"
+    PROMPT="/newsletter:newsletter-ai web:$REPO/site date:$DATE week:$WEEK triage:$REPO/.newsletter"
     OUT="$LOG/$WEEK.json"
   fi
 

@@ -84,6 +84,7 @@ check "prompt names the plugin skill" has "$T/fake.log" "-p /newsletter:newslett
 check "flags include --plugin-dir" has "$T/fake.log" "--plugin-dir $T/work/.claude"
 check "prompt has date:" has "$T/fake.log" "date:$DATE"
 check "prompt has week:" has "$T/fake.log" "week:$WEEK"
+check "prompt has triage: ending in /.newsletter" grep -qE 'triage:[^ ]*/\.newsletter( |$)' "$T/fake.log"
 check "a URL already in the notes is dropped" lacks "$(inbox)" "example.com/known"
 check "a new URL is kept, with the command appended" has "$(inbox)" \
   '- [New thing](https://example.com/new): matches kubernetes `/research quick https://example.com/new`'
