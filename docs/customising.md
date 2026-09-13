@@ -1,6 +1,6 @@
 # Customising the Skill
 
-All files in `.claude/skills/newsletter-ai/` are plain markdown (or JSON for canvas files). Edit them directly — no build step required. Changes take effect immediately in the next Claude Code session.
+All files in `.claude/skills/newsletter-ai/` are plain markdown. Edit them directly — no build step required. Changes take effect in the next Claude Code session, and scheduled runs use them from the next run, since they load the skill straight from the repo.
 
 ---
 
@@ -33,7 +33,7 @@ No other files need updating — `SKILL.md` references `sources.md` as a whole, 
 1. Add a new section to `sources.md`:
 
 ```markdown
-## 12. Podcasts & Video
+## 13. Podcasts & Video
 
 | Source | URL |
 |---|---|
@@ -45,12 +45,12 @@ No other files need updating — `SKILL.md` references `sources.md` as a whole, 
 2. Add the category to the list in `SKILL.md` under **Step 1**:
 
 ```markdown
-12. **Podcasts & Video** (Latent Space, TWIML, Lex Fridman AI episodes)
+13. **Podcasts & Video** (Latent Space, TWIML, Lex Fridman AI episodes)
 ```
 
 3. Add a matching section to `template.md` following the same pattern as existing sections.
 
-4. Add the new category to the `categories` list in `obsidian-template.md` frontmatter.
+4. Add the category, with the rationale for each source, to [`docs/sources.md`](sources.md).
 
 ---
 
@@ -67,44 +67,6 @@ Edit `.claude/skills/newsletter-ai/template.md`.
 
 ---
 
-## Configuring the Obsidian vault path
-
-The default vault path is `~/Documents/AI-Newsletter-Vault/`. There are two ways to change it:
-
-### Per-run override (argument)
-
-Pass the vault path when invoking the skill:
-
-```
-/newsletter-ai vault:~/Obsidian/AI-News/
-/newsletter-ai vault:~/Documents/PKM/Newsletter/
-```
-
-### Permanent change
-
-Edit `SKILL.md` and update the default vault path in Step 5:
-
-```markdown
-**Default vault path**: `~/Your/Custom/Path/`
-```
-
----
-
-## Updating the canvas mindmaps
-
-The two canvas files (`newsletter-structure.canvas` and `sources.canvas`) are written to the vault on first run only. If you want to update them:
-
-1. Edit the `.canvas` JSON files in `.claude/skills/newsletter-ai/`
-2. Delete the corresponding file from the vault:
-   ```bash
-   rm ~/Documents/AI-Newsletter-Vault/canvas/newsletter-structure.canvas
-   ```
-3. Run `/newsletter-ai` — Step 5c will recreate it from the updated template
-
-Alternatively, rearrange nodes directly in Obsidian's Canvas editor. Changes you make in Obsidian do not affect the skill template files.
-
----
-
 ## Scoping to a single topic permanently
 
 If you want a dedicated skill that only covers, say, AI security:
@@ -112,10 +74,10 @@ If you want a dedicated skill that only covers, say, AI security:
 1. Copy the skill directory:
 
 ```bash
-cp -r ~/.claude/skills/newsletter-ai/ ~/.claude/skills/newsletter-ai-security/
+cp -r .claude/skills/newsletter-ai/ .claude/skills/newsletter-ai-security/
 ```
 
-2. Edit `~/.claude/skills/newsletter-ai-security/SKILL.md`:
+2. Edit `.claude/skills/newsletter-ai-security/SKILL.md`:
    - Change `name: newsletter-ai-security`
    - Update the description
    - In Step 1, remove all categories except **AI Security**
@@ -125,17 +87,15 @@ cp -r ~/.claude/skills/newsletter-ai/ ~/.claude/skills/newsletter-ai-security/
 
 4. Adjust `template.md` to remove non-security sections.
 
-5. Update `obsidian-template.md` to reflect the narrower category list.
-
 ---
 
 ## Changing the default time window
 
 In `SKILL.md`, Step 1 says:
 
-> search for content published in the **last 7 days**
+> search for content published in the window: the **7 days up to the issue date**
 
-Change `7 days` to any interval (`14 days`, `30 days`, `this month`). This sets the default; you can always override per-run with arguments.
+Change `7 days` there and in Step 2's "Dated inside the window" rule, and change `WINDOW_DAYS` in `scripts/check_issue.py` to match, or the checker will hold items your window allows.
 
 ---
 
@@ -163,7 +123,7 @@ Vercel and Netlify both support Hugo natively if you prefer them.
 
 ### Option A — in-repo (recommended for scheduled publishing)
 
-This repo ships a `site/` directory and a `.github/workflows/newsletter.yml` workflow that publish a new issue every Friday.
+This repo ships a `site/` directory that the skill publishes into. To publish every week without you, see [Scheduled publishing (launchd)](#scheduled-publishing-launchd).
 
 **Prerequisite:** Hugo Extended on your local PATH (`brew install hugo` on macOS).
 
@@ -193,9 +153,7 @@ The bootstrap script verifies your Hugo version, initialises a Hugo site, clones
 
 > **Heads-up on path consistency:** root and output must agree. Cloudflare `cd`s into the root directory before building and resolves the output path relative to it, so setting root to `site` *and* output to `site/public` makes it look for `site/site/public` → *"Could not detect a directory containing static files"*. And without `HUGO_VERSION` on Build system v2, the Hugo preset's `npx hugo` step fails with `npm error could not determine executable to run`.
 
-**3. Add `ANTHROPIC_API_KEY`** to **Settings → Secrets and variables → Actions**.
-
-That's it. The scheduled workflow generates the newsletter, writes `site/content/posts/YYYY-MM-DD.md`, and pushes. Cloudflare Pages auto-deploys within ~30 seconds.
+That's it. Each run of `scripts/weekly.sh` writes `site/content/posts/YYYY-MM-DD.md`, checks it, and pushes it, and Cloudflare Pages auto-deploys within ~30 seconds.
 
 ### Option B — separate Hugo repo (manual local publishing)
 
@@ -221,20 +179,26 @@ Pass the path to your Hugo repo when invoking the skill:
 ```
 /newsletter-ai web:./site                          # Option A — this repo
 /newsletter-ai web:~/my-newsletter-site            # Option B — separate repo
-/newsletter-ai vault:~/Obsidian/AI-News/ web:./site
 ```
 
-The skill writes `<web-path>/content/posts/YYYY-MM-DD.md` with Hugo + PaperMod-compatible frontmatter and the clean newsletter body, then runs `git commit && git push`. Cloudflare Pages deploys within ~30 seconds.
+The skill writes `<web-path>/content/posts/YYYY-MM-DD.md` with Hugo + PaperMod-compatible frontmatter and the clean newsletter body. It doesn't commit or push. Check the post, then publish it yourself:
+
+```bash
+python3 scripts/check_issue.py <web-path>/content/posts/YYYY-MM-DD.md
+git -C <web-path> add content/posts && git -C <web-path> commit -m "Newsletter YYYY-MM-DD" && git -C <web-path> push
+```
+
+Cloudflare Pages deploys within ~30 seconds. For this repo's site, `scripts/weekly.sh` does all of this for you.
 
 ### Changing the default web path permanently
 
-Edit `SKILL.md` Step 6a to hard-code your repo path instead of reading it from `$ARGUMENTS`:
+Edit `SKILL.md` Step 6b to hard-code your repo path instead of reading it from `$ARGUMENTS`:
 
 ```markdown
 **Web repo path**: `./site`
 ```
 
-Then invoke the skill without the `web:` argument and it will always publish.
+Then invoke the skill without the `web:` argument and it will always write the post.
 
 ### What the site looks like
 
@@ -253,7 +217,7 @@ Each issue becomes a post at `https://your-site.pages.dev/posts/YYYY-MM-DD/`. Pa
 
 ## Installing into a specific project only
 
-Instead of the global `~/.claude/skills/` location, copy the skill into the project:
+The skill is a project skill in this repo. To use it in another project, copy it there:
 
 ```bash
 mkdir -p /path/to/your-project/.claude/skills/newsletter-ai
@@ -264,69 +228,84 @@ This makes `/newsletter-ai` available only when working inside that project.
 
 ---
 
-## Scheduled automation (GitHub Actions)
+## Scheduled publishing (launchd)
 
-This repo ships `.github/workflows/newsletter.yml`, a weekly cron workflow that generates the newsletter on a GitHub-hosted runner, commits it to `site/content/posts/`, and pushes — Cloudflare Pages then deploys automatically. No local machine required.
+A launchd agent on your Mac runs `scripts/weekly.sh` every day at 09:07 and 18:07, and it publishes at most one issue per week. An issue week runs from Friday to Thursday, so a week has 14 slots; if the Mac is asleep at a slot, launchd runs it on wake. Runs use your Claude Code subscription, capped at $10 each with `--max-budget-usd`.
 
-> ⚠️ **Cost note:** the workflow runs `claude -p` on a GitHub runner, which authenticates against `ANTHROPIC_API_KEY` and bills your **Anthropic API account per token**. A single full-category run can be costly. If you already have a Claude Code subscription, running `/newsletter-ai web:./site` locally is free (it uses subscription quota) and performs the same commit/push — see [`CLAUDE.md` → Publishing a new issue](../CLAUDE.md#publishing-a-new-issue). Keep the scheduled workflow only if hands-off automation is worth the API cost to you.
+The model runs with no shell, no MCP servers and no access to `~/notes`, and can write only under `site/content/posts/` and `.newsletter/`. The script owns git: it pushes only if the run added nothing but the new post and `scripts/check_issue.py` passes it.
 
 ### One-time setup
 
-**1. Scaffold the Hugo site** (only needed once — see [Web publishing → Option A](#option-a--in-repo-recommended-for-scheduled-publishing) above):
+**1. Store a token in the Keychain.** `claude setup-token` prints a one-year token. Save it under `claude-newsletter`; with `-w` last, `security` prompts for it instead of taking it on the command line:
 
 ```bash
-./site/scripts/bootstrap.sh
-git add site/ && git commit -m "Scaffold Hugo + PaperMod site" && git push
+claude setup-token
+security add-generic-password -s claude-newsletter -a "$USER" -w
 ```
 
-**2. Add your Anthropic API key as a GitHub secret:**
+**2. Install the agent:**
 
-Go to `https://github.com/YOUR-ORG/YOUR-REPO/settings/secrets/actions`, click **New repository secret**, and add:
+```bash
+scripts/install-agent.sh
+```
 
-- **Name:** `ANTHROPIC_API_KEY`
-- **Value:** your key from [console.anthropic.com](https://console.anthropic.com)
+This copies the pinned CLI (`CLAUDE_PIN` in the script) and `scripts/weekly.sh` to `~/.local/share/newsletter-ai/`, renders `scripts/local.newsletter-ai.weekly.plist.in` into `~/Library/LaunchAgents/`, and loads it. launchd runs the installed copy, so nothing written into the repo is executed on the next slot.
 
-**3. Connect the repo to Cloudflare Pages** (one-time dashboard step — see [Web publishing → Option A](#option-a--in-repo-recommended-for-scheduled-publishing) above for the exact build settings).
+**3. Vet it under launchd with a probe**, which only sends "say ok":
 
-That's it. A new issue publishes every Friday at 09:00 UTC. You can also trigger a run at any time from the **Actions** tab → **Generate Weekly Newsletter** → **Run workflow**.
+```bash
+PROBE=1 scripts/install-agent.sh
+launchctl kickstart -k gui/$(id -u)/local.newsletter-ai.weekly   # expect a "probe ok" notification
+scripts/install-agent.sh                                         # clears PROBE
+```
 
-### Supply-chain protections in the workflow
+**4. Publish now**, or wait for the next slot:
 
-The shipped workflow's only npm dependency is the Claude Code CLI itself, installed inside the GitHub-hosted runner. Mitigations applied:
+```bash
+launchctl kickstart -k gui/$(id -u)/local.newsletter-ai.weekly
+```
 
-- Claude Code CLI is installed at a **pinned version** with `--ignore-scripts` (no postinstall code runs)
-- The Cloudflare Pages build runs only Hugo — no `npm install` is ever invoked there
-- PaperMod is vendored as a frozen copy at a known commit SHA, recorded in `site/themes/PaperMod/.papermod-sha`
-- `.github/dependabot.yml` scans GitHub Actions versions weekly
+### What a run does
 
-Bump `CLAUDE_CODE_VERSION` in the workflow file only after reviewing the upstream release. Bump PaperMod by re-running the bootstrap script with `PAPERMOD_REF=<new-ref>` and committing the result (see [`site/README.md`](../site/README.md#updating-papermod)).
+1. It exits if this week's issue is already out (`last-ok` holds the week), or if the Anthropic API is unreachable.
+2. It warns if the repo's `scripts/weekly.sh` differs from the installed copy, or if a global copy of the skill exists in `~/.claude/skills/`.
+3. It needs `main` and a clean tree, then fetches. If the last run committed but failed to push, it pushes that commit now; any other unpushed commit stops it.
+4. It runs `/newsletter:newsletter-ai web:<repo>/site date:<today> week:<week> triage:<repo>/.newsletter`.
+5. It holds the issue unless the only change is the new `site/content/posts/<date>.md` and the checker passes it. Otherwise it commits `Newsletter <date>`, pushes, and records the week in `last-ok`.
+6. It filters `.newsletter/triage.md` into `~/notes/inbox/<date>-newsletter-triage.md` (see [How it works → Step 5](how-it-works.md#step-5-triage-optional)) and notifies you with the run's cost.
 
-### Changing the schedule
+### When an issue is held
 
-Edit the `cron` expression in the workflow file. Examples:
+A held post stays in `site/content/posts/`, uncommitted, and later slots stop at the clean-tree check until you deal with it. The checker's findings are in `~/Library/Logs/newsletter/<week>.check`. Either:
 
-| Cron | Schedule |
+- delete the post (`rm site/content/posts/<date>.md`), and the next slot tries again; or
+- fix it, then check, commit and push it yourself, and record the week so the agent doesn't write a second issue:
+
+```bash
+python3 scripts/check_issue.py site/content/posts/<date>.md --week <week>
+git add site/content/posts/<date>.md && git commit -m "Newsletter <date>" && git push
+echo <week> > ~/Library/Logs/newsletter/last-ok
+```
+
+### Publishing by hand
+
+Run the same wrapper from a terminal in the repo:
+
+```bash
+scripts/weekly.sh
+```
+
+It uses the installed pinned CLI, so run `scripts/install-agent.sh` first; `CLAUDE_BIN=$(command -v claude) scripts/weekly.sh` uses your current one instead. `/newsletter-ai web:./site` in Claude Code writes the post without publishing it, which is useful for a preview.
+
+### Day to day
+
+| To | Do |
 |---|---|
-| `0 9 * * 5` | Every Friday at 09:00 UTC (default) |
-| `0 7 * * 1` | Every Monday at 07:00 UTC |
-| `0 9 1 * *` | First day of each month at 09:00 UTC |
+| Change the wrapper | Edit `scripts/weekly.sh`, run `make check`, then re-run `scripts/install-agent.sh`. Every slot notifies you until you do. |
+| Change the triage interests | Edit `scripts/interests.txt`, one interest per line. |
+| Change the schedule | Edit `StartCalendarInterval` in `scripts/local.newsletter-ai.weekly.plist.in` and re-run the installer. |
+| Bump the CLI | Re-run spike 1's confinement probe ([`docs/specs/2026-09-13-weekly-local-publishing.md`](specs/2026-09-13-weekly-local-publishing.md#spike-questions)), then change `CLAUDE_PIN` in `scripts/install-agent.sh`, install with `PROBE=1` and kickstart. |
+| Read the logs | `~/Library/Logs/newsletter/`: `launchd.log`, `<week>.json` (the run's result), `<week>.check` (the checker's output) and `last-ok`. |
+| Stop it | `launchctl bootout gui/$(id -u)/local.newsletter-ai.weekly`, then remove `~/Library/LaunchAgents/local.newsletter-ai.weekly.plist` and `~/.local/share/newsletter-ai/`. |
 
-### Keeping skill files in sync
-
-When you update the skill (e.g. add a source to `sources.md`):
-
-- **Option A (in-repo)**: the skill files live in this repo at `.claude/skills/newsletter-ai/`. Just commit and push as normal — the next scheduled workflow run picks up the change.
-- **Option B (separate Hugo repo)**: copy the updated files into that repo and commit:
-
-```bash
-cp -r ~/.claude/skills/newsletter-ai/ ~/my-newsletter-site/.claude/skills/newsletter-ai/
-cd ~/my-newsletter-site && git add .claude/ && git commit -m "Update newsletter skill" && git push
-```
-
-### Obsidian vault during automated runs
-
-The Obsidian vault is **not** written during automated runs — the GitHub Actions runner is ephemeral. Only the web publish step (Step 6) runs. If you want a local vault copy of a particular issue, run the skill manually:
-
-```
-/newsletter-ai vault:~/Documents/AI-Newsletter-Vault/
-```
+Deleting the Keychain item doesn't revoke the token; it stays valid for a year.

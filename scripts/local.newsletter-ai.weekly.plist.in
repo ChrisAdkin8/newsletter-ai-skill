@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Rendered into ~/Library/LaunchAgents by scripts/install-agent.sh. -->
+<plist version="1.0"><dict>
+  <key>Label</key><string>local.newsletter-ai.weekly</string>
+  <key>ProgramArguments</key>
+  <array><string>@HOME@/.local/share/newsletter-ai/weekly.sh</string></array>
+  <key>StartCalendarInterval</key><array>
+    <dict><key>Hour</key><integer>9</integer><key>Minute</key><integer>7</integer></dict>
+    <dict><key>Hour</key><integer>18</integer><key>Minute</key><integer>7</integer></dict>
+  </array>
+  <key>EnvironmentVariables</key><dict>
+    <key>PATH</key><string>@HOME@/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <key>NEWSLETTER_REPO</key><string>@REPO@</string>
+    @EXTRA_ENV@
+  </dict>
+  <key>StandardOutPath</key><string>@HOME@/Library/Logs/newsletter/launchd.log</string>
+  <key>StandardErrorPath</key><string>@HOME@/Library/Logs/newsletter/launchd.log</string>
+  <key>ProcessType</key><string>Background</string>
+</dict></plist>

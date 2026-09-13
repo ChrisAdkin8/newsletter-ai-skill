@@ -1,6 +1,6 @@
 # How It Works
 
-The `newsletter-ai` skill runs a 6-step curation workflow when you invoke `/newsletter-ai`. It uses `WebSearch` and `WebFetch` to gather content, and `Bash` and `Write` to persist output to an Obsidian vault and (optionally) a public website.
+The `newsletter-ai` skill runs a 6-step curation workflow when you invoke `/newsletter-ai`. It uses `WebSearch` and `WebFetch` to gather content and `Read` for its own supporting files. With `web:` it writes the issue as a post in a Hugo site; publishing that post is left to whoever ran it, which for scheduled runs is `scripts/weekly.sh`.
 
 ---
 
@@ -12,16 +12,16 @@ The `newsletter-ai` skill runs a 6-step curation workflow when you invoke `/news
         ▼
 ┌─────────────────────────────────┐
 │  Step 1: Gather                 │
-│  Search all 11 source categories│
+│  Search all 12 source categories│
 │  Target: 2–3 items each         │
 └────────────────┬────────────────┘
                  │
                  ▼
 ┌─────────────────────────────────┐
 │  Step 2: Filter                 │
-│  Evaluate relevance, recency,   │
-│  signal quality, audience fit   │
-│  Keep: 3–5 strongest per cat.   │
+│  Relevance, recency, signal,    │
+│  audience fit + hard rules      │
+│  Keep: up to 4 per category     │
 └────────────────┬────────────────┘
                  │
                  ▼
@@ -43,36 +43,31 @@ The `newsletter-ai` skill runs a 6-step curation workflow when you invoke `/news
         Markdown newsletter
         (output to chat)
                  │
-                 ▼
+                 ▼  (if triage: argument given)
 ┌─────────────────────────────────┐
-│  Step 5: Obsidian Vault         │
-│  Write issue note (+ wikilinks) │
-│  Write article notes (per story)│
-│  Write source notes (once)      │
-│  Write topic notes (once)       │
-│  Write canvas + index (once)    │
+│  Step 5: Triage                 │
+│  Up to 5 items matching         │
+│  interests.txt → triage.md      │
 └────────────────┬────────────────┘
-                 │
-                 ▼
-   ~/Documents/AI-Newsletter-Vault/
                  │
                  ▼  (if web: argument given)
 ┌─────────────────────────────────┐
-│  Step 6: Web Publish (optional) │
-│  Write Hugo-compatible .md      │
-│  git commit + push              │
-│  Cloudflare Pages auto-deploys  │
+│  Step 6: Write the post         │
+│  Hugo-compatible .md, named     │
+│  for the issue date             │
 └────────────────┬────────────────┘
                  │
                  ▼
-   https://your-site.pages.dev/
+   site/content/posts/YYYY-MM-DD.md
 ```
+
+When `scripts/weekly.sh` runs the skill, it then checks the post, commits and pushes it, and Cloudflare Pages deploys it (see [Publishing](#publishing)).
 
 ---
 
 ## Step 1: Gather
 
-Claude searches each of the 11 source categories defined in `sources.md`:
+Claude searches each of the 12 source categories defined in `sources.md`:
 
 1. **Community & Discussion** — Reddit (10 subreddits), Hacker News, X/Twitter (11 key accounts)
 2. **Research & Papers** — arXiv, HuggingFace daily papers, Papers with Code, Semantic Scholar; alignment labs (ARC, CAIUS, Apollo, METR, Redwood, FAR AI); academic labs (Stanford HAI, BAIR, AI2, EleutherAI); industry research (Google DeepMind, Microsoft Research, Apple ML, Amazon Science)
@@ -85,8 +80,9 @@ Claude searches each of the 11 source categories defined in `sources.md`:
 9. **Open Source & Infrastructure** — HuggingFace, vLLM, Ollama, Anyscale, SemiAnalysis
 10. **Macro & Hardware Watch** — NVIDIA (primary), Next Platform, Datacenter Dynamics, Computing.co.uk, SemiAnalysis
 11. **Model Evaluations & Transparency** — LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench, AlpacaEval, HF Open LLM Leaderboard, WhatLLM.org
+12. **Newsletters & Podcasts** — The Batch, Latent Space, TWIML; secondary sources only, used to find stories whose primary source is then cited
 
-Default time window: **last 7 days**. Override with arguments, e.g. `/newsletter-ai last 30 days`.
+The window is the **7 days up to the issue date**. The issue date is today unless `date:` sets it.
 
 ---
 
@@ -101,7 +97,18 @@ Each candidate item is evaluated against four criteria:
 | **Signal vs noise** | Is this a meaningful development, or marketing/hype? |
 | **Audience fit** | Would a technical practitioner find this useful? |
 
-PR fluff, duplicate coverage (same story from 3 outlets), and content lacking substance are discarded. The goal is **3–5 high-quality items per category**, not exhaustive coverage.
+PR fluff, duplicate coverage (same story from 3 outlets), and content lacking substance are discarded. The goal is **up to 4 high-quality items per category**, not exhaustive coverage.
+
+Then come hard rules. `scripts/check_issue.py` enforces most of them on the finished post; it compares URLs only, so a story repeated under a different URL is caught by the model's rule alone:
+
+| Rule | Checker rule |
+|---|---|
+| No URL, or story, from the last four posts | `repeat` (same URL only) |
+| No story or URL twice in the issue | `repeat` (same URL only) |
+| The item's own date is inside the window; URL dates and arXiv IDs count | `stale` |
+| Article URLs, never homepages | `homepage` |
+| The label names the publisher of the linked page | `label` |
+| No press-release wires | `wire` |
 
 ---
 
@@ -111,7 +118,7 @@ For each kept item Claude produces:
 
 - **Rewritten headline** — not the source title; a punchy, insight-first phrase that conveys what matters
 - **2–4 sentence summary** — what happened + why it matters to the reader
-- **Primary source link** — always links to the original, not an aggregator
+- **Primary source link** — always links to the original, not an aggregator, labelled with its publisher
 - **Tag** — one of: `[Research]` `[Tool]` `[Security]` `[Industry]` `[Community]` `[Policy]` `[Eval]` `[Safety]`
 
 The output follows the structure in `template.md` exactly.
@@ -129,88 +136,24 @@ This runs last so the picks are chosen with full visibility of everything gather
 
 ---
 
-## Step 5: Obsidian vault
+## Step 5: Triage (optional)
 
-After outputting the newsletter to chat, Claude writes a permanent copy to the Obsidian vault at `~/Documents/AI-Newsletter-Vault/` (configurable — see [customising.md](customising.md)).
+Only runs with a `triage:<dir>` argument, which `scripts/weekly.sh` passes. Claude reads `<dir>/interests.txt` and writes `<dir>/triage.md`: up to five items, from the issue or cut from it for space, that match those interests. Each is one line, `- [title](url): why it matches`, with no commands.
 
-### Issue note
-
-Each issue is saved as `issues/YYYY-MM-DD.md` with YAML frontmatter:
-
-```yaml
----
-date: 2026-02-20
-week: 2026-W08
-tags:
-  - newsletter
-  - agentic-ai
-  - weekly
-theme: "One-sentence framing of the dominant theme"
-categories: [community, research, engineering, ...]
-editor_picks:
-  - "Pick 1 headline"
-  - "Pick 2 headline"
-  - "Pick 3 headline"
-source: claude-code-newsletter-ai-skill
----
-```
-
-The full newsletter body follows immediately — identical to the chat output.
-
-### Four-level Graph View: issue → topic → source → article
-
-The vault implements a four-level graph hierarchy navigable in Obsidian's built-in **Graph View** (`Cmd+G`):
-
-```
-Issue note ──► Topic note ──► Source note ◄── Article note
-```
-
-**Level 1 — Issue note** (`issues/YYYY-MM-DD.md`)
-- Section subtitle wikilinks: `[[topics/security|Security]]`
-- Story headline wikilinks: `[[articles/2026-02-20-security-owasp-agentic-top-10|...]]`
-
-**Level 2 — Topic notes** (`topics/*.md`, created on first run, 11 total)
-- Sources line with wikilinks to every source in that category: `[[sources/owasp|OWASP]] · [[sources/trail-of-bits|Trail of Bits]] · ...`
-
-**Level 3 — Source notes** (`sources/*.md`, created on first run, ~45 total)
-- Persistent hub for each publication or organisation
-- Dataview query auto-aggregates all articles from that source: `WHERE source = "owasp"`
-
-**Level 4 — Article notes** (`articles/YYYY-MM-DD-slug.md`, created each run, one per story)
-- Full headline + summary for each newsletter story
-- Footer wikilinks back to source and topic: `[[sources/owasp|OWASP]] · [[topics/security|Security]]`
-
-As issues accumulate, sources with many articles form denser clusters and topics that are covered every week attract more connections — making the graph a live map of coverage patterns over time.
-
-### Canvas mindmaps (created once)
-
-On the first run, two Obsidian Canvas mindmaps are written to `canvas/`:
-
-| File | What it maps |
-|---|---|
-| `newsletter-structure.canvas` | 13 output sections, their tags, and how they connect |
-| `sources.canvas` | 11 source categories and all 100+ sources within each |
-
-Canvas files are static — they describe the system structure and are only written on first run. You can rearrange nodes freely in Obsidian without affecting the skill.
-
-### Vault dashboard
-
-`_index.md` is created on first run with Dataview queries for browsing all issues and links to all topic index notes.
+After a successful publish, `weekly.sh` keeps only lines in that exact form, drops any whose URL is already somewhere in `~/notes`, appends a `/research quick <url>` command to each, and writes the result to `~/notes/inbox/<date>-newsletter-triage.md`. The model itself never reads or writes `~/notes`.
 
 ---
 
-## Step 6: Web publish (optional)
+## Step 6: Write the post (optional)
 
 Only runs when you pass a `web:` argument:
 
 - `/newsletter-ai web:./site` — this repo's bundled Hugo + PaperMod site (auto-deploys to Cloudflare Pages)
 - `/newsletter-ai web:~/my-hugo-site` — your own separate Hugo repo
 
-Claude writes the issue as a [Hugo](https://gohugo.io) + [PaperMod](https://github.com/adityatelange/hugo-PaperMod)-compatible markdown file to `{WEB_REPO}/content/posts/YYYY-MM-DD.md` with the correct frontmatter, then runs `git commit && git push`. **Cloudflare Pages** picks up the push and deploys the site automatically — typically within 30 seconds. Vercel and Netlify also support Hugo natively.
+Claude writes the issue as a [Hugo](https://gohugo.io) + [PaperMod](https://github.com/adityatelange/hugo-PaperMod)-compatible markdown file to `{WEB_REPO}/content/posts/YYYY-MM-DD.md`, named for the issue date, and prints its path. It doesn't commit or push.
 
-> 💡 When invoked from a local Claude Code session, this step uses your **Claude Code subscription quota** — no Anthropic API tokens are billed. The scheduled GitHub Action in [`.github/workflows/newsletter.yml`](../.github/workflows/newsletter.yml) does the same work but bills against `ANTHROPIC_API_KEY`. Most users should prefer the local invocation; see [`CLAUDE.md` → Publishing a new issue](../CLAUDE.md#publishing-a-new-issue) and [`docs/customising.md` → Scheduled automation](customising.md#scheduled-automation-github-actions) for the tradeoff.
-
-The web version uses the clean newsletter body from Step 3 (identical to the chat output). Obsidian wikilinks are not included.
+The issue date is the `date:` argument, or today. The week in the title is the `week:` argument, or the ISO week of the date four days before the issue date, so issues from Friday to Thursday share a week.
 
 **Frontmatter written for Hugo + PaperMod:**
 
@@ -232,13 +175,28 @@ ShowBreadCrumbs: true
 ---
 ```
 
+The body is the clean newsletter from Step 3, identical to the chat output.
+
 **One-time setup** (outside the skill):
 1. Install Hugo Extended locally (`brew install hugo` on macOS, see [Hugo releases](https://github.com/gohugoio/hugo/releases) for other platforms)
 2. Run `./site/scripts/bootstrap.sh` to scaffold the bundled Hugo + PaperMod site (or follow [Customising → Option B](customising.md#option-b--separate-hugo-repo-manual-local-publishing) for a separate repo)
 3. Push to GitHub
 4. Connect the repo to [Cloudflare Pages](https://dash.cloudflare.com/) — set `HUGO_VERSION` in the build environment
 
-After that, every `/newsletter-ai web:./site` (or `web:~/my-hugo-site`) run auto-publishes. See [Customising → Web publishing](customising.md#web-publishing-hugo--papermod-on-cloudflare-pages) for full details.
+See [Customising → Web publishing](customising.md#web-publishing-hugo--papermod-on-cloudflare-pages) for full details.
+
+---
+
+## Publishing
+
+`scripts/weekly.sh` turns a run into a published issue. launchd runs it twice a day (see [Customising → Scheduled publishing (launchd)](customising.md#scheduled-publishing-launchd)), and you can run it by hand. It publishes at most one issue per week:
+
+1. It runs a pinned copy of the Claude Code CLI with `--restricted`, the skill loaded from `.claude/` as a plugin, no shell, no MCP servers, and file writes allowed only under `site/content/posts/` and `.newsletter/`.
+2. It holds the issue unless the only change in the tree is the new post and `scripts/check_issue.py` passes it.
+3. It commits `Newsletter <date>` and pushes. Cloudflare Pages deploys within about 30 seconds.
+4. It moves the triage note into `~/notes/inbox/` and sends a notification with the run's cost.
+
+A held issue stays uncommitted, and you get a notification. It blocks later runs until you deal with it.
 
 ---
 
@@ -246,28 +204,26 @@ After that, every `/newsletter-ai web:./site` (or `web:~/my-hugo-site`) run auto
 
 | File | Role |
 |---|---|
-| `SKILL.md` | Main entry point. Defines the workflow and tells Claude which supporting files exist. |
+| `SKILL.md` | Main entry point. Defines the workflow, run rules and hard rules, and tells Claude which supporting files exist. |
 | `sources.md` | Reference catalogue of URLs and search strategies per category. Claude reads this during Step 1. |
 | `template.md` | Exact output format for the newsletter. Claude follows this during Steps 3–4. |
-| `obsidian-template.md` | Vault note format: YAML frontmatter schema, wikilink table, topic note template, and vault directory structure. Claude follows this during Step 5. |
-| `newsletter-structure.canvas` | Pre-built Obsidian Canvas JSON mapping the 13 newsletter sections. Written to vault on first run. |
-| `sources.canvas` | Pre-built Obsidian Canvas JSON mapping all 11 source categories. Written to vault on first run. |
+| `scripts/check_issue.py` | Checks a post against the hard rules; `weekly.sh` runs it before publishing. |
+| `scripts/weekly.sh` | Runs the skill headless, checks the post, owns git, and moves triage. |
+| `scripts/interests.txt` | The interests Step 5 matches triage items against. |
 
 ---
 
 ## Invocation behaviour
 
-The skill has `disable-model-invocation: true`, meaning Claude will **not** trigger it automatically during a conversation. It only runs when you explicitly type `/newsletter-ai`. This prevents it from firing unintentionally during normal chat about AI topics.
+The skill has `disable-model-invocation: true`, meaning Claude will **not** trigger it automatically during a conversation. It only runs when you explicitly type `/newsletter-ai`. This prevents it from firing unintentionally during normal chat about AI topics. Headless runs load the same skill as `/newsletter:newsletter-ai`, through `--plugin-dir .claude`.
 
 Argument passing:
 
 ```
 /newsletter-ai                                          # Full newsletter, last 7 days
 /newsletter-ai security only                            # Filters to security category
-/newsletter-ai last 14 days                             # Extends the time window
 /newsletter-ai open-source models only                  # Topic-scoped
-/newsletter-ai vault:~/Obsidian/AI-News/                # Custom vault path
-/newsletter-ai web:./site                               # Publish via this repo's bundled site
-/newsletter-ai web:~/my-hugo-site                       # Publish to a separate Hugo + PaperMod repo
-/newsletter-ai vault:~/Obsidian/ web:./site             # Both vault and web
+/newsletter-ai web:./site                               # Write the post into this repo's bundled site
+/newsletter-ai web:~/my-hugo-site                       # Write it into a separate Hugo + PaperMod repo
+/newsletter-ai web:./site date:2026-09-18 week:2026-W37 # Set the issue date and week
 ```

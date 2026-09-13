@@ -6,7 +6,7 @@ Use this exact structure when writing the newsletter output.
 
 ```markdown
 # Agentic AI & LLM Weekly
-**Issue #[N] — [Date Range]**
+**[YYYY-Www] — [Date Range]**
 
 > [One-sentence framing of the dominant theme this week — 15–20 words max.]
 
@@ -26,7 +26,7 @@ Use this exact structure when writing the newsletter output.
 
 [2–4 sentences: what happened, why it matters, what the community reaction reveals.]
 
-[Source: [Platform/Subreddit](URL)]
+[Source: [Publisher of the linked page](URL)]
 
 ---
 
@@ -35,7 +35,7 @@ Use this exact structure when writing the newsletter output.
 
 [2–4 sentences.]
 
-[Source: [Platform/Subreddit](URL)]
+[Source: [Publisher of the linked page](URL)]
 
 ---
 
@@ -47,7 +47,7 @@ Use this exact structure when writing the newsletter output.
 
 [2–4 sentences: what was studied, key finding, practical implication.]
 
-[Source: [arXiv / Conference / Institution](URL)]
+[Source: [Publisher of the linked page](URL)]
 
 ---
 
@@ -56,7 +56,7 @@ Use this exact structure when writing the newsletter output.
 
 [2–4 sentences.]
 
-[Source: [arXiv / Conference / Institution](URL)]
+[Source: [Publisher of the linked page](URL)]
 
 ---
 
@@ -68,7 +68,7 @@ Use this exact structure when writing the newsletter output.
 
 [2–4 sentences: what was released or written, what problem it solves, who should care.]
 
-[Source: [Blog / Author](URL)]
+[Source: [Publisher of the linked page](URL)]
 
 ---
 
@@ -77,7 +77,7 @@ Use this exact structure when writing the newsletter output.
 
 [2–4 sentences.]
 
-[Source: [Blog / Author](URL)]
+[Source: [Publisher of the linked page](URL)]
 
 ---
 
@@ -89,7 +89,7 @@ Use this exact structure when writing the newsletter output.
 
 [2–4 sentences: what the report or news says, what it signals for the market.]
 
-[Source: [Analyst firm / Publication](URL)]
+[Source: [Publisher of the linked page](URL)]
 
 ---
 
@@ -98,7 +98,7 @@ Use this exact structure when writing the newsletter output.
 
 [2–4 sentences.]
 
-[Source: [Analyst firm / Publication](URL)]
+[Source: [Publisher of the linked page](URL)]
 
 ---
 
@@ -110,7 +110,7 @@ Use this exact structure when writing the newsletter output.
 
 [2–4 sentences: what the threat or framework is, who is affected, what practitioners should do.]
 
-[Source: [OWASP / MITRE / NIST / Research](URL)]
+[Source: [Publisher of the linked page](URL)]
 
 ---
 
@@ -119,7 +119,7 @@ Use this exact structure when writing the newsletter output.
 
 [2–4 sentences.]
 
-[Source: [OWASP / MITRE / NIST / Research](URL)]
+[Source: [Publisher of the linked page](URL)]
 
 ---
 
@@ -131,7 +131,7 @@ Use this exact structure when writing the newsletter output.
 
 [2–4 sentences.]
 
-[Source: [Company / Publication](URL)]
+[Source: [Publisher of the linked page](URL)]
 
 ---
 
@@ -143,7 +143,7 @@ Use this exact structure when writing the newsletter output.
 
 [2–4 sentences: what the regulation, ruling, or guidance says, who it affects, and what teams need to know.]
 
-[Source: [IAPP / Covington / Regulator / Law firm](URL)]
+[Source: [Publisher of the linked page](URL)]
 
 ---
 
@@ -152,7 +152,7 @@ Use this exact structure when writing the newsletter output.
 
 [2–4 sentences.]
 
-[Source: [IAPP / Covington / Regulator / Law firm](URL)]
+[Source: [Publisher of the linked page](URL)]
 
 ---
 
@@ -164,7 +164,7 @@ Use this exact structure when writing the newsletter output.
 
 [2–4 sentences: what pattern or tool was described, what problem it solves, what teams should consider adopting.]
 
-[Source: [Vellum AI / ByteByteGo / Blog](URL)]
+[Source: [Publisher of the linked page](URL)]
 
 ---
 
@@ -173,7 +173,7 @@ Use this exact structure when writing the newsletter output.
 
 [2–4 sentences.]
 
-[Source: [Vellum AI / ByteByteGo / Blog](URL)]
+[Source: [Publisher of the linked page](URL)]
 
 ---
 
@@ -185,7 +185,7 @@ Use this exact structure when writing the newsletter output.
 
 [2–4 sentences: what changed in the rankings or benchmarks, what it means for practitioners choosing models.]
 
-[Source: [WhatLLM / HuggingFace Leaderboard / Papers with Code](URL)]
+[Source: [Publisher of the linked page](URL)]
 
 ---
 
@@ -197,7 +197,7 @@ Use this exact structure when writing the newsletter output.
 
 [2–4 sentences: what the hardware or infrastructure development is, why it matters for AI capacity or cost.]
 
-[Source: [Computing.co.uk / SemiAnalysis / Publication](URL)]
+[Source: [Publisher of the linked page](URL)]
 
 ---
 
@@ -209,7 +209,7 @@ Use this exact structure when writing the newsletter output.
 
 [2–4 sentences: what was evaluated or benchmarked, what the results reveal, what practitioners should conclude about model selection or deployment.]
 
-[Source: [LMSYS / Artificial Analysis / Scale SEAL / HELM / HF Leaderboard](URL)]
+[Source: [Publisher of the linked page](URL)]
 
 ---
 
@@ -218,7 +218,7 @@ Use this exact structure when writing the newsletter output.
 
 [2–4 sentences.]
 
-[Source: [LMSYS / Artificial Analysis / Scale SEAL / HELM / HF Leaderboard](URL)]
+[Source: [Publisher of the linked page](URL)]
 
 ---
 

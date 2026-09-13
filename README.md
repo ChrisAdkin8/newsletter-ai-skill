@@ -1,8 +1,8 @@
 # newsletter-ai
 
-> A Claude Code skill that curates a weekly newsletter on agentic AI and LLM developments. Outputs a clean Markdown digest to chat, writes a permanent copy to an Obsidian vault, and (optionally) publishes a public website using Hugo + PaperMod on Cloudflare Pages — zero npm dependencies in the build.
+> A Claude Code skill that curates a weekly newsletter on agentic AI and LLM developments. Outputs a clean Markdown digest to chat and writes it as a post for a public website built with Hugo + PaperMod on Cloudflare Pages — zero npm dependencies in the build. A launchd agent on your Mac can publish it every week, behind a checker that holds any issue that breaks the rules.
 
-Invoke `/newsletter-ai` and Claude searches eleven source categories — community discussion, research papers, engineering blogs, analyst reports, AI security, product news, regulation, agent frameworks, open source, hardware, and model evaluations — then produces a digest with rewritten headlines, two-to-four sentence summaries, a connecting "Editor's Picks" theme, and a tag on every item.
+Invoke `/newsletter-ai` and Claude searches twelve source categories — community discussion, research papers, engineering blogs, analyst reports, AI security, product news, regulation, agent frameworks, open source, hardware, model evaluations, and newsletters and podcasts as leads to primary sources — then produces a digest with rewritten headlines, two-to-four sentence summaries, a connecting "Editor's Picks" theme, and a tag on every item.
 
 The full annotated source list lives in [`docs/sources.md`](docs/sources.md).
 
@@ -13,14 +13,15 @@ The full annotated source list lives in [`docs/sources.md`](docs/sources.md).
 | Output | Where it lands | When |
 |---|---|---|
 | Markdown newsletter | Chat | Every run |
-| Obsidian vault | `~/Documents/AI-Newsletter-Vault/` | Every local run (configurable) |
-| Public website | Cloudflare Pages | When you pass `web:./site` (or any Hugo + PaperMod repo path) |
+| Hugo post | `site/content/posts/YYYY-MM-DD.md` | When you pass `web:./site` (or any Hugo + PaperMod repo path) |
+| Public website | Cloudflare Pages | When `scripts/weekly.sh` pushes a post that passes the checker |
+| Triage note | `~/notes/inbox/YYYY-MM-DD-newsletter-triage.md` | After each scheduled publish: up to five items matching your interests |
 
 ### Output preview
 
 ````markdown
 # Agentic AI & LLM Weekly
-**Issue #20 — 7–14 May 2026**
+**2026-W20 — 7–14 May 2026**
 
 > The week AI agents became both the attacker and the defender — from the
 > first AI-built zero-day exploit to Microsoft's 100-agent vulnerability hunter.
@@ -42,49 +43,32 @@ case of attackers using an AI model to discover a vulnerability and build a
 working exploit — a 2FA bypass in a popular open-source admin tool…
 ````
 
-The full workflow — gather, filter, write, editor's picks, vault, web — is documented in [`docs/how-it-works.md`](docs/how-it-works.md).
+The full workflow — gather, filter, write, editor's picks, triage, post — is documented in [`docs/how-it-works.md`](docs/how-it-works.md).
+
+> **Changed in September 2026.** The skill now writes only the Hugo post: it keeps no local archive copy and no longer commits or pushes. `scripts/weekly.sh` publishes the post once `scripts/check_issue.py` passes it, or you can do that yourself. Titles carry the ISO week, such as `2026-W37`, rather than a running number.
 
 ---
 
 ## Quick start
 
-**1. Install the skill globally:**
-
-```bash
-cp -r .claude/skills/newsletter-ai/ ~/.claude/skills/newsletter-ai/
-```
-
-**2. Run it:**
+The skill is a project skill in this repo. Open Claude Code here and run it:
 
 ```
 /newsletter-ai
 ```
 
+To use it in another project, copy `.claude/skills/newsletter-ai/` into that project's `.claude/skills/`.
+
 **Invocation patterns:**
 
 ```
-/newsletter-ai                                          # Last 7 days, all 11 categories
-/newsletter-ai security focus — last 14 days            # Topic + extended window
+/newsletter-ai                                          # Last 7 days, all 12 categories
+/newsletter-ai security focus                           # Topic-scoped
 /newsletter-ai agentic frameworks only                  # Topic-scoped
-/newsletter-ai vault:~/Obsidian/AI-News/                # Custom vault path
-/newsletter-ai web:./site                               # Publish via the bundled site/
-/newsletter-ai web:~/my-hugo-site                       # Publish to a separate Hugo repo
-/newsletter-ai vault:~/Obsidian/AI-News/ web:./site     # Vault + web in one run
+/newsletter-ai web:./site                               # Write the post into the bundled site/
+/newsletter-ai web:~/my-hugo-site                       # Write it into a separate Hugo repo
+/newsletter-ai web:./site date:2026-09-18 week:2026-W37 # Set the issue date and week
 ```
-
----
-
-## Obsidian vault
-
-Every local run writes the issue to an Obsidian vault that implements a four-level graph hierarchy:
-
-```
-Issue note → Topic note → Source note ← Article note
-```
-
-On first run the skill creates eleven topic index notes, ~65 source notes, two Canvas mindmaps, and a vault dashboard. Each subsequent run adds one issue note plus one article note per story. Open Graph View (`Cmd+G`) to see the live coverage map — sources with many articles form denser clusters; topics covered every week pull more connections.
-
-Format details: [`docs/how-it-works.md#step-5-obsidian-vault`](docs/how-it-works.md#step-5-obsidian-vault).
 
 ---
 
@@ -105,18 +89,16 @@ Then connect this repo to Cloudflare Pages (see [`site/README.md`](site/README.m
 
 ### Two ways to publish a new issue
 
-| Path | Command | Auth | Cost |
+| Path | How | Auth | Cost |
 |---|---|---|---|
-| **Local (recommended)** | `/newsletter-ai web:./site` in Claude Code | Claude Code subscription | Subscription quota — no per-token billing |
-| **Scheduled** | `.github/workflows/newsletter.yml` runs every Friday 09:00 UTC | `ANTHROPIC_API_KEY` secret on the repo | Anthropic API per token — full-category runs add up fast |
+| **Scheduled (recommended)** | A launchd agent runs `scripts/weekly.sh` twice a day and publishes at most one issue a week — see [`docs/customising.md` → Scheduled publishing (launchd)](docs/customising.md#scheduled-publishing-launchd) | Claude Code subscription, via a `claude setup-token` token in the Keychain | Subscription quota, capped at $10 a run |
+| **By hand** | `scripts/weekly.sh` in a terminal; or `/newsletter-ai web:./site` in Claude Code, then check, commit and push yourself | Claude Code subscription | Subscription quota |
 
-Both paths produce the same output: a Hugo-compatible Markdown file under `site/content/posts/YYYY-MM-DD.md`, committed and pushed. Cloudflare Pages then deploys within ~30 seconds.
+Both produce a Hugo-compatible Markdown file under `site/content/posts/YYYY-MM-DD.md`. `scripts/weekly.sh` commits and pushes it only if it's the only change and `scripts/check_issue.py` passes it, and Cloudflare Pages then deploys within ~30 seconds. An issue that fails is held, uncommitted, and you get a notification.
 
-Pick the local path if you have a Claude Code subscription and don't mind triggering manually. Pick the scheduled path if you want fully hands-off automation and are happy paying API rates — and remember to add `ANTHROPIC_API_KEY` under **Settings → Secrets and variables → Actions** before the first scheduled run.
+See [`CLAUDE.md` → Publishing a new issue](CLAUDE.md#publishing-a-new-issue) for the pre-flight checklist and recovery steps.
 
-See [`CLAUDE.md` → Publishing a new issue](CLAUDE.md#publishing-a-new-issue) for the local flow's pre-flight checklist and recovery steps.
-
-**Supply-chain story**: Hugo is a single Go binary distributed with SHA256SUMS. PaperMod is vendored as a frozen copy pinned to a known commit SHA (recorded in `site/themes/PaperMod/.papermod-sha`). No `npm install` ever runs in this repo for the website build. The only npm exposure is the Claude Code CLI installed in CI, pinned to a specific version with `--ignore-scripts`. Dependabot scans GitHub Actions versions weekly.
+**Supply-chain story**: Hugo is a single Go binary distributed with SHA256SUMS. PaperMod is vendored as a frozen copy pinned to a known commit SHA (recorded in `site/themes/PaperMod/.papermod-sha`). No `npm install` ever runs in this repo for the website build. Scheduled runs use a pinned copy of the Claude Code CLI that doesn't auto-update.
 
 Vercel and Netlify both support Hugo natively if you prefer them over Cloudflare Pages.
 
@@ -126,23 +108,33 @@ Vercel and Netlify both support Hugo natively if you prefer them over Cloudflare
 
 ```
 newsletter-ai-skill/
-├── .claude/skills/newsletter-ai/        # Skill source — SKILL.md + sources + templates + canvas
-├── .claude/skills/claude-hacks/         # Companion skill (see below)
+├── .claude/
+│   ├── .claude-plugin/plugin.json       # Lets headless runs load the skills with --plugin-dir
+│   └── skills/
+│       ├── newsletter-ai/               # Skill source — SKILL.md + sources + template
+│       └── claude-hacks/                # Companion skill (see below)
 ├── docs/
-│   ├── how-it-works.md                  # 6-step workflow, vault structure, web publish
+│   ├── how-it-works.md                  # 6-step workflow, the checker, publishing
 │   ├── sources.md                       # Annotated source catalogue (human-readable)
-│   └── customising.md                   # Adding sources, format changes, scheduling
+│   ├── customising.md                   # Adding sources, format changes, scheduled publishing
+│   └── specs/                           # Implementation specs
+├── scripts/
+│   ├── weekly.sh                        # Runs the skill headless, checks, commits, pushes
+│   ├── check_issue.py                   # Checks a post against the hard rules
+│   ├── install-agent.sh                 # Installs the launchd agent and the pinned CLI
+│   ├── local.newsletter-ai.weekly.plist.in  # launchd agent template
+│   └── interests.txt                    # What the triage note looks for
+├── tests/                               # Checker unit tests + offline test of weekly.sh
 ├── site/                                # Hugo + PaperMod static site
 │   ├── README.md                        # Bootstrap + Cloudflare Pages dashboard setup
 │   └── scripts/bootstrap.sh             # Scaffold Hugo site, vendor PaperMod at pinned ref
-├── .github/
-│   ├── workflows/newsletter.yml         # Weekly cron — generate, commit, deploy
-│   └── dependabot.yml                   # Weekly npm + GitHub Actions CVE scans
+├── Makefile                             # make check
 ├── CLAUDE.md                            # Project-local Claude Code rules
+├── LICENSE                              # MIT
 └── README.md                            # This file
 ```
 
-The skill files in `.claude/skills/newsletter-ai/` are the source of truth — they are copied to `~/.claude/skills/newsletter-ai/` for global use. See [`CLAUDE.md`](CLAUDE.md#updating-the-skill) for the sync command.
+Runs use the skill files in `.claude/skills/newsletter-ai/` directly, so there's no second copy to keep in sync.
 
 ---
 
@@ -150,9 +142,9 @@ The skill files in `.claude/skills/newsletter-ai/` are the source of truth — t
 
 | Doc | Covers |
 |---|---|
-| [`docs/how-it-works.md`](docs/how-it-works.md) | The 6-step workflow, Obsidian vault format, web publish step |
-| [`docs/sources.md`](docs/sources.md) | Annotated source catalogue across all 11 categories, with search strategies |
-| [`docs/customising.md`](docs/customising.md) | Adding sources, output format, vault path, web publishing, scheduled automation |
+| [`docs/how-it-works.md`](docs/how-it-works.md) | The 6-step workflow, the hard rules and checker, publishing |
+| [`docs/sources.md`](docs/sources.md) | Annotated source catalogue across all 12 categories, with search strategies |
+| [`docs/customising.md`](docs/customising.md) | Adding sources, output format, web publishing, scheduled publishing |
 | [`site/README.md`](site/README.md) | Hugo + PaperMod bootstrap, Cloudflare Pages dashboard, theme update process |
 | [`CLAUDE.md`](CLAUDE.md) | Project-local rules that override global Claude Code defaults when running the skill |
 
@@ -174,3 +166,9 @@ cp -r .claude/skills/claude-hacks/ ~/.claude/skills/claude-hacks/
 Each run appends only new items — no duplicates, no regeneration. On first run it creates the full README structure. A target GitHub repo is required (`gh repo create claude-code-hacks --public --source=. --push`).
 
 The skill searches Reddit (r/ClaudeAI, r/AIdev), Hacker News, X/Twitter (@bcherny, @simonw), GitHub repos and gists, Anthropic docs and blog, YouTube tutorials, personal blogs, and the MCP ecosystem. The output README has nine sections: Setup & Configuration, CLAUDE.md Recipes, Prompt Techniques, MCP Servers & Tools, Custom Skills & Commands, Agentic Workflows, IDE & Editor, CI/CD & Automation, and Video Tutorials.
+
+---
+
+## Licence
+
+MIT — see [`LICENSE`](LICENSE).

@@ -1,26 +1,36 @@
 ---
 name: newsletter-ai
 description: Curate a newsletter covering agentic AI and LLM news across 12 categories: community (Reddit incl. r/MLOps, Hacker News, X/Twitter), research and alignment safety labs (ARC, CAIUS, Apollo, METR, Redwood, FAR AI, BAIR, AI2, Alignment Forum, LessWrong), technical blogs and infra companies (NVIDIA, W&B, vLLM, Databricks, Ollama, CrewAI, Modal, Microsoft Semantic Kernel), AI-only media (MIT Tech Review, Ars Technica, IEEE Spectrum), individual writers (Chollet, Marcus, Wolfe), analyst and VC reports (Gartner, a16z, Sequoia, Brookings), AI security (OWASP, MITRE, NIST, CISA, ENISA, NCSC, Trail of Bits, Lakera, HiddenLayer, Embrace the Red, Snyk Labs), regulatory/policy (EU Commission, UK AISI, FTC, ICO, OSTP, Future of Life Institute, Ada Lovelace Institute, CDT, EFF), agent era (LangChain, Pydantic AI, Composio, HF Agents), open-source infra, macro/hardware (NVIDIA, AMD, Next Platform, Datacenter Dynamics, Chips and Cheese, Fabricated Knowledge), model evaluations (LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench, AlpacaEval), and newsletters/podcasts as secondary sources (The Batch, Latent Space, TWIML). Use when the user asks for AI news, an LLM digest, an agentic AI roundup, or a newsletter.
-argument-hint: "[topic-focus or date-range or vault:~/path or web:~/path/to/hugo-site, optional]"
+argument-hint: "[topic-focus, optional] [web:<hugo-site>] [date:YYYY-MM-DD] [week:YYYY-Www] [triage:<dir>]"
 disable-model-invocation: true
-allowed-tools: WebSearch, WebFetch, Bash, Write
-model: claude-opus-4-6
+allowed-tools: WebSearch, WebFetch, Read
 ---
 
 # Agentic AI & LLM Newsletter Curator
 
 You are curating a high-quality weekly newsletter covering agentic AI and large language model developments. Your audience is technical practitioners, researchers, and security professionals.
 
-## Optional focus
+## Arguments
 $ARGUMENTS
 
-If no arguments are provided, cover the latest developments across all categories below.
+- `web:<path>`: the Hugo site to write the post into (Step 6). Without it, the newsletter is only printed.
+- `date:<YYYY-MM-DD>` and `week:<YYYY-Www>`: the issue date and week (Step 6a).
+- `triage:<dir>`: read `<dir>/interests.txt` and write `<dir>/triage.md` (Step 5). Without it, skip Step 5.
+- Anything else is a topic focus. If there is none, cover the latest developments across all categories below.
+
+## Run rules
+
+- **No parallel subagents for gathering** — search all 12 categories sequentially in the main session.
+- **WebSearch before WebFetch** — use snippets to identify stories; only fetch when snippet lacks enough detail. One fetch per story maximum.
+- **One query per category** — if first query returns 3+ usable results, move on. Skip sections with nothing newsworthy.
+- **No intermediate output** — output only the finished newsletter, then the line from Step 6c.
+- **Cap at 4 items per category.**
 
 ---
 
 ## Step 1: Gather content from all source categories
 
-Work through each category systematically. For each source, search for content published in the **last 7 days** unless the user specified a different range. Collect at minimum 2–3 items per category.
+Work through each category systematically. For each source, search for content published in the window: the **7 days up to the issue date** (Step 6a). Collect at minimum 2–3 items per category.
 
 Refer to [sources.md](sources.md) for the full list of URLs and search queries per category.
 
@@ -50,7 +60,18 @@ For every item you find, assess:
 - **Signal vs noise**: Is it a meaningful development or just hype?
 - **Audience fit**: Would a technical practitioner care about this?
 
-Discard PR fluff, duplicate coverage, and content without substance. Keep only the strongest 3–5 items per category.
+Discard PR fluff, duplicate coverage, and content without substance. Keep only the strongest items, up to the cap in the run rules.
+
+### Hard rules
+
+An item that breaks any of these is out, however strong it is. With `web:`, `scripts/check_issue.py` checks the post after the run, and a post that fails isn't published. The checker compares URLs, so it can't see one story under two URLs: keeping stories unique is up to you.
+
+1. **Nothing from the last four posts.** With `web:`, list `<web>/content/posts/*.md` and read the last four posts before the issue date, by filename. Drop any item whose URL appears in them, or whose story they already covered under another URL.
+2. **No story twice.** Each story appears once in the issue, and each URL once, Quick Links included. When several outlets cover one story, pick one.
+3. **Dated inside the window.** The item's own publication date must be on or after the window start, 7 days before the issue date. The date of an event it reports doesn't count. A URL that carries an earlier date is out even if the page was updated since: a day (`/2026/04/24/`, `2025-08-26-…`), or a month with no day (`/2025/12/`) when that whole month is before the start. So is an arXiv paper whose ID month is wholly before the start (`2604.xxxxx` for a May window), even if a new version appeared this week.
+4. **Article URLs only.** Link to the page that carries the story, never a homepage, blog index or docs root such as `https://blog.example.com/`.
+5. **Label the publisher of the linked page.** In `[Source: [Label](URL)]`, the label names whoever publishes the page at that URL. A dev.to post about a Reddit thread is "DEV Community", not "Reddit"; The Register's story about a Microsoft Research paper is "The Register". Only use Reddit, Hacker News, arXiv, GitHub, X or Microsoft Research for links on their own domains.
+6. **No press-release wires.** Skip GlobeNewswire, PR Newswire, Business Wire, EIN Presswire and ACCESSWIRE. Cite the company's own announcement or independent coverage instead.
 
 ---
 
@@ -60,7 +81,7 @@ Follow the template in [template.md](template.md) exactly. For each item write:
 
 - A **punchy headline** (not the original title — rewrite it to convey the insight)
 - A **2–4 sentence summary** explaining what happened and *why it matters*
-- A **direct link** to the primary source
+- A **direct link** to the primary source, labelled with its publisher (Step 2, rule 5)
 - A **tag** from: `[Research]` `[Tool]` `[Security]` `[Industry]` `[Community]` `[Policy]` `[Eval]` `[Safety]`
 
 ---
@@ -77,114 +98,37 @@ Output the complete newsletter as clean markdown. Do not include your search pro
 
 ---
 
-## Step 5: Write to Obsidian vault
+## Step 5: Triage for the reader's notes
 
-After outputting the newsletter to chat, write a permanent copy to the Obsidian vault.
+Only with a `triage:<dir>` argument; without one, skip this step.
 
-**Default vault path**: `~/Documents/AI-Newsletter-Vault/`
-
-If the user passed a vault path in their arguments (e.g. `/newsletter-ai vault:~/Obsidian/AI/`), use that path instead.
-
-### 5a. Create directories
-
-```bash
-mkdir -p ~/Documents/AI-Newsletter-Vault/issues
-mkdir -p ~/Documents/AI-Newsletter-Vault/canvas
-mkdir -p ~/Documents/AI-Newsletter-Vault/topics
-mkdir -p ~/Documents/AI-Newsletter-Vault/sources
-mkdir -p ~/Documents/AI-Newsletter-Vault/articles
-```
-
-### 5b. Write the issue note
-
-- Determine the **issue date**: end date of the coverage window in `YYYY-MM-DD` format
-- Determine the **ISO week**: `YYYY-Www` format (e.g. `2026-W08`)
-- Write `~/Documents/AI-Newsletter-Vault/issues/YYYY-MM-DD.md` following the format in [obsidian-template.md](obsidian-template.md):
-  - YAML frontmatter: `date`, `week`, `tags`, `theme` (the one-sentence opening framing), `categories` (list of categories with content this issue), `editor_picks` (the 3 headline titles), `source`
-  - Full newsletter body after the frontmatter closing `---`, with **one modification**: replace each section's italic subtitle line with a wikilinked version so Obsidian's Graph View connects the issue to its topic index notes:
-
-| Section | Subtitle line in vault note |
-|---|---|
-| Community Pulse | `*[[topics/community\|Community]] — What the AI community is talking about this week*` |
-| Research Highlights | `*[[topics/research\|Research]] — Papers and findings worth your time*` |
-| Engineering & Technical Blogs | `*[[topics/engineering\|Engineering]] — What builders are shipping and writing*` |
-| Industry & Analyst Watch | `*[[topics/industry\|Industry]] — Enterprise adoption, market signals, and strategic moves*` |
-| AI Security & Safety | `*[[topics/security\|Security]] — Threats, vulnerabilities, frameworks, and defences*` |
-| Product & Company News | `*[[topics/product\|Product]] — Model releases, funding, and notable moves*` |
-| Regulatory & Policy | `*[[topics/policy\|Policy]] — Laws, frameworks, and compliance moves shaping AI deployment*` |
-| Agent Era & Technical Workflows | `*[[topics/agent-era\|Agent Era]] — Patterns, tools, and architectures for building production agents*` |
-| Open Source & Infrastructure | `*[[topics/open-source\|Open Source]] — Model rankings, benchmarks, and the stack underneath*` |
-| Hardware & Macro Watch | `*[[topics/hardware\|Hardware]] — Chips, compute, and the infrastructure layer*` |
-| Model Evaluations & Transparency | `*[[topics/evaluations\|Evaluations]] — How models are being measured, compared, and held accountable*` |
-
-These wikilinks power Obsidian's Graph View: the issue note appears at the centre with edges radiating to each topic node it covered.
-
-In addition, each story **headline** in the vault note should be a wikilink to its article note:
-`### [[articles/YYYY-MM-DD-topic-slug|Original Headline]]`
-
-Slug format: `YYYY-MM-DD-{topic}-{2-3-word-title}` (lowercase, hyphens). Example:
-`### [[articles/2026-02-20-security-owasp-agentic-top-10|OWASP Publishes the Agentic AI Top 10]]`
-
-This links the issue note directly to individual article notes, completing the four-level graph: issue → topic → source → article.
-
-### 5c. Write canvas mindmaps (first run only)
-
-If `~/Documents/AI-Newsletter-Vault/canvas/newsletter-structure.canvas` does not yet exist:
-- Read the content of [newsletter-structure.canvas](newsletter-structure.canvas)
-- Write it to `~/Documents/AI-Newsletter-Vault/canvas/newsletter-structure.canvas`
-
-If `~/Documents/AI-Newsletter-Vault/canvas/sources.canvas` does not yet exist:
-- Read the content of [sources.canvas](sources.canvas)
-- Write it to `~/Documents/AI-Newsletter-Vault/canvas/sources.canvas`
-
-These canvas files are static — they map the newsletter's 13 output sections and the 11 source categories respectively. They are created once and do not change issue to issue.
-
-### 5d. Write vault index (first run only)
-
-If `~/Documents/AI-Newsletter-Vault/_index.md` does not yet exist, write the vault dashboard note as defined in [obsidian-template.md](obsidian-template.md).
-
-### 5f. Write topic index notes (first run only)
-
-If `~/Documents/AI-Newsletter-Vault/topics/community.md` does not yet exist, create all 11 topic index notes as defined in [obsidian-template.md](obsidian-template.md). Each topic note includes wikilinks to its catalogue sources. These are static — created once, not updated per issue.
-
-### 5g. Create article notes
-
-For every story included in the newsletter, write one article note to `~/Documents/AI-Newsletter-Vault/articles/SLUG.md` using the article note format defined in [obsidian-template.md](obsidian-template.md):
-- Slug: `YYYY-MM-DD-{topic}-{2-3-word-title}` (lowercase, hyphens)
-- YAML frontmatter: `date`, `source` (slug from the source catalogue), `topic` (category slug), `tag`, `url`
-- Body: the headline, the 2-4 sentence summary, then `[[sources/slug|Name]] · [[topics/slug|Name]] · [Read more](url)`
-
-### 5h. Create source notes (first run only)
-
-If `~/Documents/AI-Newsletter-Vault/sources/hacker-news.md` does not yet exist, create all source notes as defined in [obsidian-template.md](obsidian-template.md). Each source note has a Dataview query that auto-aggregates all article notes where `source = "slug"`. If a story uses a source not in the catalogue, create a new source note for it.
-
-### 5e. Confirm
-
-After all writes, print:
+Read `<dir>/interests.txt`, which lists one interest per line. Then write `<dir>/triage.md` with up to five items that match those interests and are worth a closer look. The items can come from the issue, or be ones Step 2 cut for space. Every line is exactly:
 
 ```
-Vault note written → ~/Documents/AI-Newsletter-Vault/issues/YYYY-MM-DD.md
-Article notes     → ~/Documents/AI-Newsletter-Vault/articles/ (N notes this issue)
-Canvas mindmaps   → ~/Documents/AI-Newsletter-Vault/canvas/ (created on first run)
-Topic index notes → ~/Documents/AI-Newsletter-Vault/topics/ (created on first run)
-Source notes      → ~/Documents/AI-Newsletter-Vault/sources/ (created on first run)
+- [title](url): why it matches
 ```
+
+- One item per line, and nothing else in the file: no heading, no blank lines, no backticks.
+- Keep each line under 300 characters. The URL is the article's own, as in Step 2's hard rules.
+- Write no commands and no suggestions of what to run; the reader's tooling adds those.
+- If nothing matches, write an empty file.
 
 ---
 
-## Step 6: Publish to web (optional)
+## Step 6: Write the post
 
-Only run this step if the user passed a `web:` argument (e.g. `/newsletter-ai web:~/my-hugo-site` or `/newsletter-ai web:./site` for this repo's built-in site). If no `web:` argument was given, skip this step entirely.
+### 6a. Issue date and week
 
-This step publishes the newsletter to a [Hugo](https://gohugo.io) static site themed with [PaperMod](https://github.com/adityatelange/hugo-PaperMod) that auto-deploys to **Cloudflare Pages** on push. One-time setup: scaffold the Hugo site (the in-repo `site/scripts/bootstrap.sh` does this — a single Go binary plus a vendored, frozen theme copy, no npm), connect the GitHub repo to Cloudflare Pages, and every push to `main` triggers an automatic deploy. Vercel and Netlify also work; their Hugo support is built in.
+These apply to every run, with or without `web:`.
 
-### 6a. Extract the web repo path
-
-Parse the `web:` value from `$ARGUMENTS`, expanding `~` to the user's home directory.
+- **Issue date**: the `date:` argument if given, otherwise today, as `YYYY-MM-DD`.
+- **Week**: the `week:` argument if given, otherwise the ISO week of the date four days before the issue date, as `YYYY-Www` (e.g. `2026-W08`). Issues from Friday to Thursday share a week.
 
 ### 6b. Write the issue to the Hugo content directory
 
-Write `{WEB_REPO}/content/posts/YYYY-MM-DD.md` with Hugo + PaperMod-compatible frontmatter and the clean newsletter body.
+Only with a `web:` argument (e.g. `web:~/my-hugo-site`, or `web:./site` for this repo's built-in site); without one, skip 6b and 6c. Expand `~` to the user's home directory.
+
+Write `<web>/content/posts/<issue date>.md` with Hugo + PaperMod-compatible frontmatter and the clean newsletter body.
 
 **Frontmatter** (Hugo + PaperMod conventions):
 
@@ -206,23 +150,16 @@ ShowBreadCrumbs: true
 ---
 ```
 
-**Body**: Use the clean newsletter markdown from Step 3 verbatim — the same text output to chat. Do **not** include Obsidian wikilinks (`[[...]]`). All section subtitles should be plain italic text (not wikilinked).
+`YYYY-Www` is the week and `YYYY-MM-DD` the issue date, both from 6a.
 
-### 6c. Push to trigger deployment
+**Body**: Use the clean newsletter markdown from Step 3 verbatim — the same text output to chat.
 
-```bash
-cd {WEB_REPO} && \
-  git add content/posts/YYYY-MM-DD.md && \
-  git commit -m "Newsletter YYYY-MM-DD" && \
-  git push
-```
+Write only this file. Don't commit or publish it: whoever ran the skill checks the post and publishes it (`scripts/weekly.sh` does both for scheduled runs).
 
-Cloudflare Pages picks up the push and deploys within ~30 seconds.
+### 6c. Confirm
 
-### 6d. Confirm
-
-Append to the confirmation block from Step 5e:
+Print the path you wrote:
 
 ```
-Web publish       → {WEB_REPO}/content/posts/YYYY-MM-DD.md (pushed)
+Post written → <web>/content/posts/YYYY-MM-DD.md
 ```
