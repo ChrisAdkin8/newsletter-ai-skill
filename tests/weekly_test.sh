@@ -31,9 +31,10 @@ check() { # description, then a command that must succeed
 setup() {
   SCENARIO=$1
   T=$(mktemp -d "$TMPROOT/XXXXXX")
-  mkdir -p "$T/seed/site/content" "$T/bin" "$T/home" "$T/log" "$T/notes"
+  mkdir -p "$T/seed/site/content/posts" "$T/bin" "$T/home" "$T/log" "$T/notes"
   cp -R "$ROOT/scripts" "$ROOT/.claude" "$ROOT/.gitignore" "$ROOT/README.md" "$T/seed/"
-  cp -R "$ROOT/site/content/posts" "$T/seed/site/content/"
+  # The fixtures, not the live posts, so a real post for today can't collide.
+  cp "$ROOT/tests/fixtures/"*.md "$T/seed/site/content/posts/"
   git -C "$T/seed" init -q -b main
   git -C "$T/seed" add -A
   git -C "$T/seed" commit -qm seed
