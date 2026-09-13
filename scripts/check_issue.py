@@ -50,7 +50,9 @@ LABEL_DOMAINS = {
 
 
 class Post:
+    """A post: its lines, and the title and date from its frontmatter."""
     def __init__(self, path):
+        """Read the post at `path`."""
         self.path = path
         self.lines = path.read_text(encoding="utf-8").splitlines()
         self.title, self.title_line = None, 1
@@ -58,6 +60,7 @@ class Post:
         self._read_frontmatter()
 
     def _read_frontmatter(self):
+        """Set title and date, with their line numbers, from the YAML frontmatter."""
         if not self.lines or self.lines[0].strip() != "---":
             return
         for n, line in enumerate(self.lines[1:], start=2):
@@ -76,6 +79,7 @@ class Post:
 
     @property
     def week(self):
+        """The YYYY-Www week in the title, or None."""
         m = WEEK.search(self.title or "")
         return m[1] if m else None
 
@@ -95,6 +99,7 @@ class Post:
 
 
 def normalise(url):
+    """The URL as compared for repeats: host lowercased, no fragment or trailing slash."""
     parts = urlsplit(url)
     return f"{parts.scheme}://{parts.netloc.lower()}{parts.path.rstrip('/')}" + (
         f"?{parts.query}" if parts.query else ""
@@ -102,15 +107,18 @@ def normalise(url):
 
 
 def host(url):
+    """The URL's lowercased hostname."""
     return (urlsplit(url).hostname or "").lower()
 
 
 def on_domain(url, domains):
+    """Whether the URL's host is one of `domains` or a subdomain of one."""
     h = host(url)
     return any(h == d or h.endswith("." + d) for d in domains)
 
 
 def month_end(year, month):
+    """The last day of the month."""
     if month == 12:
         return dt.date(year, 12, 31)
     return dt.date(year, month + 1, 1) - dt.timedelta(days=1)
@@ -132,12 +140,14 @@ def url_dates(url):
 
 
 def own_date(post):
+    """The post's date for ordering: its filename date, else its frontmatter date."""
     if POST_NAME.match(post.path.name):
         return post.path.stem
     return post.date.isoformat() if post.date else None
 
 
 def earlier_posts(post, posts_dir):
+    """Posts in `posts_dir` dated before `post`, oldest first."""
     mine = own_date(post)
     if mine is None:
         return []
@@ -152,6 +162,11 @@ def earlier_posts(post, posts_dir):
 
 
 def check(post, posts_dir, week=None):
+    """Return (line, rule, message) findings for `post`, sorted by line.
+
+    `posts_dir` holds the earlier posts; `week`, if given, is the week the
+    title must carry.
+    """
     findings = []
 
     def add(line, rule, message):
@@ -233,6 +248,7 @@ def check(post, posts_dir, week=None):
 
 
 def main(argv=None):
+    """Run the checker from the command line; return the exit status."""
     parser = argparse.ArgumentParser(description="Check a newsletter post.")
     parser.add_argument("post", type=Path)
     parser.add_argument("--posts-dir", type=Path)
