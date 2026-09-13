@@ -1,6 +1,6 @@
 ---
 name: newsletter-ai
-description: Curate a newsletter covering agentic AI and LLM news across 12 categories: community (Reddit incl. r/MLOps, Hacker News, X/Twitter), research and alignment safety labs (ARC, CAIUS, Apollo, METR, Redwood, FAR AI, BAIR, AI2, Alignment Forum, LessWrong), technical blogs and infra companies (NVIDIA, W&B, vLLM, Databricks, Ollama, CrewAI, Modal, Microsoft Semantic Kernel), AI-only media (MIT Tech Review, Ars Technica, IEEE Spectrum), individual writers (Chollet, Marcus, Wolfe), analyst and VC reports (Gartner, a16z, Sequoia, Brookings), AI security (OWASP, MITRE, NIST, CISA, ENISA, NCSC, Trail of Bits, Lakera, HiddenLayer, Embrace the Red, Snyk Labs), regulatory/policy (EU Commission, UK AISI, FTC, ICO, OSTP, Future of Life Institute, Ada Lovelace Institute, CDT, EFF), agent era (LangChain, Pydantic AI, Composio, HF Agents), open-source infra, macro/hardware (NVIDIA, AMD, Next Platform, Datacenter Dynamics, Chips and Cheese, Fabricated Knowledge), model evaluations (LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench, AlpacaEval), and newsletters/podcasts as secondary sources (The Batch, Latent Space, TWIML). Use when the user asks for AI news, an LLM digest, an agentic AI roundup, or a newsletter.
+description: Curate a newsletter covering agentic AI and LLM news across 13 categories: community (Reddit incl. r/MLOps, Hacker News, X/Twitter), research and alignment safety labs (ARC, CAIUS, Apollo, METR, Redwood, FAR AI, BAIR, AI2, Alignment Forum, LessWrong), technical blogs and infra companies (NVIDIA, W&B, vLLM, Databricks, Ollama, CrewAI, Modal, Microsoft Semantic Kernel), AI-only media (MIT Tech Review, Ars Technica, IEEE Spectrum), individual writers (Chollet, Marcus, Wolfe), analyst and VC reports (Gartner, a16z, Sequoia, Brookings), AI security (OWASP, MITRE, NIST, CISA, ENISA, NCSC, Trail of Bits, Lakera, HiddenLayer, Embrace the Red, Snyk Labs), regulatory/policy (EU Commission, UK AISI, FTC, ICO, OSTP, Future of Life Institute, Ada Lovelace Institute, CDT, EFF), agent era (LangChain, Pydantic AI, Composio, HF Agents), open-source infra, macro/hardware (NVIDIA, AMD, Next Platform, Datacenter Dynamics, Chips and Cheese, Fabricated Knowledge), model evaluations (LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench, AlpacaEval), newsletters/podcasts as secondary sources (The Batch, Latent Space, TWIML), and cloud native AI (CNCF, Kubernetes, Kubeflow, KServe, llm-d, kagent, OpenTelemetry). Use when the user asks for AI news, an LLM digest, an agentic AI roundup, or a newsletter.
 argument-hint: "[topic-focus, optional] [web:<hugo-site>] [date:YYYY-MM-DD] [week:YYYY-Www] [triage:<dir>]"
 disable-model-invocation: true
 allowed-tools: WebSearch, WebFetch, Read
@@ -20,7 +20,7 @@ $ARGUMENTS
 
 ## Run rules
 
-- **No parallel subagents for gathering** — search all 12 categories sequentially in the main session.
+- **No parallel subagents for gathering** — search all 13 categories sequentially in the main session.
 - **WebSearch before WebFetch** — use snippets to identify stories; only fetch when snippet lacks enough detail. One fetch per story maximum.
 - **One query per category** — if first query returns 3+ usable results, move on. Skip sections with nothing newsworthy.
 - **No intermediate output** — output only the finished newsletter, then the line from Step 6c.
@@ -48,6 +48,7 @@ Refer to [sources.md](sources.md) for the full list of URLs and search queries p
 10. **Macro & Hardware Watch** (NVIDIA primary, AMD AI/ROCm, Next Platform, Datacenter Dynamics, Computing.co.uk, SemiAnalysis, Chips and Cheese, Fabricated Knowledge)
 11. **Model Evaluations & Transparency** (LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench, AlpacaEval, HF Leaderboard, WhatLLM.org)
 12. **Newsletters & Podcasts** (secondary sources only — The Batch, Latent Space, TWIML; use to identify stories then cite the primary source)
+13. **Cloud Native & CNCF** (CNCF blog and announcements, Kubernetes blog, LWKD; AI-on-Kubernetes projects — Kubeflow, KServe, llm-d, kagent, KAITO, Volcano, HAMi, Dapr, OpenTelemetry; The New Stack)
 
 ---
 
@@ -72,6 +73,7 @@ An item that breaks any of these is out, however strong it is. With `web:`, `scr
 4. **Article URLs only.** Link to the page that carries the story, never a homepage, blog index or docs root such as `https://blog.example.com/`.
 5. **Label the publisher of the linked page.** In `[Source: [Label](URL)]`, the label names whoever publishes the page at that URL. A dev.to post about a Reddit thread is "DEV Community", not "Reddit"; The Register's story about a Microsoft Research paper is "The Register". Only use Reddit, Hacker News, arXiv, GitHub, X or Microsoft Research for links on their own domains.
 6. **No press-release wires.** Skip GlobeNewswire, PR Newswire, Business Wire, EIN Presswire and ACCESSWIRE. Cite the company's own announcement or independent coverage instead.
+7. **Primary or specialist outlets only.** Never cite investment or personal-finance sites, syndicated finance pages, fan sites, crypto outlets for stories that aren't about crypto, or a rewrite of a primary source you could cite directly (see "Don't cite" in [sources.md](sources.md)). If a category has nothing better, skip it. The checker doesn't enforce this rule.
 
 ---
 

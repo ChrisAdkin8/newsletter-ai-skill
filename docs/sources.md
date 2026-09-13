@@ -4,6 +4,19 @@ Full annotated list of sources used by the skill, grouped by category. This is t
 
 ---
 
+## Don't cite
+
+The first scheduled issue (2026-W37) filled its thinnest sections from sources like these. Each was a symptom of a category with nothing citable that week. The skill skips such items, or finds the primary source or a specialist outlet:
+
+- **Investment and personal-finance sites** (The Motley Fool, Seeking Alpha, Benzinga, InvestorPlace): written for investors, and they rarely add reporting of their own.
+- **Syndicated finance pages** (Yahoo Finance, MSN): republish someone else's article; cite the original publisher.
+- **Fan and enthusiast sites for one company** (e.g. SammyFans): not a credible source for industry news such as TSMC's roadmap.
+- **Crypto outlets for stories that aren't about crypto** (e.g. Forkast on AI infrastructure CVEs): cite the researcher's disclosure.
+- **Rewrites of a primary source you can reach**: cite the leaderboard, changelog or paper itself.
+- **Press-release wires**: already a hard rule, enforced by `scripts/check_issue.py`.
+
+---
+
 ## 1. Community & Discussion
 
 ### Reddit
@@ -124,7 +137,7 @@ These labs are essential for agentic AI coverage. They publish work that context
 | Center for AI Safety (CAIUS) | https://www.safe.ai/research | Policy briefs, evals, frontier risk framing. Dan Hendrycks leads this |
 | Apollo Research | https://www.apolloresearch.ai/research | Deception, scheming, and agentic model evaluations |
 | METR | https://metr.org | Frontier model capability benchmarking; produces evaluations used by major labs |
-| Redwood Research | https://www.redwoodresearch.org/ | Adversarial training, scalable oversight, alignment techniques |
+| Redwood Research | https://blog.redwoodresearch.org/ | Adversarial training, scalable oversight, alignment techniques |
 | FAR AI | https://far.ai/ | Scalable oversight, mechanistic interpretability, alignment |
 
 **Why these matter for agentic coverage**: Agentic systems with tool use and long-horizon planning create novel failure modes (scheming, deception, goal misgeneralisation). These labs study exactly that.
@@ -311,6 +324,8 @@ These are the primary government sources for operational AI security guidance �
 | Wired AI & Security | https://www.wired.com/tag/artificial-intelligence/ | Mainstream coverage of AI security incidents |
 | Dark Reading | https://www.darkreading.com/keyword/artificial-intelligence | Enterprise security practitioner audience |
 | Krebs on Security | https://krebsonsecurity.com | High-quality incident coverage when AI is involved |
+| Check Point Research | https://research.checkpoint.com/ | Primary vulnerability research; frequent findings in AI and LLM platforms, such as cross-account data leakage in ChatGPT (2026) |
+| OX Security | https://www.ox.security/blog/ | Primary research, with CVEs, on AI coding agents and MCP supply-chain flaws; cited in two of the first three issues |
 
 ---
 
@@ -320,7 +335,7 @@ These are the primary government sources for operational AI security guidance �
 | Source | URL | What to look for |
 |---|---|---|
 | OpenRouter models | https://openrouter.ai/models | Sorted by date; shows all available models across providers |
-| LMSYS Chatbot Arena | https://chat.lmsys.org | Leaderboard shifts indicate meaningful capability changes |
+| Arena (formerly LMSYS Chatbot Arena) | https://arena.ai/leaderboard | Leaderboard shifts indicate meaningful capability changes |
 | HuggingFace model hub | https://huggingface.co/models | Open-source model releases sorted by recent activity |
 
 ### Funding & M&A
@@ -329,6 +344,16 @@ These are the primary government sources for operational AI security guidance �
 | Crunchbase AI | https://www.crunchbase.com/hub/artificial-intelligence-companies |
 | TechCrunch AI | https://techcrunch.com/category/artificial-intelligence/ |
 | Axios AI | https://www.axios.com/technology/artificial-intelligence |
+| CNBC Technology | https://www.cnbc.com/technology/ |
+| CNBC AI | https://www.cnbc.com/ai-artificial-intelligence/ |
+| Reuters Technology | https://www.reuters.com/technology/ |
+
+CNBC was cited six times in the first three issues. Reuters is often first on deals but blocks automated fetches, so the skill finds its stories by search.
+
+### Developer tool release notes
+| Source | URL |
+|---|---|
+| Claude Code changelog | https://code.claude.com/docs/en/changelog |
 
 ### LinkedIn
 Posts from researchers and executives often contain opinions and context not published elsewhere.
@@ -346,7 +371,7 @@ Posts from researchers and executives often contain opinions and context not pub
 | Source | URL | What it covers |
 |---|---|---|
 | European Commission — AI Act | https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai | EU AI Act implementation, delegated acts, sandboxes, enforcement timelines |
-| UK AI Safety Institute | https://www.gov.uk/government/organisations/ai-safety-institute | UK frontier AI safety evaluations, international coordination on standards |
+| UK AI Security Institute (AISI) | https://www.aisi.gov.uk/ | UK frontier AI safety evaluations, international coordination on standards |
 | White House OSTP | https://www.whitehouse.gov/ostp/ | US AI executive policy, national AI strategy, Federal agency guidance |
 | FTC (US) | https://www.ftc.gov/policy/advocacy-research/tech-at-ftc | US enforcement on AI deception, unfair practices, and data misuse — enforcement actions here are news |
 | UK ICO | https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/artificial-intelligence/ | UK data protection regulator with an active AI guidance programme |
@@ -362,6 +387,17 @@ Posts from researchers and executives often contain opinions and context not pub
 | Covington — Inside Privacy | https://www.insideprivacy.com | Data protection, AI Act, privacy enforcement (US & EU) |
 | Covington — Inside Global Tech | https://www.insideglobaltech.com | Cross-border tech regulation, AI policy |
 | HSF Kramer — Behind the Prompt | search `"Behind the Prompt" HSF Kramer site:linkedin.com` | Monthly AI insights, legal and enterprise AI governance trends |
+
+### Weekly policy news
+
+Government sites and law firms publish irregularly: in 2026-W37, 13 searches of them found nothing, and the issue had no policy section. These publish every week. Use them to find what happened, then cite the primary document where there is one.
+
+| Source | URL | What it covers |
+|---|---|---|
+| Euractiv Tech | https://www.euractiv.com/section/tech/ | EU policy news, often first on AI Act and digital omnibus negotiations (blocks automated fetches; found by search) |
+| Tech Policy Press | https://www.techpolicy.press/ | Frequent news and analysis on US, EU and UK tech and AI policy |
+| Transformer | https://www.transformernews.ai/ | Weekly AI policy and safety news; strong on frontier-model regulation and lab governance |
+| EU AI Act Newsletter | https://artificialintelligenceact.substack.com/ | Weekly AI Act implementation roundup; secondary, pointing to Commission, AI Office and member-state documents |
 
 ---
 
@@ -437,6 +473,9 @@ UK-based enterprise IT publication with dedicated AI & Machine Learning and Infr
 | Groq blog | https://groq.com/blog/ | LPU inference, throughput, energy efficiency |
 | The Information (AI hardware) | search `"AI chips" OR "GPU" site:theinformation.com` | Insider reporting on Nvidia, AMD, custom silicon |
 | Tom's Hardware AI | https://www.tomshardware.com | GPU benchmarks, hardware release coverage |
+| TrendForce | https://www.trendforce.com/news/ | Primary market research on HBM, DRAM and foundry pricing and capacity: the numbers other outlets quote |
+| ServeTheHome | https://www.servethehome.com/ | Hands-on server, accelerator and networking hardware coverage |
+| Reuters Technology | https://www.reuters.com/technology/ | Chip deals, export controls and supply-chain news (blocks automated fetches; found by search) |
 
 ---
 
@@ -449,7 +488,7 @@ Evaluation is now a discipline in its own right — large enough to stand alone,
 The team behind Chatbot Arena. Their blog provides methodology insights, dataset releases, and analysis of preference data that goes well beyond the Arena UI.
 
 - **Blog**: https://lmsys.org/blog/
-- **Arena**: https://chat.lmsys.org
+- **Arena**: https://arena.ai/leaderboard (formerly LMSYS Chatbot Arena)
 - **Strength**: Human preference data at scale, Elo methodology, head-to-head model comparisons
 
 ### Artificial Analysis
@@ -514,3 +553,47 @@ Weekly digest of model ranking changes — useful for tracking momentum without 
 | TWIML AI Podcast | https://twimlai.com/podcast | Technical ML and AI interviews; strong on production ML, research and hardware |
 
 **Search strategy**: `site:deeplearning.ai/the-batch`, `site:latent.space`, `site:twimlai.com`. Use them to fill gaps: if a story appears here and not in the primary sources, find and link the primary source rather than the newsletter or podcast.
+
+---
+
+## 13. Cloud Native & CNCF
+
+This section covers how AI models and agents are built and run on Kubernetes and CNCF projects, plus the CNCF's own major news: graduations, new projects, releases and KubeCon. Much production AI now runs on Kubernetes, and the cloud native projects for inference, scheduling, GPU sharing and agent observability move fast, but they are covered patchily by AI-focused press.
+
+### CNCF and Kubernetes
+
+| Source | URL | Strength |
+|---|---|---|
+| CNCF Blog | https://www.cncf.io/blog/ | Project updates, end-user case studies, community news |
+| CNCF Announcements | https://www.cncf.io/announcements/ | Graduations, new projects, surveys and KubeCon news. These are the CNCF's own announcements, so they are primary, not a wire |
+| CNCF Reports | https://www.cncf.io/reports/ | The annual survey and cloud native AI reports: adoption data that analyst firms charge for |
+| CNCF TOC | https://github.com/cncf/toc/issues | Where projects apply to join or move between sandbox, incubating and graduated; primary for maturity changes |
+| Kubernetes Blog | https://kubernetes.io/blog/ | Release announcements and feature deep-dives, such as Dynamic Resource Allocation for GPUs and other accelerators |
+| Last Week in Kubernetes Development | https://lwkd.info/ | Weekly summary of merged features, KEPs and release timelines, written by Kubernetes contributors |
+
+### AI on Kubernetes projects
+
+CNCF maturity as listed in the [CNCF landscape](https://landscape.cncf.io/) on 2026-09-13. Project blogs and release notes are the primary source for their own news.
+
+| Project | Maturity | URL | Why it matters |
+|---|---|---|---|
+| Kubeflow | graduated | https://blog.kubeflow.org/ | The longest-standing ML platform on Kubernetes: pipelines, training operators, serving |
+| KServe | incubating | https://github.com/kserve/kserve/releases | Standard model-serving layer; integrates LLM runtimes such as vLLM |
+| llm-d | sandbox | https://llm-d.ai/blog | Distributed LLM inference on Kubernetes, with disaggregated prefill and decode |
+| kagent | sandbox | https://kagent.dev/blog | Framework for AI agents that run on, and operate, Kubernetes |
+| KAITO | sandbox | https://github.com/kaito-project/kaito/releases | Automates model deployment and fine-tuning, including GPU node provisioning |
+| Volcano | incubating | https://volcano.sh/en/blog/ | Batch scheduler used for AI training and inference jobs |
+| HAMi | incubating | https://github.com/Project-HAMi/HAMi/releases | GPU sharing and virtualisation across vendors |
+| Dapr | graduated | https://blog.dapr.io/posts/ | Dapr Agents and durable workflows for long-running agents |
+| OpenTelemetry | graduated | https://opentelemetry.io/blog/ | GenAI semantic conventions: the emerging standard for tracing model and agent calls |
+| Kueue | Kubernetes SIG Scheduling | https://kueue.sigs.k8s.io/ | Job queueing and quotas for shared GPU clusters |
+| Gateway API Inference Extension | Kubernetes SIG Network | https://gateway-api-inference-extension.sigs.k8s.io/ | Model-aware load balancing for inference traffic |
+
+### News
+
+| Source | URL | Strength |
+|---|---|---|
+| The New Stack | https://thenewstack.io/kubernetes/ | Daily cloud native and platform engineering news |
+| KubeWeekly | https://www.cncf.io/kubeweekly/ | The CNCF's weekly digest. Secondary: use it to find stories, then cite the primary |
+
+**Search strategy**: `site:cncf.io/blog AI OR agent`, `site:cncf.io/announcements`, `site:kubernetes.io/blog`, `site:lwkd.info`, `site:thenewstack.io kubernetes AI`, `site:llm-d.ai`, `site:kagent.dev`, `KServe release`, `"Dynamic Resource Allocation" GPU kubernetes`, `KubeCon 2026 AI`.

@@ -33,7 +33,7 @@ No other files need updating — `SKILL.md` references `sources.md` as a whole, 
 1. Add a new section to `sources.md`:
 
 ```markdown
-## 13. Podcasts & Video
+## 14. Podcasts & Video
 
 | Source | URL |
 |---|---|
@@ -45,7 +45,7 @@ No other files need updating — `SKILL.md` references `sources.md` as a whole, 
 2. Add the category to the list in `SKILL.md` under **Step 1**:
 
 ```markdown
-13. **Podcasts & Video** (Latent Space, TWIML, Lex Fridman AI episodes)
+14. **Podcasts & Video** (Latent Space, TWIML, Lex Fridman AI episodes)
 ```
 
 3. Add a matching section to `template.md` following the same pattern as existing sections.

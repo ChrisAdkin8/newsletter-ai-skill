@@ -2,7 +2,7 @@
 
 > A Claude Code skill that curates a weekly newsletter on agentic AI and LLM developments. Outputs a clean Markdown digest to chat and writes it as a post for a public website built with Hugo + PaperMod on Cloudflare Pages — zero npm dependencies in the build. A launchd agent on your Mac can publish it every week, behind a checker that holds any issue that breaks the rules.
 
-Invoke `/newsletter-ai` and Claude searches twelve source categories — community discussion, research papers, engineering blogs, analyst reports, AI security, product news, regulation, agent frameworks, open source, hardware, model evaluations, and newsletters and podcasts as leads to primary sources — then produces a digest with rewritten headlines, two-to-four sentence summaries, a connecting "Editor's Picks" theme, and a tag on every item.
+Invoke `/newsletter-ai` and Claude searches thirteen source categories — community discussion, research papers, engineering blogs, analyst reports, AI security, product news, regulation, agent frameworks, open source, hardware, model evaluations, cloud native and CNCF projects, and newsletters and podcasts as leads to primary sources — then produces a digest with rewritten headlines, two-to-four sentence summaries, a connecting "Editor's Picks" theme, and a tag on every item.
 
 The full annotated source list lives in [`docs/sources.md`](docs/sources.md).
 
@@ -62,7 +62,7 @@ To use it in another project, copy `.claude/skills/newsletter-ai/` into that pro
 **Invocation patterns:**
 
 ```
-/newsletter-ai                                          # Last 7 days, all 12 categories
+/newsletter-ai                                          # Last 7 days, all 13 categories
 /newsletter-ai security focus                           # Topic-scoped
 /newsletter-ai agentic frameworks only                  # Topic-scoped
 /newsletter-ai web:./site                               # Write the post into the bundled site/
@@ -143,7 +143,7 @@ Runs use the skill files in `.claude/skills/newsletter-ai/` directly, so there's
 | Doc | Covers |
 |---|---|
 | [`docs/how-it-works.md`](docs/how-it-works.md) | The 6-step workflow, the hard rules and checker, publishing |
-| [`docs/sources.md`](docs/sources.md) | Annotated source catalogue across all 12 categories, with search strategies |
+| [`docs/sources.md`](docs/sources.md) | Annotated source catalogue across all 13 categories, with search strategies |
 | [`docs/customising.md`](docs/customising.md) | Adding sources, output format, web publishing, scheduled publishing |
 | [`site/README.md`](site/README.md) | Hugo + PaperMod bootstrap, Cloudflare Pages dashboard, theme update process |
 | [`CLAUDE.md`](CLAUDE.md) | Project-local rules that override global Claude Code defaults when running the skill |
