@@ -189,6 +189,27 @@ Use this exact structure when writing the newsletter output.
 
 ---
 
+## Cloud Native & CNCF
+*Kubernetes and CNCF projects for running models and agents in production*
+
+### [Headline]
+`[Tool]`
+
+[2–4 sentences: what the project, release or Kubernetes change is, what it does for running models or agents, and who should adopt it.]
+
+[Source: [Publisher of the linked page](URL)]
+
+---
+
+### [Next item]
+`[Tool]`
+
+[2–4 sentences.]
+
+[Source: [Publisher of the linked page](URL)]
+
+---
+
 ## Hardware & Macro Watch
 *Chips, compute, and the infrastructure layer*
 
@@ -231,5 +252,5 @@ Use this exact structure when writing the newsletter output.
 
 ---
 
-*Curated by Claude Code · Sources span Reddit, Hacker News, Alignment Forum, arXiv, OWASP, MITRE, NIST, CISA, IAPP, Covington, Ada Lovelace Institute, analyst reports, technical blogs, and hardware press*
+*Curated by Claude Code · Sources span Reddit, Hacker News, Alignment Forum, arXiv, OWASP, MITRE, NIST, CISA, IAPP, Covington, Ada Lovelace Institute, analyst reports, technical blogs, the CNCF, and hardware press*
 ```

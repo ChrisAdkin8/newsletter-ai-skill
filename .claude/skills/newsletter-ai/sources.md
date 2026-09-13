@@ -4,6 +4,19 @@ Use these sources and search strategies for each category. Always prefer primary
 
 ---
 
+## Don't cite
+
+These turned up in past issues when a category came up short. Skip the item, or find its primary source or a specialist outlet, rather than cite:
+
+- **Investment and personal-finance sites** (The Motley Fool, Seeking Alpha, Benzinga, InvestorPlace). Cite the company's announcement or a news report.
+- **Syndicated finance pages** (Yahoo Finance, MSN). Cite the original publisher named on the page.
+- **Fan and enthusiast sites for one company** (e.g. SammyFans). Cite the company or a trade outlet such as those in section 10.
+- **Crypto outlets for stories that aren't about crypto** (e.g. Forkast on AI infrastructure CVEs). Cite the researcher's disclosure.
+- **Rewrites of a primary source you can reach** (a news post about a leaderboard, a changelog or a paper). Cite the leaderboard, changelog or paper.
+- **Press-release wires**: a hard rule in SKILL.md Step 2.
+
+---
+
 ## 1. Community & Discussion
 
 ### Reddit
@@ -121,7 +134,7 @@ Essential for tracking agentic AI safety — these labs publish work that contex
 | Center for AI Safety (CAIUS) | https://www.safe.ai/research | Policy, evals, frontier risk framing |
 | Apollo Research | https://www.apolloresearch.ai/research | Deception, scheming, agent evaluations |
 | METR | https://metr.org | Frontier model capability benchmarking |
-| Redwood Research | https://www.redwoodresearch.org/ | Adversarial training, alignment techniques |
+| Redwood Research | https://blog.redwoodresearch.org/ | Adversarial training, alignment techniques |
 | FAR AI | https://far.ai/ | Scalable oversight, alignment research |
 
 **Search strategy**: `site:alignment.org`, `site:safe.ai/research`, `site:apolloresearch.ai`, `site:metr.org`, `site:redwoodresearch.org`, `site:far.ai`, `"frontier AI" eval 2026`.
@@ -324,8 +337,10 @@ These labs publish the actual zero-day disclosures, campaign analyses, and incid
 | The Register (AI/ML) | https://www.theregister.com/ai-and-ml/ | Sceptical, technically literate AI and security incident reporting |
 | CyberScoop | https://cyberscoop.com | Government cybersecurity reporting; strong on CISA, NSA, and Five Eyes advisories |
 | Bloomberg Cyber | https://www.bloomberg.com/cybersecurity | Breaking enterprise incidents and AI-related breach disclosures (paywalled) |
+| Check Point Research | https://research.checkpoint.com/ | Primary vulnerability research, with frequent findings in AI and LLM platforms |
+| OX Security | https://www.ox.security/blog/ | Primary research, with CVEs, on AI coding agents and MCP supply-chain flaws |
 
-**Search strategy**: `site:owasp.org LLM`, `site:cisa.gov AI security`, `site:lakera.ai/research`, `site:hiddenlayer.com/innovation-hub`, `site:embracethered.com`, `site:invariantlabs.ai`, `"prompt injection" site:github.com`, `"AI security" CVE 2026`, `MITRE ATLAS new technique`, `MCP security vulnerability 2026`.
+**Search strategy**: `site:owasp.org LLM`, `site:cisa.gov AI security`, `site:lakera.ai/research`, `site:hiddenlayer.com/innovation-hub`, `site:embracethered.com`, `site:invariantlabs.ai`, `"prompt injection" site:github.com`, `"AI security" CVE 2026`, `MITRE ATLAS new technique`, `MCP security vulnerability 2026`, `site:research.checkpoint.com AI`, `site:ox.security/blog`.
 
 ---
 
@@ -334,13 +349,18 @@ These labs publish the actual zero-day disclosures, campaign analyses, and incid
 ### Model releases & benchmarks
 - Search: `"new model" OR "model release" LLM site:huggingface.co`
 - OpenRouter model list: https://openrouter.ai/models (sorted by date)
-- LMSYS Chatbot Arena: https://chat.lmsys.org (leaderboard changes)
+- Arena (formerly LMSYS Chatbot Arena): https://arena.ai/leaderboard (leaderboard changes)
+
+### Developer tool release notes
+- Claude Code changelog: https://code.claude.com/docs/en/changelog
 
 ### Funding & M&A
 - Search: `AI startup funding 2026 series`
 - Crunchbase AI: https://www.crunchbase.com/hub/artificial-intelligence-companies
 - TechCrunch AI: https://techcrunch.com/category/artificial-intelligence/
 - Axios AI: https://www.axios.com/technology/artificial-intelligence
+- CNBC Technology: https://www.cnbc.com/technology/ and CNBC AI: https://www.cnbc.com/ai-artificial-intelligence/ (daily: deals, funding, earnings)
+- Reuters Technology: https://www.reuters.com/technology/ (blocks automated fetches: find the story by search and cite the article URL)
 
 ### LinkedIn
 Named practitioner profiles — see **1. Community & Discussion → LinkedIn** for the full profile list and search strategy.
@@ -358,14 +378,14 @@ Track government, legal, and compliance developments. **Always go to primary gov
 | European Commission — AI Act | https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai | EU AI Act implementation, delegated acts, enforcement |
 | EU Council (Consilium) | https://www.consilium.europa.eu/en/press/press-releases/ | Council press releases — political agreements (e.g. AI omnibus deal) land here before Commission digital strategy |
 | European Parliament — AI | https://www.europarl.europa.eu/topics/en/artificial-intelligence | Parliament position, plenary votes, MEP statements on AI legislation |
-| UK AI Safety Institute | https://www.gov.uk/government/organisations/ai-safety-institute | UK frontier AI safety, evaluations, international coordination |
+| UK AI Security Institute (AISI) | https://www.aisi.gov.uk/ | UK frontier AI safety, evaluations, international coordination |
 | White House OSTP | https://www.whitehouse.gov/ostp/ | US AI executive policy, national strategy |
 | FTC (US) | https://www.ftc.gov/policy/advocacy-research/tech-at-ftc | US enforcement on AI deception, unfair practices, data misuse |
 | UK ICO | https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/artificial-intelligence/ | UK data protection regulator; AI guidance affecting LLM deployments |
 | Canada AI (AIDA) | https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai.html | First G7 AI legislation (Artificial Intelligence and Data Act) |
 | Future of Life Institute | https://futureoflife.org/ | AI policy advocacy, open letters, international governance |
 
-**Search strategy**: `"EU AI Act" enforcement site:ec.europa.eu`, `site:consilium.europa.eu AI`, `site:europarl.europa.eu artificial-intelligence`, `site:gov.uk "AI Safety Institute"`, `site:ftc.gov AI`, `site:ico.org.uk artificial-intelligence`, `"AIDA" Canada AI legislation`.
+**Search strategy**: `"EU AI Act" enforcement site:ec.europa.eu`, `site:consilium.europa.eu AI`, `site:europarl.europa.eu artificial-intelligence`, `site:aisi.gov.uk`, `site:ftc.gov AI`, `site:ico.org.uk artificial-intelligence`, `"AIDA" Canada AI legislation`.
 
 ### Legal & compliance commentary
 
@@ -379,6 +399,19 @@ Track government, legal, and compliance developments. **Always go to primary gov
 | Ada Lovelace Institute | https://www.adalovelaceinstitute.org | Independent UK think tank; rigorous research on AI governance, bias, and accountability — one of the most credible UK policy voices |
 | Center for Democracy & Technology | https://cdt.org/ai-policy/ | US civil liberties angle; covers FTC AI enforcement, workplace surveillance, and biometric AI regulation |
 | Electronic Frontier Foundation | https://www.eff.org/issues/ai | Civil liberties, IP, and surveillance dimensions of AI that legal commentary sources miss |
+
+### Weekly policy news
+
+Government sites publish irregularly, so most weeks start here to find what happened, then cite the primary document where there is one.
+
+| Source | URL | Focus |
+|---|---|---|
+| Euractiv Tech | https://www.euractiv.com/section/tech/ | EU policy news, often first on AI Act and digital omnibus negotiations; blocks automated fetches, so find stories by search |
+| Tech Policy Press | https://www.techpolicy.press/ | Frequent news and analysis on US, EU and UK tech and AI policy |
+| Transformer | https://www.transformernews.ai/ | Weekly AI policy and safety news; strong on frontier-model regulation and lab governance |
+| EU AI Act Newsletter | https://artificialintelligenceact.substack.com/ | Weekly AI Act implementation roundup; secondary, so cite the Commission, AI Office or member-state document it points to |
+
+**Search strategy**: `site:techpolicy.press AI`, `site:transformernews.ai`, `"AI Act" site:artificialintelligenceact.substack.com`, `"AI Act" euractiv`.
 
 ---
 
@@ -454,8 +487,11 @@ The chip supply chain and data centre capacity constrain everything else in the 
 | AMD AI / ROCm blog | https://rocm.blogs.amd.com/ | MI300X/MI350 developments, ROCm ecosystem; AMD is now a genuine NVIDIA alternative for inference workloads |
 | Chips and Cheese | https://chipsandcheese.com | Deep architectural analysis of AMD, Intel, and NVIDIA silicon; complements SemiAnalysis on chip internals |
 | Fabricated Knowledge | https://www.fabricatedknowledge.com | Semiconductor supply chain; essential on TSMC capacity, CoWoS packaging, and HBM allocation that constrain AI infrastructure |
+| TrendForce | https://www.trendforce.com/news/ | Primary market research on HBM, DRAM and foundry pricing and capacity |
+| ServeTheHome | https://www.servethehome.com/ | Hands-on server, accelerator and networking hardware coverage |
+| Reuters Technology | https://www.reuters.com/technology/ | Chip deals, export controls and supply-chain news; blocks automated fetches, so find stories by search |
 
-**Search strategy**: `"Nvidia" OR "GPU cluster" OR "AI infrastructure" 2026`, `"data centre AI" site:computing.co.uk`, `site:nextplatform.com AI`, `site:datacenterdynamics.com`, `site:rocm.blogs.amd.com`, `site:chipsandcheese.com`, `site:fabricatedknowledge.com`.
+**Search strategy**: `"Nvidia" OR "GPU cluster" OR "AI infrastructure" 2026`, `"data centre AI" site:computing.co.uk`, `site:nextplatform.com AI`, `site:datacenterdynamics.com`, `site:rocm.blogs.amd.com`, `site:chipsandcheese.com`, `site:fabricatedknowledge.com`, `site:trendforce.com HBM OR DRAM`, `site:servethehome.com`, `site:reuters.com chips AI`.
 
 ---
 
@@ -465,7 +501,7 @@ Evaluation is now a discipline in its own right — distinct from research (§2)
 
 ### LMSYS
 - **Blog**: https://lmsys.org/blog/
-- **Arena**: https://chat.lmsys.org
+- **Arena**: https://arena.ai/leaderboard (formerly LMSYS Chatbot Arena)
 - **Focus**: Chatbot Arena methodology, Elo rankings, human preference data at scale
 
 ### Artificial Analysis
@@ -511,3 +547,47 @@ Evaluation is now a discipline in its own right — distinct from research (§2)
 | TWIML AI Podcast | https://twimlai.com/podcast | Technical ML and AI interviews; strong on production ML, research, and hardware topics |
 
 **Search strategy**: `site:deeplearning.ai/the-batch`, `site:latent.space`, `site:twimlai.com`. Use as gap-fillers — if a story appears here and not in primary sources, find and link the primary source rather than citing the newsletter/podcast.
+
+---
+
+## 13. Cloud Native & CNCF
+
+How AI models and agents are built and run on Kubernetes and CNCF projects, plus the CNCF's own major news: graduations, new projects, releases and KubeCon. Prefer the project's own blog or release notes; use The New Stack and KubeWeekly to find stories, then cite the primary.
+
+### CNCF and Kubernetes
+
+| Source | URL | Focus |
+|---|---|---|
+| CNCF Blog | https://www.cncf.io/blog/ | Project updates, end-user case studies, community news |
+| CNCF Announcements | https://www.cncf.io/announcements/ | Graduations, new projects, surveys and KubeCon news; the CNCF's own announcements, not a wire |
+| CNCF Reports | https://www.cncf.io/reports/ | Annual survey, cloud native AI reports |
+| CNCF TOC | https://github.com/cncf/toc/issues | Project applications and moves between sandbox, incubating and graduated |
+| Kubernetes Blog | https://kubernetes.io/blog/ | Release announcements, feature deep-dives such as Dynamic Resource Allocation for accelerators |
+| Last Week in Kubernetes Development | https://lwkd.info/ | Weekly: merged features, KEPs, release timelines |
+
+### AI on Kubernetes projects
+
+CNCF maturity as listed in the CNCF landscape on 2026-09-13.
+
+| Project | Maturity | URL | Focus |
+|---|---|---|---|
+| Kubeflow | graduated | https://blog.kubeflow.org/ | ML pipelines, training and serving on Kubernetes |
+| KServe | incubating | https://github.com/kserve/kserve/releases | Model inference serving and LLM runtimes |
+| llm-d | sandbox | https://llm-d.ai/blog | Distributed LLM inference on Kubernetes |
+| kagent | sandbox | https://kagent.dev/blog | Framework for AI agents that run on and operate Kubernetes |
+| KAITO | sandbox | https://github.com/kaito-project/kaito/releases | Automated model deployment and fine-tuning |
+| Volcano | incubating | https://volcano.sh/en/blog/ | Batch and AI job scheduling |
+| HAMi | incubating | https://github.com/Project-HAMi/HAMi/releases | GPU sharing and virtualisation |
+| Dapr | graduated | https://blog.dapr.io/posts/ | Dapr Agents and durable workflows for agents |
+| OpenTelemetry | graduated | https://opentelemetry.io/blog/ | GenAI semantic conventions; tracing model and agent calls |
+| Kueue | Kubernetes SIG Scheduling | https://kueue.sigs.k8s.io/ | Job queueing and quotas for AI and batch |
+| Gateway API Inference Extension | Kubernetes SIG Network | https://gateway-api-inference-extension.sigs.k8s.io/ | Model-aware routing for inference traffic |
+
+### News
+
+| Source | URL | Focus |
+|---|---|---|
+| The New Stack | https://thenewstack.io/kubernetes/ | Daily cloud native and platform engineering news |
+| KubeWeekly | https://www.cncf.io/kubeweekly/ | The CNCF's weekly digest; secondary, so use it to find stories and cite the primary |
+
+**Search strategy**: `site:cncf.io/blog AI OR agent`, `site:cncf.io/announcements`, `site:kubernetes.io/blog`, `site:lwkd.info`, `site:thenewstack.io kubernetes AI`, `site:llm-d.ai`, `site:kagent.dev`, `KServe release`, `"Dynamic Resource Allocation" GPU kubernetes`, `KubeCon 2026 AI`.

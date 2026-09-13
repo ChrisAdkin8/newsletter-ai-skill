@@ -12,7 +12,7 @@ The `newsletter-ai` skill runs a 6-step curation workflow when you invoke `/news
         ▼
 ┌─────────────────────────────────┐
 │  Step 1: Gather                 │
-│  Search all 12 source categories│
+│  Search all 13 source categories│
 │  Target: 2–3 items each         │
 └────────────────┬────────────────┘
                  │
@@ -67,7 +67,7 @@ When `scripts/weekly.sh` runs the skill, it then checks the post, commits and pu
 
 ## Step 1: Gather
 
-Claude searches each of the 12 source categories defined in `sources.md`:
+Claude searches each of the 13 source categories defined in `sources.md`:
 
 1. **Community & Discussion** — Reddit (10 subreddits), Hacker News, X/Twitter (11 key accounts)
 2. **Research & Papers** — arXiv, HuggingFace daily papers, Papers with Code, Semantic Scholar; alignment labs (ARC, CAIUS, Apollo, METR, Redwood, FAR AI); academic labs (Stanford HAI, BAIR, AI2, EleutherAI); industry research (Google DeepMind, Microsoft Research, Apple ML, Amazon Science)
@@ -81,6 +81,7 @@ Claude searches each of the 12 source categories defined in `sources.md`:
 10. **Macro & Hardware Watch** — NVIDIA (primary), Next Platform, Datacenter Dynamics, Computing.co.uk, SemiAnalysis
 11. **Model Evaluations & Transparency** — LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench, AlpacaEval, HF Open LLM Leaderboard, WhatLLM.org
 12. **Newsletters & Podcasts** — The Batch, Latent Space, TWIML; secondary sources only, used to find stories whose primary source is then cited
+13. **Cloud Native & CNCF** — CNCF blog and announcements, Kubernetes blog, LWKD; AI-on-Kubernetes projects (Kubeflow, KServe, llm-d, kagent, KAITO, Volcano, HAMi, Dapr, OpenTelemetry); The New Stack
 
 The window is the **7 days up to the issue date**. The issue date is today unless `date:` sets it.
 
@@ -109,6 +110,7 @@ Then come hard rules. `scripts/check_issue.py` enforces most of them on the fini
 | Article URLs, never homepages | `homepage` |
 | The label names the publisher of the linked page | `label` |
 | No press-release wires | `wire` |
+| Primary or specialist outlets; nothing from the "Don't cite" list in `sources.md` | none: the model's rule |
 
 ---
 
