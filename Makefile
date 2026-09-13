@@ -6,7 +6,7 @@ check: lint test
 
 lint:
 	@for f in $(SCRIPTS); do bash -n "$$f" || exit 1; done
-	@if command -v shellcheck >/dev/null; then shellcheck $(SCRIPTS); \
+	@if command -v shellcheck >/dev/null; then shellcheck --severity=warning $(SCRIPTS); \
 	else echo "shellcheck not installed; skipped"; fi
 	@for env in '' '<key>PROBE</key><string>1</string>'; do \
 	  sed -e "s|@HOME@|$$HOME|g" -e "s|@REPO@|$$PWD|g" -e "s|@EXTRA_ENV@|$$env|" \

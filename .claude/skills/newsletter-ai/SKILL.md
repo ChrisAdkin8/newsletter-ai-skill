@@ -64,7 +64,7 @@ Discard PR fluff, duplicate coverage, and content without substance. Keep only t
 
 ### Hard rules
 
-An item that breaks any of these is out, however strong it is. With `web:`, the post is checked against them after the run by `scripts/check_issue.py`, and a post that fails isn't published.
+An item that breaks any of these is out, however strong it is. With `web:`, `scripts/check_issue.py` checks the post after the run, and a post that fails isn't published. The checker compares URLs, so it can't see one story under two URLs: keeping stories unique is up to you.
 
 1. **Nothing from the last four posts.** With `web:`, list `<web>/content/posts/*.md` and read the last four posts before the issue date, by filename. Drop any item whose URL appears in them, or whose story they already covered under another URL.
 2. **No story twice.** Each story appears once in the issue, and each URL once, Quick Links included. When several outlets cover one story, pick one.

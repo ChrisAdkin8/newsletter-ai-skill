@@ -49,9 +49,11 @@ DISABLE_AUTOUPDATER=1 "$DEST/claude" --version | grep -qF "$CLAUDE_PIN" || {
 
 extra_env=
 [ -n "${PROBE:-}" ] && extra_env='<key>PROBE</key><string>1</string>'
+# Escape a path for the plist (XML) and then for a sed replacement.
+esc() { printf '%s' "$1" | sed -e 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g' -e 's/[\\|&]/\\&/g'; }
 tmp=$(mktemp)
 trap 'rm -f "$tmp"' EXIT
-sed -e "s|@HOME@|$HOME|g" -e "s|@REPO@|$REPO|g" -e "s|@EXTRA_ENV@|$extra_env|" \
+sed -e "s|@HOME@|$(esc "$HOME")|g" -e "s|@REPO@|$(esc "$REPO")|g" -e "s|@EXTRA_ENV@|$extra_env|" \
   "$REPO/scripts/$LABEL.plist.in" >"$tmp"
 plutil -lint -s "$tmp"
 install -m 644 "$tmp" "$PLIST"

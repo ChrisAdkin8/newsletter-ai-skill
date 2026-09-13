@@ -99,12 +99,12 @@ Each candidate item is evaluated against four criteria:
 
 PR fluff, duplicate coverage (same story from 3 outlets), and content lacking substance are discarded. The goal is **up to 4 high-quality items per category**, not exhaustive coverage.
 
-Then come hard rules, which `scripts/check_issue.py` enforces on the finished post:
+Then come hard rules. `scripts/check_issue.py` enforces most of them on the finished post; it compares URLs only, so a story repeated under a different URL is caught by the model's rule alone:
 
 | Rule | Checker rule |
 |---|---|
-| No URL, or story, from the last four posts | `repeat` (URLs only) |
-| No story or URL twice in the issue | `repeat` |
+| No URL, or story, from the last four posts | `repeat` (same URL only) |
+| No story or URL twice in the issue | `repeat` (same URL only) |
 | The item's own date is inside the window; URL dates and arXiv IDs count | `stale` |
 | Article URLs, never homepages | `homepage` |
 | The label names the publisher of the linked page | `label` |

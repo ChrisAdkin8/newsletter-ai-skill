@@ -88,7 +88,7 @@ Click **Save and Deploy**. The first build takes ~30 seconds.
 
 ### 3. (Optional) Schedule weekly publishing
 
-Skip this step if you'd rather publish manually with `/newsletter-ai web:./site` from a local Claude Code session. See [`../CLAUDE.md` → Publishing a new issue](../CLAUDE.md#publishing-a-new-issue).
+Skip this step if you'd rather publish by hand. `scripts/weekly.sh` does the whole flow: it runs the skill, checks the post, commits and pushes. `/newsletter-ai web:./site` in a Claude Code session only writes the Hugo post, and you check, commit and push it yourself. See [`../CLAUDE.md` → Publishing a new issue](../CLAUDE.md#publishing-a-new-issue).
 
 To publish every week without you, run the skill from a launchd agent on your Mac. It uses your Claude Code subscription quota, not per-token billing. See [`../docs/customising.md` → Scheduled publishing (launchd)](../docs/customising.md#scheduled-publishing-launchd).
 
