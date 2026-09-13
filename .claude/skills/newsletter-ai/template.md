@@ -189,6 +189,27 @@ Use this exact structure when writing the newsletter output.
 
 ---
 
+## Open Source on the Rise
+*AI projects gaining stars, downloads and users this week*
+
+### [Project name — what it does, in a few words]
+`[Tool]`
+
+[2–4 sentences: what the project does, the evidence of its traction this week and where that comes from (e.g. "+6,200 stars this week, GitHub Trending"), and who should try it.]
+
+[Source: [Publisher of the linked page](URL)]
+
+---
+
+### [Next project]
+`[Tool]`
+
+[2–4 sentences.]
+
+[Source: [Publisher of the linked page](URL)]
+
+---
+
 ## Cloud Native & CNCF
 *Kubernetes and CNCF projects for running models and agents in production*
 

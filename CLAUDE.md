@@ -52,4 +52,4 @@ Run `make check` after changing the skill, the checker or the scripts: unit test
 | Reading `sources.md` | ~3,000 tokens (loaded once via SKILL.md reference) |
 | Final newsletter output | ~3,000–5,000 tokens |
 
-Target for a full 13-category run: **~26 WebSearch + 5–10 selective WebFetch** = well within a session's budget.
+Target for a full 14-category run: **~28 WebSearch + 7–12 selective WebFetch** (including GitHub Trending and OSS Insight) = well within a session's budget.
