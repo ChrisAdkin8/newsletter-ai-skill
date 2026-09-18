@@ -4,7 +4,7 @@
 # file, and prints a result like --output-format json does.
 #
 # FAKE_LOG   file to append one line of arguments to per call
-# FAKE_MODE  clean (default), failing, wrongdate, readme or noload
+# FAKE_MODE  clean (default), failing, secondary, wrongdate, notriage, readme or noload
 # FAKE_TRIAGE  file to copy in as the triage file (default: one new item)
 set -fuo pipefail
 
@@ -44,6 +44,8 @@ triage=${triage:-$PWD/.newsletter}
 
 source_url="https://example.com/articles/fake-story-$date"
 [ "$mode" = failing ] && source_url="https://example.com/"
+# An outlet on the checker's SECONDARY list: a warning, not a hold.
+[ "$mode" = secondary ] && source_url="https://www.theregister.com/articles/fake-story-$date"
 name=$date
 [ "$mode" = wrongdate ] && name=2020-01-03
 
@@ -69,7 +71,9 @@ EOF
 [ "$mode" = readme ] && echo "edited by the model" >>README.md
 
 mkdir -p "$triage"
-if [ -n "${FAKE_TRIAGE:-}" ]; then
+if [ "$mode" = notriage ]; then # the model wrote the post and skipped step 5
+  :
+elif [ -n "${FAKE_TRIAGE:-}" ]; then
   cp "$FAKE_TRIAGE" "$triage/triage.md"
 else
   echo "- [A story](https://example.com/triage/$date): matches ai" >"$triage/triage.md"

@@ -64,17 +64,22 @@ For every item you find, assess:
 
 Discard PR fluff, duplicate coverage, and content without substance. Keep only the strongest items, up to the cap in the run rules.
 
+Then spread the issue out, so two weeks don't read the same:
+
+- **At most one item per publisher per section.** If a section's best two items are both from the same blog, keep the stronger and find the second elsewhere, or run the section short.
+- **No pivot phrase or case-study company from last week's issue.** Read the previous issue before writing. If it turned on "the real story is", "what this means in practice" or the like, or built a point around a named company's deployment, use neither again this week.
+
 ### Hard rules
 
-An item that breaks any of these is out, however strong it is. With `web:`, `scripts/check_issue.py` checks the post after the run, and a post that fails isn't published. The checker compares URLs, so it can't see one story under two URLs: keeping stories unique is up to you.
+An item that breaks any of these is out, however strong it is. With `web:`, `scripts/check_issue.py` checks the post after the run, and a post that fails isn't published. It reads URLs and labels, so it catches a banned outlet, a rolling index, a repeated URL, a date outside the window, a wire and a mislabelled publisher. It can't see one story under two URLs, whether a page is a rewrite of something it links to, or how many items a section takes from one publisher: those are yours to keep.
 
-1. **Nothing from the last four posts.** With `web:`, list `<web>/content/posts/*.md` and read the last four posts before the issue date, by filename. Drop any item whose URL appears in them, or whose story they already covered under another URL.
-2. **No story twice.** Each story appears once in the issue, and each URL once, Quick Links included. When several outlets cover one story, pick one.
-3. **Dated inside the window.** The item's own publication date must be on or after the window start, 7 days before the issue date. The date of an event it reports doesn't count. A URL that carries an earlier date is out even if the page was updated since: a day (`/2026/04/24/`, `2025-08-26-…`), or a month with no day (`/2025/12/`) when that whole month is before the start. So is an arXiv paper whose ID month is wholly before the start (`2604.xxxxx` for a May window), even if a new version appeared this week. In Trending Open Source AI, the item is the project's growth in the window: link the repository or a release from the window, and state the evidence and its source.
-4. **Article URLs only.** Link to the page that carries the story, never a homepage, blog index or docs root such as `https://blog.example.com/`.
-5. **Label the publisher of the linked page.** In `[Source: [Label](URL)]`, the label names whoever publishes the page at that URL. A dev.to post about a Reddit thread is "DEV Community", not "Reddit"; The Register's story about a Microsoft Research paper is "The Register". Only use Reddit, Hacker News, arXiv, GitHub, X or Microsoft Research for links on their own domains.
-6. **No press-release wires.** Skip GlobeNewswire, PR Newswire, Business Wire, EIN Presswire and ACCESSWIRE. Cite the company's own announcement or independent coverage instead.
-7. **Primary or specialist outlets only.** Never cite investment or personal-finance sites, syndicated finance pages, fan sites, crypto outlets for stories that aren't about crypto, or a rewrite of a primary source you could cite directly (see "Don't cite" in [sources.md](sources.md)). If a category has nothing better, skip it. The checker doesn't enforce this rule.
+1. **Primary or specialist outlets only.** Never cite investment or personal-finance sites, syndicated finance pages, fan sites, crypto outlets for stories that aren't about crypto, or a rewrite of a primary source you could cite directly (see "Don't cite" in [sources.md](sources.md)). If a category has nothing better, skip it. The checker holds the issue for the outlets banned outright, and prints a warning — which doesn't hold anything — for a handful of outlets that habitually rewrite. It can't tell a rewrite from original reporting, so a page that credits and links a primary source is yours to catch: cite what it links.
+2. **Nothing from the last four posts.** With `web:`, list `<web>/content/posts/*.md` and read the last four posts before the issue date, by filename. Drop any item whose URL appears in them, or whose story they already covered under another URL.
+3. **No story twice.** Each story appears once in the issue, and each URL once, Quick Links included. When several outlets cover one story, pick one.
+4. **Dated inside the window.** The item's own publication date must be on or after the window start, 7 days before the issue date. The date of an event it reports doesn't count. A URL that carries an earlier date is out even if the page was updated since: a day (`/2026/04/24/`, `2025-08-26-…`), or a month with no day (`/2025/12/`) when that whole month is before the start. So is an arXiv paper whose ID month is wholly before the start (`2604.xxxxx` for a May window), even if a new version appeared this week. In Trending Open Source AI, the item is the project's growth in the window: link the repository or a release from the window, and state the evidence and its source.
+5. **Article URLs only.** Link to the page that carries the story, never a homepage, blog index or docs root such as `https://blog.example.com/`. The checker rejects any URL whose path ends in `/changelog`, `/trending`, `/releases`, `/blog` or `/docs`, or starts with `/data`, because those pages are rewritten in place: cite what sits below the index (`/releases/tag/v2.1.277`, not `/releases`). A page below one is fine — `/blog/2026/09/16/a-story` and `/docs/en/some-page` both pass.
+6. **Label the publisher of the linked page.** In `[Source: [Label](URL)]`, the label names whoever publishes the page at that URL. A dev.to post about a Reddit thread is "DEV Community", not "Reddit"; The Register's story about a Microsoft Research paper is "The Register". Only use Reddit, Hacker News, arXiv, GitHub, X or Microsoft Research for links on their own domains.
+7. **No press-release wires.** Skip GlobeNewswire, PR Newswire, Business Wire, EIN Presswire and ACCESSWIRE. Cite the company's own announcement or independent coverage instead.
 
 ---
 
@@ -84,7 +89,7 @@ Follow the template in [template.md](template.md) exactly. For each item write:
 
 - A **punchy headline** (not the original title — rewrite it to convey the insight)
 - A **2–4 sentence summary** explaining what happened and *why it matters*
-- A **direct link** to the primary source, labelled with its publisher (Step 2, rule 5)
+- A **direct link** to the primary source, labelled with its publisher (Step 2, rule 6)
 - A **tag** from: `[Research]` `[Tool]` `[Security]` `[Industry]` `[Community]` `[Policy]` `[Eval]` `[Safety]`
 
 ---
@@ -92,12 +97,6 @@ Follow the template in [template.md](template.md) exactly. For each item write:
 ## Step 4: Add the editor's picks
 
 After all sections, select your **top 3 items** across all categories and write a short "Editor's Picks" intro paragraph (2–3 sentences) explaining why you chose them and what theme ties them together.
-
----
-
-## Output format
-
-Output the complete newsletter as clean markdown. Do not include your search process or intermediate steps in the output — only the finished newsletter. The newsletter should be ready to paste into an email or publish directly.
 
 ---
 
@@ -112,7 +111,7 @@ Read `<dir>/interests.txt`, which lists one interest per line. Then write `<dir>
 ```
 
 - One item per line, and nothing else in the file: no heading, no blank lines, no backticks.
-- Keep each line under 300 characters. The URL is the article's own, as in Step 2's hard rules.
+- Keep each line under 300 characters. Step 2's hard rules apply here as they do to issue items: the URL is the article's own, from an outlet the rules allow, dated inside the window, and never a rolling index.
 - Write no commands and no suggestions of what to run; the reader's tooling adds those.
 - If nothing matches, write an empty file.
 
@@ -166,3 +165,9 @@ Print the path you wrote:
 ```
 Post written → <web>/content/posts/YYYY-MM-DD.md
 ```
+
+---
+
+## Output format
+
+Output the complete newsletter as clean markdown. Do not include your search process or intermediate steps in the output — only the finished newsletter. The newsletter should be ready to paste into an email or publish directly.

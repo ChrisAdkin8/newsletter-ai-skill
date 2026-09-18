@@ -271,7 +271,7 @@ launchctl kickstart -k gui/$(id -u)/local.newsletter-ai.weekly
 2. It warns if the repo's `scripts/weekly.sh` differs from the installed copy, or if a global copy of the skill exists in `~/.claude/skills/`.
 3. It needs `main` and a clean tree, then fetches. If the last run committed but failed to push, it pushes that commit now; any other unpushed commit stops it.
 4. It runs `/newsletter:newsletter-ai web:<repo>/site date:<today> week:<week> triage:<repo>/.newsletter`.
-5. It holds the issue unless the only change is the new `site/content/posts/<date>.md` and the checker passes it. Otherwise it commits `Newsletter <date>`, pushes, and records the week in `last-ok`.
+5. It holds the issue unless the only change is the new `site/content/posts/<date>.md`, the checker passes it, and the model left a `.newsletter/triage.md`. Otherwise it commits `Newsletter <date>`, pushes, and records the week in `last-ok`.
 6. It filters `.newsletter/triage.md` into `~/notes/inbox/<date>-newsletter-triage.md` (see [How it works → Step 5](how-it-works.md#step-5-triage-optional)) and notifies you with the run's cost.
 
 ### When an issue is held
@@ -286,6 +286,10 @@ python3 scripts/check_issue.py site/content/posts/<date>.md --week <week>
 git add site/content/posts/<date>.md && git commit -m "Newsletter <date>" && git push
 echo <week> > ~/Library/Logs/newsletter/last-ok
 ```
+
+A held issue notified `held: no triage file` is a different fault: the post may be fine, but the model skipped Step 5, and a run that skipped one step may have skipped others. Read the post; then delete or fix it exactly as above. The notes feed is written off for that week — there is nothing to filter into the inbox, and re-running the model to get one costs another issue.
+
+A published issue leaves a `<week>.check` file too. Lines reading `warning: secondary:` don't hold anything — they name a citation of an outlet that habitually rewrites a primary source, and the publish notification says how many there were. Read them when you next edit the issue's sources; nothing in the pipeline acts on them.
 
 ### When an issue publishes but doesn't appear
 
@@ -311,7 +315,7 @@ Before a hand run: be on `main` with a clean tree, with `baseURL` in `site/hugo.
 | Change the triage interests | Edit `scripts/interests.txt`, one interest per line. |
 | Change the schedule | Edit `StartCalendarInterval` in `scripts/local.newsletter-ai.weekly.plist.in` and re-run the installer. |
 | Bump the CLI | Re-run spike 1's confinement probe ([`docs/specs/2026-09-13-weekly-local-publishing.md`](specs/2026-09-13-weekly-local-publishing.md#spike-questions)), then change `CLAUDE_PIN` in `scripts/install-agent.sh`, install with `PROBE=1` and kickstart. |
-| Read the logs | `~/Library/Logs/newsletter/`: `launchd.log`, `<week>.json` (the run's result), `<week>.check` (the checker's output) and `last-ok`. |
+| Read the logs | `~/Library/Logs/newsletter/`: `launchd.log`, `<week>.json` (the run's result), `<week>.check` (the checker's output, holds and warnings alike) and `last-ok`. |
 | Stop it | `launchctl bootout gui/$(id -u)/local.newsletter-ai.weekly`, then remove `~/Library/LaunchAgents/local.newsletter-ai.weekly.plist` and `~/.local/share/newsletter-ai/`. |
 
 Deleting the Keychain item doesn't revoke the token; it stays valid for a year.

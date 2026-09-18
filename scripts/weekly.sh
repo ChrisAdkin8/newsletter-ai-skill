@@ -23,6 +23,7 @@ PROBE=${PROBE:-}
 DATE=$(date +%F)
 WEEK=$(date -v-4d +%G-W%V) # Friday..Thursday map to the same issue week
 TRIAGE_MAX=5
+WARN_NOTE= # set by step 8; a retried push never reaches the checker
 
 mkdir -p "$LOG"
 
@@ -176,8 +177,16 @@ else
   POST="site/content/posts/$DATE.md"
   [ "$(git status --porcelain --untracked-files=all)" = "?? $POST" ] ||
     fail "held: expected only a new $POST; see git status"
+  # A run that skipped step 5 may have skipped others, so hold the issue
+  # rather than publish it and note the missing file at step 11.
+  [ -f "$REPO/.newsletter/triage.md" ] ||
+    fail "held: no triage file; the model skipped Step 5"
   python3 scripts/check_issue.py "$POST" --week "$WEEK" >"$LOG/$WEEK.check" 2>&1 ||
     fail "held: $POST failed the checker; see $LOG/$WEEK.check"
+  # Warnings don't hold the issue, so they'd go unread without this.
+  warnings=$(grep -c ': warning: ' "$LOG/$WEEK.check")
+  [ "$warnings" -gt 0 ] &&
+    WARN_NOTE="; $warnings warning$([ "$warnings" -eq 1 ] || echo s)"
 
   # Step 9: publish. A failed push is retried by step 4 on the next slot.
   git add "$POST" && git commit -qm "Newsletter $DATE" || fail "git commit failed"
@@ -191,4 +200,4 @@ echo "$WEEK" >"$LOG/last-ok"
 move_triage
 
 # Step 12.
-notify "Published $WEEK (~\$$(jq -r '.total_cost_usd // "?"' "$OUT" 2>/dev/null)); $TRIAGE_NOTE"
+notify "Published $WEEK (~\$$(jq -r '.total_cost_usd // "?"' "$OUT" 2>/dev/null))$WARN_NOTE; $TRIAGE_NOTE"

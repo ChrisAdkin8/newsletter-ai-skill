@@ -8,11 +8,12 @@ Full annotated list of sources used by the skill, grouped by category. This is t
 
 The first scheduled issue (2026-W37) filled its thinnest sections from sources like these. Each was a symptom of a category with nothing citable that week. The skill skips such items, or finds the primary source or a specialist outlet:
 
-- **Investment and personal-finance sites** (The Motley Fool, Seeking Alpha, Benzinga, InvestorPlace): written for investors, and they rarely add reporting of their own.
-- **Syndicated finance pages** (Yahoo Finance, MSN): republish someone else's article; cite the original publisher.
-- **Fan and enthusiast sites for one company** (e.g. SammyFans): not a credible source for industry news such as TSMC's roadmap.
+- **Investment and personal-finance sites** (The Motley Fool, Seeking Alpha, Benzinga, InvestorPlace): written for investors, and they rarely add reporting of their own. Enforced by `scripts/check_issue.py`.
+- **Syndicated finance pages** (Yahoo Finance, MSN): republish someone else's article; cite the original publisher. Enforced by `scripts/check_issue.py`.
+- **Fan and enthusiast sites for one company** (e.g. SammyFans): not a credible source for industry news such as TSMC's roadmap. Enforced by `scripts/check_issue.py`.
 - **Crypto outlets for stories that aren't about crypto** (e.g. Forkast on AI infrastructure CVEs): cite the researcher's disclosure.
 - **Rewrites of a primary source you can reach**: cite the leaderboard, changelog or paper itself.
+- **Rolling indexes** (a blog root, changelog, releases page, docs root or trending list): the catalogue lists them as places to look, and each is rewritten in place, so a citation stops matching the story. Cite the page carrying the story; enforced by `scripts/check_issue.py`.
 - **Press-release wires**: already a hard rule, enforced by `scripts/check_issue.py`.
 
 ---
@@ -406,7 +407,7 @@ CNBC was cited six times in the first three issues. Reuters is often first on de
 ### Developer tool release notes
 | Source | URL |
 |---|---|
-| Claude Code changelog | https://code.claude.com/docs/en/changelog |
+| Claude Code changelog | https://code.claude.com/docs/en/changelog (no per-version anchor, checked 2026-09-18; cite `https://github.com/anthropics/claude-code/releases/tag/vX.Y.Z`) |
 
 ### LinkedIn
 Posts from researchers and executives often contain opinions and context not published elsewhere.
@@ -501,7 +502,7 @@ The agentic coding tools are both the most-used agents in practice and a steady 
 
 | Product | URL | What to expect |
 |---|---|---|
-| Claude Code changelog | https://code.claude.com/docs/en/changelog | Release notes; also listed in section 6 |
+| Claude Code changelog | https://code.claude.com/docs/en/changelog (no per-version anchor, checked 2026-09-18; cite `https://github.com/anthropics/claude-code/releases/tag/vX.Y.Z`) | Release notes; also listed in section 6 |
 | Cognition (Devin) | https://cognition.ai/blog | Autonomous software engineering, benchmark claims worth checking |
 | Cursor | https://cursor.com/blog | Editor-integrated agents, model routing, latency work |
 | n8n | https://blog.n8n.io/ | Workflow automation with LLM steps; the low-code end of agent building |
@@ -526,7 +527,7 @@ The agentic coding tools are both the most-used agents in practice and a steady 
 |---|---|---|
 | vLLM | https://blog.vllm.ai/ (also https://vllm.ai/blog) | Dominant open-source inference serving; architectural decisions affect how agents are deployed |
 | SGLang | https://docs.sglang.ai/, https://github.com/sgl-project/sglang | The other high-throughput serving engine; its releases benchmark against vLLM, so the two together show where serving performance actually is |
-| llama.cpp | https://github.com/ggml-org/llama.cpp/releases | The substrate under Ollama and most local inference; release notes are the earliest signal that a new architecture can run on consumer hardware |
+| llama.cpp | https://github.com/ggml-org/llama.cpp/releases (cite the release's own `/releases/tag/bXXXX` page) | The substrate under Ollama and most local inference; release notes are the earliest signal that a new architecture can run on consumer hardware |
 | Ollama | https://ollama.com/blog | Most popular local model runner; tracks which models are available locally |
 | Anyscale | https://www.anyscale.com/blog | Ray framework; distributed ML and production agent orchestration |
 | SemiAnalysis | https://newsletter.semianalysis.com/ | Chip economics and GPU supply chain analysis |
@@ -666,7 +667,7 @@ This section covers how AI models and agents are built and run on Kubernetes and
 
 ### AI on Kubernetes projects
 
-CNCF maturity as listed in the [CNCF landscape](https://landscape.cncf.io/) on 2026-09-13. Project blogs and release notes are the primary source for their own news.
+CNCF maturity as listed in the [CNCF landscape](https://landscape.cncf.io/) on 2026-09-13. Project blogs and release notes are the primary source for their own news. Where the URL is a releases index, cite the release's own `/releases/tag/…` page, not the index.
 
 | Project | Maturity | URL | Why it matters |
 |---|---|---|---|

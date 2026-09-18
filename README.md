@@ -100,12 +100,13 @@ The skill follows hard rules when it picks stories, and [`scripts/check_issue.py
 
 - **No reused links** — nothing linked twice in one issue, or already linked in any of the last four issues.
 - **Nothing stale** — a link whose URL carries a date before the seven-day window fails.
-- **Articles, not homepages** — every source link needs a path, not just a domain.
+- **Articles, not homepages** — every source link needs a path, not just a domain, and never a rolling index such as a blog root, changelog or releases page.
 - **Honest labels** — a source labelled Reddit, Hacker News, arXiv, X, GitHub or Microsoft Research has to link there.
 - **No press-release wires** — a link to PR Newswire, Business Wire or the like fails; cite the coverage instead.
+- **No banned outlets** — a link to an investment, syndicated-finance or fan site named in the "Don't cite" list fails.
 - **Sound metadata** — filename, frontmatter date and the issue week in the title, all agreeing, none in the future, and no week an earlier issue already used.
 
-Two rules rest on the skill alone, because the checker can't see them: no investment, fan or off-topic crypto sites, and at most four items per category.
+Two rules rest on the skill alone, because the checker can't see them: no crypto outlets for stories that aren't about crypto, and at most four items per category.
 
 `scripts/weekly.sh` publishes only if the post is the only change in the tree and the checker passes it. Otherwise the issue is held, uncommitted, and you're notified. See [How it works](docs/how-it-works.md) for the full workflow.
 
