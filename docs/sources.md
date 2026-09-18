@@ -21,7 +21,7 @@ The first scheduled issue (2026-W37) filled its thinnest sections from sources l
 
 These sites block automated fetches (HTTP 403 or no connection when checked on 2026-09-13), so fetching one wastes a turn. Find their stories by search, take the date from the snippet, and cite the article URL the search returns:
 
-OpenAI News, Reuters, Euractiv, Axios, Bloomberg (also paywalled), The Information (also paywalled), Gartner, McKinsey, Datacenter Dynamics, Dark Reading, Computing.co.uk, the Center for Democracy & Technology, EU Council press releases, and Reddit (login wall). The BAIR blog didn't respond at all on 2026-09-13.
+OpenAI News, xAI News, Reuters, Euractiv, Axios, Bloomberg (also paywalled), The Information (also paywalled), Gartner, McKinsey, Datacenter Dynamics, Dark Reading, Computing.co.uk, the Center for Democracy & Technology, EU Council press releases, and Reddit (login wall). The BAIR blog didn't respond at all on 2026-09-13.
 
 ---
 
@@ -119,6 +119,9 @@ Curates the top arXiv papers each day based on community engagement — the most
 Links papers to their implementations. Useful for finding papers with reproducible experiments and real code. Papers with Code now redirects here.
 URL: https://huggingface.co/papers/trending
 
+### Conferences
+NeurIPS (https://neurips.cc/), ICML (https://icml.cc/) and ICLR (https://iclr.cc/) release accepted papers, best-paper awards and workshop programmes in bursts. A newsletter that only watches arXiv reads the same during a conference week as any other. Check the current conference's site that week, and cite the paper rather than the coverage of it.
+
 ### Semantic Scholar
 Good for finding papers by recency with citation context — tracks which new papers are already being cited.
 URL: https://www.semanticscholar.org
@@ -186,6 +189,27 @@ Priority sources — major safety research often appears here before arXiv.
 | Microsoft Azure AI | https://azure.microsoft.com/en-us/blog/tag/ai/ | Enterprise AI deployment, Azure AI service updates |
 | Apple ML Research | https://machinelearning.apple.com/ | On-device ML, private compute, multimodal |
 | Amazon Science | https://www.amazon.science/blog | Cloud AI, agent tooling, inference at scale |
+| xAI | https://x.ai/news | Grok releases and technical reports; blocks automated fetches, so find stories by search |
+| Google (product and research) | https://blog.google/technology/ai/ | Gemini product news and research framing, distinct from the DeepMind blog |
+| Sakana AI | https://sakana.ai/blog/ | Tokyo lab; evolutionary model merging and agent research that rarely gets Western coverage |
+
+### Chinese labs
+
+A large share of each week's open-weight releases comes from these labs, and the published issues have been citing them second-hand — DeepSeek V4 to Hugging Face and MIT Technology Review, Kimi K3 to the vLLM blog. The catalogue's own rule is to prefer the primary source, so these are here to make that possible. The lab's announcement or its Hugging Face model card is primary; an article about the release is not.
+
+| Lab | URL | What to expect |
+|---|---|---|
+| DeepSeek | https://api-docs.deepseek.com/news/ | Release notes for V-series and R-series models |
+| DeepSeek on GitHub | https://github.com/deepseek-ai | Weights, technical reports, inference code |
+| Qwen (Alibaba) | https://qwenlm.github.io/blog/ | Qwen releases with benchmark tables and model cards |
+| Qwen on GitHub | https://github.com/QwenLM | Weights and serving code |
+| Moonshot AI (Kimi) | https://moonshotai.github.io/ | Kimi releases, long-context work |
+| Z.ai / Zhipu (GLM) | https://z.ai/ | GLM family releases |
+| MiniMax | https://www.minimax.io/news | Model and product announcements |
+| ByteDance Seed | https://seed.bytedance.com/en/ | Seed research and model releases |
+| Baidu Research | https://research.baidu.com/ | ERNIE and research output |
+
+For context rather than citation: [ChinaTalk](https://www.chinatalk.media/) and [Recode China AI](https://www.recodechinaai.com/) explain and translate what these labs ship. Treat them as section 12 secondary sources — find the story there, then cite the lab.
 
 ### Infrastructure & tooling company blogs
 
@@ -201,6 +225,7 @@ These companies often publish technical deep-dives before mainstream press picks
 | CoreWeave | https://www.coreweave.com/blog | GPU cloud, HPC, enterprise AI infrastructure |
 | Fireworks AI | https://fireworks.ai/blog | Inference optimisation, model serving |
 | Anyscale | https://www.anyscale.com/blog | Ray framework, distributed ML, production agent orchestration |
+| AWS Machine Learning | https://aws.amazon.com/blogs/machine-learning/ | Bedrock, Trainium and SageMaker; the hyperscaler missing next to Azure and Google Cloud |
 | Weights & Biases | https://wandb.ai/fully-connected | MLOps, experiment tracking, agent observability — de facto standard |
 | vLLM | https://blog.vllm.ai/ | Dominant open-source inference serving; PagedAttention, throughput |
 | Scale AI | https://scale.com/blog | Data labelling, fine-tuning, RLHF methodology |
@@ -240,6 +265,7 @@ Publish infrequently but with depth. These individuals often surface shifts befo
 | ARC Prize (François Chollet) | https://arcprize.org/blog | ARC-AGI benchmark results and analysis; capability scepticism grounded in data |
 | Gary Marcus | https://garymarcus.substack.com | High-profile AI sceptic; covers AI failures and limitation claims |
 | Cameron Wolfe | https://cameronrwolfe.substack.com | High-quality deep learning newsletter with detailed paper breakdowns |
+| Dario Amodei | https://www.darioamodei.com | Essays from Anthropic's CEO; when the essay is the story, this is the primary source |
 
 ### Engineering & framework blogs
 - LangChain: https://www.langchain.com/blog
@@ -451,24 +477,40 @@ One of the highest-circulation technical newsletters on system design. Increasin
 ### LangChain / LangGraph Blog
 The primary source for updates to LangGraph (the dominant graph-based agent orchestration framework) and LangChain. Also publishes the periodic **State of Agent Engineering** report — a survey-based snapshot of what agents are being built in production and where the blockers are.
 
-- **URL**: https://www.langchain.com/blog
+- **URL**: https://www.langchain.com/blog — also published at https://blog.langchain.com and https://interrupt.langchain.com, so a search may return any of the three
 - **Strength**: Authoritative on agent framework patterns; release notes for LangGraph Platform, LangGraph Studio, and LangChain 1.0
 
 ### Pydantic AI
 Production-grade Python agent framework from the Pydantic team, with first-class MCP (Model Context Protocol) support. The docs/blog covers agent design patterns, multi-agent orchestration, and typed agent APIs.
 
-- **URL**: https://pydantic.dev/articles
+- **URL**: https://pydantic.dev/articles, with the framework's own docs and posts at https://ai.pydantic.dev
 - **Strength**: Strong typing, MCP-native, practical production focus; increasingly referenced alongside LangGraph for typed agent patterns
 
 ### Composio
 - **URL**: https://composio.dev/blog
 - **Focus**: Tool integration layer for MCP agents; active publisher on MCP security, connector ecosystem, and multi-agent tooling patterns
 
+### Model Context Protocol
+The interoperability standard the rest of this section keeps referring to. When the protocol itself is the story — a spec revision, the registry, a transport or auth change — this is the primary source, not a vendor's summary of it.
+
+- **Spec and docs**: https://modelcontextprotocol.io/
+- **Blog**: https://blog.modelcontextprotocol.io/
+
+### Coding agents
+The agentic coding tools are both the most-used agents in practice and a steady source of engineering write-ups.
+
+| Product | URL | What to expect |
+|---|---|---|
+| Claude Code changelog | https://code.claude.com/docs/en/changelog | Release notes; also listed in section 6 |
+| Cognition (Devin) | https://cognition.ai/blog | Autonomous software engineering, benchmark claims worth checking |
+| Cursor | https://cursor.com/blog | Editor-integrated agents, model routing, latency work |
+| n8n | https://blog.n8n.io/ | Workflow automation with LLM steps; the low-code end of agent building |
+
 ### Hugging Face — Agents tag
 - **URL**: https://huggingface.co/blog?tag=agents
 - **Focus**: Agent framework announcements, smolagents releases, and community agent builds from the HF ecosystem (distinct from the main HF blog in open-source section)
 
-**Search strategy**: `"agentic workflow" OR "LLM orchestration" site:vellum.ai OR site:blog.bytebytego.com`, `site:langchain.com/blog`, `site:pydantic.dev/articles`, `site:composio.dev/blog`, `"agent architecture" production 2026`, `"MCP" OR "model context protocol" agent 2026`.
+**Search strategy**: `"agentic workflow" OR "LLM orchestration" site:vellum.ai OR site:blog.bytebytego.com`, `site:langchain.com/blog`, `site:pydantic.dev/articles OR site:ai.pydantic.dev`, `site:modelcontextprotocol.io`, `site:cognition.ai/blog`, `site:composio.dev/blog`, `"agent architecture" production 2026`, `"MCP" OR "model context protocol" agent 2026`.
 
 ---
 
@@ -482,7 +524,9 @@ Production-grade Python agent framework from the Pydantic team, with first-class
 
 | Tool | URL | Why it matters |
 |---|---|---|
-| vLLM | https://blog.vllm.ai/ | Dominant open-source inference serving; architectural decisions affect how agents are deployed |
+| vLLM | https://blog.vllm.ai/ (also https://vllm.ai/blog) | Dominant open-source inference serving; architectural decisions affect how agents are deployed |
+| SGLang | https://docs.sglang.ai/, https://github.com/sgl-project/sglang | The other high-throughput serving engine; its releases benchmark against vLLM, so the two together show where serving performance actually is |
+| llama.cpp | https://github.com/ggml-org/llama.cpp/releases | The substrate under Ollama and most local inference; release notes are the earliest signal that a new architecture can run on consumer hardware |
 | Ollama | https://ollama.com/blog | Most popular local model runner; tracks which models are available locally |
 | Anyscale | https://www.anyscale.com/blog | Ray framework; distributed ML and production agent orchestration |
 | SemiAnalysis | https://newsletter.semianalysis.com/ | Chip economics and GPU supply chain analysis |
@@ -577,6 +621,11 @@ Community-maintained benchmark leaderboard comparing open-source models across s
 
 - **URL**: https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard
 - **Strength**: Open-source focus, community velocity, tracks fine-tunes and base models
+
+### LLM-Stats
+Cross-model comparison of benchmark scores, price per token and context window, updated as models ship. Useful for the one-line comparisons an item needs without fetching three leaderboards.
+
+- **URL**: https://llm-stats.com
 
 ### WhatLLM.org
 
