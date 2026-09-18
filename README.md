@@ -1,6 +1,6 @@
 # newsletter-ai
 
-A Claude Code skill that curates a weekly newsletter on agentic AI and LLMs, and publishes it for you.
+A Claude Code skill that curates a weekly newsletter on agentic AI and LLMs, and the scripts that publish it for you.
 
 **Read it:** [newsletter-ai-skill.pages.dev](https://newsletter-ai-skill.pages.dev/) · **Subscribe:** [RSS](https://newsletter-ai-skill.pages.dev/index.xml)
 
@@ -32,10 +32,11 @@ The skill is a project skill in this repo. Open Claude Code here and run:
 
 The skill writes the post but never commits or pushes it. To use it in another project, copy `.claude/skills/newsletter-ai/` into that project's `.claude/skills/`.
 
+**Previewing into `site/` collides with the scheduler.** `web:./site` writes `site/content/posts/<today>.md`, the same file a scheduled run creates, and the wrapper refuses to run while the tree is dirty. Delete the preview when you're done, or write it somewhere else with `web:~/preview-site`.
+
 ### Publish every week automatically (macOS)
 
-Scheduling needs launchd, the Keychain and notifications, so it's macOS only. Run
-these in an ordinary Terminal window, since two of them prompt you:
+Scheduling needs launchd, the Keychain and notifications, so it's macOS only. Run these in an ordinary Terminal window, since two of them prompt you:
 
 ```bash
 claude setup-token                                                 # sign in; copy the one-year token
@@ -47,17 +48,15 @@ scripts/install-agent.sh                                           # switch to r
 
 From then on the agent runs daily at 09:07 and 18:07 and publishes at most one issue per week (Friday to Thursday). [Scheduled publishing](docs/customising.md#scheduled-publishing-launchd) covers held issues, logs, changing the schedule and uninstalling.
 
-To publish by hand instead, run `NEWSLETTER_REPO=$PWD scripts/weekly.sh` from the repo:
-it does the same checks, commits and pushes. The wrapper works on `$NEWSLETTER_REPO`,
-which the agent sets for you; from a terminal, set it yourself unless your clone is at
-`~/code/github.com/newsletter-ai-skill`.
+To publish by hand instead, run `NEWSLETTER_REPO=$PWD scripts/weekly.sh` from the repo — the same checks, then commit and push. The wrapper works on `$NEWSLETTER_REPO`, which the launchd agent sets for you.
 
 ---
 
 ## Requirements
 
 - **Claude Code** with a subscription, installed with the native installer. The scheduler copies a pinned version (`CLAUDE_PIN` in `scripts/install-agent.sh`) from `~/.local/share/claude/versions/`.
-- **macOS** for scheduled publishing (launchd, Keychain, notifications). Running the skill interactively works anywhere Claude Code does.
+- **macOS** for scheduled publishing. The skill itself runs anywhere Claude Code does.
+- **Room in your quota.** A scheduled run uses Sonnet, stops at `--max-budget-usd 10` and is killed after an hour. Recent issues have reported $6–8 of equivalent usage, drawn from your subscription rather than billed as API credits.
 - **Hugo Extended** to scaffold and preview the site (`brew install hugo`). Cloudflare Pages builds it on every push.
 - **Python 3, jq, git and curl**, which the wrapper and the checker use. Recent macOS includes them; Python 3 comes with the Xcode command line tools.
 
@@ -67,7 +66,7 @@ The triage note goes to `~/notes/inbox/`. To use another folder, set `NOTES_DIR`
 
 ## Example output
 
-From the [2026-W37 issue](https://newsletter-ai-skill.pages.dev/posts/2026-09-13/):
+From a recent issue — [browse them all](https://newsletter-ai-skill.pages.dev/posts/):
 
 ````markdown
 # Agentic AI & LLM Weekly
@@ -97,24 +96,26 @@ wrote that he agreed OpenAI should do the same…
 
 ## How quality is enforced
 
-The skill follows hard rules when it picks stories, and
-[`scripts/check_issue.py`](scripts/check_issue.py) re-checks the finished post against
-most of them:
+The skill follows hard rules when it picks stories, and [`scripts/check_issue.py`](scripts/check_issue.py) re-checks the finished post against these:
 
 - **No reused links** — nothing linked twice in one issue, or already linked in any of the last four issues.
 - **Nothing stale** — a link whose URL carries a date before the seven-day window fails.
 - **Articles, not homepages** — every source link needs a path, not just a domain.
-- **Honest labels** — a label naming a publisher has to link to that publisher.
-- **No press-release wires.**
+- **Honest labels** — a source labelled Reddit, Hacker News, arXiv, X, GitHub or Microsoft Research has to link there.
+- **No press-release wires** — a link to PR Newswire, Business Wire or the like fails; cite the coverage instead.
 - **Sound metadata** — filename, frontmatter date and the issue week in the title, all agreeing, none in the future, and no week an earlier issue already used.
 
-Excluding investment, fan and off-topic crypto sites, and the cap of four items per
-category, are the skill's own rules; the checker can't see them.
+Two rules rest on the skill alone, because the checker can't see them: no investment, fan or off-topic crypto sites, and at most four items per category.
 
-`scripts/weekly.sh` publishes only if the post is the only change in the tree and the
-checker passes it. Otherwise the issue is held, uncommitted, and you're notified.
+`scripts/weekly.sh` publishes only if the post is the only change in the tree and the checker passes it. Otherwise the issue is held, uncommitted, and you're notified. See [How it works](docs/how-it-works.md) for the full workflow.
 
-The model runs with no shell, no MCP servers and no access to your notes, and can write only the post and its triage file. See [How it works](docs/how-it-works.md) for the full workflow.
+---
+
+## Why it's safe to leave running
+
+- **The model can't reach your machine.** Scheduled runs pass `--restricted` with no Bash and no MCP servers, and `--allowedTools` lets the model write only `site/content/posts/` and its triage file. Your notes are never in scope.
+- **The scripts own git.** The model never runs git. `scripts/weekly.sh` stages the post only after the checker passes, and only if it is the only change in the tree.
+- **Nothing auto-updates.** Hugo is a single Go binary published with SHA256SUMS, PaperMod is vendored at a pinned commit (`site/themes/PaperMod/.papermod-sha`), scheduled runs use a pinned copy of the Claude Code CLI, and no `npm install` runs in this repo.
 
 ---
 
@@ -128,8 +129,6 @@ git add site/ && git commit -m "Scaffold site" && git push
 ```
 
 Then connect the repo to Cloudflare Pages; [`site/README.md`](site/README.md) has the exact dashboard settings. Vercel and Netlify also support Hugo if you prefer them.
-
-**Supply chain:** Hugo is a single Go binary published with SHA256SUMS, and PaperMod is vendored at a pinned commit (`site/themes/PaperMod/.papermod-sha`). No `npm install` runs in this repo, and scheduled runs use a pinned copy of the Claude Code CLI that doesn't auto-update.
 
 ---
 
@@ -158,22 +157,16 @@ newsletter-ai-skill/
 │   └── skills/
 │       ├── newsletter-ai/                   # The skill: SKILL.md, sources.md, template.md
 │       └── claude-hacks/                    # Companion skill (see below)
-├── docs/
-│   ├── how-it-works.md                      # The workflow, the checker, publishing
-│   ├── sources.md                           # Annotated source catalogue
-│   ├── customising.md                       # Sources, format, web publishing, scheduling
-│   └── specs/                               # Implementation specs
+├── docs/                                    # See Documentation below; specs/ holds the designs
 ├── scripts/
 │   ├── weekly.sh                            # Runs the skill headless, checks, commits, pushes
 │   ├── check_issue.py                       # Checks a post against the hard rules
 │   ├── install-agent.sh                     # Installs the launchd agent and the pinned CLI
 │   ├── local.newsletter-ai.weekly.plist.in  # launchd agent template
 │   └── interests.txt                        # What the triage note looks for
-├── tests/                                   # Checker unit tests, offline test of weekly.sh
+├── .newsletter/                             # Scratch dir a scheduled run hands the model; gitignored
 ├── site/                                    # Hugo + PaperMod site (see site/README.md)
-├── Makefile                                 # make check
-├── CLAUDE.md                                # Project rules for Claude Code
-└── LICENSE                                  # MIT
+└── tests/                                   # Checker unit tests, offline test of weekly.sh
 ```
 
 Runs use the skill files in `.claude/skills/newsletter-ai/` directly, so there's no second copy to keep in sync. Run `make check` after changing the skill, the checker or the scripts.
@@ -194,11 +187,7 @@ Runs use the skill files in `.claude/skills/newsletter-ai/` directly, so there's
 
 ## Companion skill: `claude-hacks`
 
-The repo also carries `claude-hacks`, a second skill that curates Claude Code productivity
-hacks into an [awesome-list](https://github.com/ChrisAdkin8/claude-code-hacks)-style README,
-appending only new items on each run. Copy it into `~/.claude/skills/` and run
-`/claude-hacks`; [its `SKILL.md`](.claude/skills/claude-hacks/SKILL.md) has the arguments,
-the nine sections and the sources it searches.
+The repo also carries `claude-hacks`, a second skill that curates Claude Code productivity hacks into an [awesome-list](https://github.com/ChrisAdkin8/claude-code-hacks)-style README, appending only new items on each run. Copy it into `~/.claude/skills/` and run `/claude-hacks`; [its `SKILL.md`](.claude/skills/claude-hacks/SKILL.md) has the arguments, the nine sections and the sources it searches.
 
 ---
 
