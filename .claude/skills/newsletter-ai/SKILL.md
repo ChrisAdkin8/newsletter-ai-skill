@@ -66,7 +66,7 @@ Discard PR fluff, duplicate coverage, and content without substance. Keep only t
 
 Then spread the issue out, so two weeks don't read the same:
 
-- **At most one item per publisher per section.** If a section's best two items are both from the same blog, keep the stronger and find the second elsewhere, or run the section short.
+- **At most one item per publisher per section.** If a section's best two items are both from the same blog, keep the stronger and find the second elsewhere, or run the section short. This counts editorial voices, not hosts: arXiv, GitHub and Hugging Face are venues anyone can publish on, so several papers or repositories in one section are fine. Without that, Research Highlights and Open Source on the Rise would each be capped at one item.
 - **No pivot phrase or case-study company from last week's issue.** Read the previous issue before writing. If it turned on "the real story is", "what this means in practice" or the like, or built a point around a named company's deployment, use neither again this week.
 
 ### Hard rules
