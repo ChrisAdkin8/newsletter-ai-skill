@@ -1,55 +1,26 @@
 # newsletter-ai — Project Guidelines
 
-This repo contains the `/newsletter-ai` Claude Code skill.
+This repo holds two Claude Code skills — `/newsletter-ai` and `/claude-hacks` — the scripts that publish the newsletter, and the Hugo site it publishes to.
+
+Scheduled runs don't load this file. `scripts/weekly.sh` passes `--restricted`, which skips the project `CLAUDE.md` (verified in [`docs/specs/2026-09-13-weekly-local-publishing.md`](docs/specs/2026-09-13-weekly-local-publishing.md)). Anything that has to reach a scheduled run belongs in `.claude/skills/newsletter-ai/SKILL.md`, not here.
+
+## Don't publish
+
+`scripts/weekly.sh` commits to `main`, pushes to a public site and spends about $7 of the user's subscription quota. Never run it on your own initiative, and don't commit or push an issue yourself. If the user asks you to publish, say what the command will do and confirm before running it.
+
+The runbook — scheduling, held issues, logs, publishing by hand — is [`docs/customising.md` → Scheduled publishing](docs/customising.md#scheduled-publishing-launchd).
+
+## Previews jam the scheduler
+
+`/newsletter-ai web:./site` writes `site/content/posts/<today>.md`, the same file a scheduled run creates, and the wrapper refuses to run while the tree is dirty. Delete a preview post once the user has finished with it, or send it outside the repo with `web:~/preview-site`, which gives the markdown without a rendered site.
+
+## When you change something here
+
+- **Never edit `site/themes/PaperMod/`.** It's vendored at the commit pinned in `.papermod-sha`; update it the way `site/README.md` describes.
+- **After editing `scripts/weekly.sh`, tell the user to re-run `scripts/install-agent.sh`.** launchd runs an installed copy, so the repo's version has no effect until they do.
+- **Run `make check`** after changing the skill, the checker or the scripts: checker unit tests, an offline test of `weekly.sh` against a fake `claude`, and lint.
+- **If `check_issue.py` rejects a post, fix the post.** The checker is the only thing standing between a bad issue and the live site; loosening a rule to get an issue out is never the answer.
 
 ## Running /newsletter-ai
 
-The run rules live in the skill itself (`.claude/skills/newsletter-ai/SKILL.md`, "Run rules"), and override global Subagent Strategy and Task Management when running `/newsletter-ai`.
-
----
-
-## Publishing a new issue
-
-A launchd agent publishes one issue a week; see [`docs/customising.md` → Scheduled publishing (launchd)](docs/customising.md#scheduled-publishing-launchd). To publish by hand, run the same wrapper from a terminal in this repo:
-
-```bash
-scripts/weekly.sh
-```
-
-End to end this:
-
-1. Runs the pinned CLI headless: `/newsletter:newsletter-ai web:<repo>/site date:<date> week:<week> triage:<repo>/.newsletter`, with `--restricted`, no Bash and no MCP.
-2. The skill writes `site/content/posts/YYYY-MM-DD.md` and `.newsletter/triage.md`, and nothing else.
-3. Holds the issue unless the post is the only change and `scripts/check_issue.py` passes it.
-4. Commits `Newsletter YYYY-MM-DD` and pushes. Cloudflare Pages auto-deploys → https://newsletter-ai-skill.pages.dev/ (~30s).
-5. Filters the triage file into `~/notes/inbox/YYYY-MM-DD-newsletter-triage.md`.
-
-Uses your Claude Code subscription quota — no Anthropic API credits consumed. `/newsletter-ai web:./site` in a Claude Code session only writes the post, for a preview; the skill never commits or pushes.
-
-### Pre-flight
-
-- On `main`, working tree clean.
-- `baseURL` in `site/hugo.toml` matches the live Pages URL.
-- The `claude-newsletter` Keychain item exists, and `scripts/install-agent.sh` has been re-run since `scripts/weekly.sh` last changed.
-
-### Recovery
-
-- **Held issue**: the post stays uncommitted and blocks later runs. The checker's findings are in `~/Library/Logs/newsletter/<week>.check`; delete or fix the post as described in `docs/customising.md` → "When an issue is held".
-- **Push failed**: the commit stays local, and the next run pushes it without calling the model.
-
-### Checks
-
-Run `make check` after changing the skill, the checker or the scripts: unit tests for the checker, an offline test of `weekly.sh` against a fake `claude`, and lint.
-
----
-
-## Token cost reference
-
-| Operation | Approximate token cost |
-|---|---|
-| `WebSearch` (1 query, ~10 results) | ~500–1,000 tokens |
-| `WebFetch` (full article) | 5,000–30,000 tokens |
-| Reading `sources.md` | ~3,000 tokens (loaded once via SKILL.md reference) |
-| Final newsletter output | ~3,000–5,000 tokens |
-
-Target for a full 14-category run: **~28 WebSearch + 7–12 selective WebFetch** (including GitHub Trending and OSS Insight) = well within a session's budget.
+The run rules live in `.claude/skills/newsletter-ai/SKILL.md` under "Run rules". They govern the run, and take precedence over general guidance about fanning work out to subagents or tracking it as tasks.

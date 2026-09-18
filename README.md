@@ -179,9 +179,9 @@ Runs use the skill files in `.claude/skills/newsletter-ai/` directly, so there's
 |---|---|
 | [`docs/how-it-works.md`](docs/how-it-works.md) | The six-step workflow, the hard rules and checker, publishing |
 | [`docs/sources.md`](docs/sources.md) | Every source in all 14 categories, with search strategies |
-| [`docs/customising.md`](docs/customising.md) | Adding sources, changing the format, web publishing, scheduled publishing |
+| [`docs/customising.md`](docs/customising.md) | Adding sources, changing the format, web publishing, scheduled publishing, held issues and recovery |
 | [`site/README.md`](site/README.md) | Hugo + PaperMod bootstrap, Cloudflare Pages settings, theme updates |
-| [`CLAUDE.md`](CLAUDE.md) | Publishing checklist and recovery, and the rules Claude Code follows in this repo |
+| [`CLAUDE.md`](CLAUDE.md) | The rules Claude Code follows in this repo |
 
 ---
 

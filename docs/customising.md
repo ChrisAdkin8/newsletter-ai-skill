@@ -287,15 +287,21 @@ git add site/content/posts/<date>.md && git commit -m "Newsletter <date>" && git
 echo <week> > ~/Library/Logs/newsletter/last-ok
 ```
 
+### When an issue publishes but doesn't appear
+
+The run notifies you, the commit is pushed and the post still 404s. `site/hugo.toml` sets `buildFuture = false`, so Cloudflare drops any post whose frontmatter `date` is later than the moment it builds. The skill stamps posts `T00:00:00Z` and `check_issue.py` holds a future-dated one, so this shouldn't recur, but if a post is missing from the live site while present in `main`, check its `date` against the Pages build time before looking anywhere else.
+
 ### Publishing by hand
 
-Run the same wrapper from a terminal in the repo:
+Run the same wrapper from a terminal:
 
 ```bash
-scripts/weekly.sh
+NEWSLETTER_REPO=$PWD scripts/weekly.sh
 ```
 
-It uses the installed pinned CLI, so run `scripts/install-agent.sh` first; `CLAUDE_BIN=$(command -v claude) scripts/weekly.sh` uses your current one instead. `/newsletter-ai web:./site` in Claude Code writes the post without publishing it, which is useful for a preview.
+The wrapper works on `$NEWSLETTER_REPO`, not your working directory; without it, it defaults to `~/code/github.com/newsletter-ai-skill` wherever you run it from. The launchd agent sets it for you.
+
+Before a hand run: be on `main` with a clean tree, with `baseURL` in `site/hugo.toml` matching the live Pages URL. It uses the installed pinned CLI, so run `scripts/install-agent.sh` first; `CLAUDE_BIN=$(command -v claude) scripts/weekly.sh` uses your current one instead. `/newsletter-ai web:./site` in Claude Code writes the post without publishing it, which is useful for a preview.
 
 ### Day to day
 
