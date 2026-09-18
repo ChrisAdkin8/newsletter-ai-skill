@@ -138,7 +138,7 @@ Write `<web>/content/posts/<issue date>.md` with Hugo + PaperMod-compatible fron
 ```yaml
 ---
 title: "Agentic AI & LLM Weekly — YYYY-Www"
-date: YYYY-MM-DDT09:00:00Z
+date: YYYY-MM-DDT00:00:00Z
 draft: false
 summary: "[one-sentence theme from the newsletter's opening framing line]"
 description: "[same as summary — used in <meta> tags]"
@@ -153,7 +153,7 @@ ShowBreadCrumbs: true
 ---
 ```
 
-`YYYY-Www` is the week and `YYYY-MM-DD` the issue date, both from 6a.
+`YYYY-Www` is the week and `YYYY-MM-DD` the issue date, both from 6a. Keep the time at `00:00:00Z`: Hugo builds with `buildFuture = false`, so a post stamped later than the moment the site is built is dropped from the build and 404s.
 
 **Body**: Use the clean newsletter markdown from Step 3 verbatim — the same text output to chat.
 

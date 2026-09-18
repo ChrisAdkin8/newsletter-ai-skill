@@ -130,6 +130,24 @@ class CleanIssue(unittest.TestCase):
         code, found = run(self.write("2026-09-18.md"), "--week", "2026-W37")
         self.assertEqual((code, found), (0, []))
 
+    def test_future_date_is_flagged(self):
+        post = self.write(
+            "2099-01-01.md",
+            CLEAN.replace("2026-09-18T09:00:00Z", "2099-01-01T09:00:00Z"),
+        )
+        code, found = run(post)
+        self.assertEqual(code, 1)
+        self.assertIn(("future", 3), found)
+
+    def test_past_date_and_bare_date_are_not_flagged(self):
+        for stamp in ("2026-09-18T00:00:00Z", "2026-09-18"):
+            with self.subTest(stamp=stamp):
+                post = self.write(
+                    "2026-09-18.md", CLEAN.replace("2026-09-18T09:00:00Z", stamp)
+                )
+                _, found = run(post)
+                self.assertNotIn("future", {rule for rule, _ in found})
+
     def test_clean_post_under_another_date(self):
         code, found = run(self.write("2026-09-11.md"))
         self.assertEqual(code, 1)

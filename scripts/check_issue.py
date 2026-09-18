@@ -57,6 +57,7 @@ class Post:
         self.lines = path.read_text(encoding="utf-8").splitlines()
         self.title, self.title_line = None, 1
         self.date, self.date_line = None, 1
+        self.stamp = None
         self._read_frontmatter()
 
     def _read_frontmatter(self):
@@ -76,6 +77,7 @@ class Post:
                     self.date = dt.date.fromisoformat(value[:10])
                 except ValueError:
                     pass
+                self.stamp = parse_stamp(value)
 
     @property
     def week(self):
@@ -96,6 +98,21 @@ class Post:
             if found:
                 for m in SOURCE_LINK.finditer(rest):
                     yield n, m[1].strip(), m[2]
+
+
+def parse_stamp(value):
+    """The frontmatter date as an aware UTC datetime, or None if it has no time.
+
+    A bare date has no time to be in the future, and Hugo reads a naive
+    timestamp in the site's timezone, which defaults to UTC.
+    """
+    try:
+        stamp = dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return stamp.astimezone(dt.timezone.utc) if stamp.tzinfo else stamp.replace(
+        tzinfo=dt.timezone.utc
+    )
 
 
 def normalise(url):
@@ -161,13 +178,15 @@ def earlier_posts(post, posts_dir):
     return [Post(p) for p in names]
 
 
-def check(post, posts_dir, week=None):
+def check(post, posts_dir, week=None, now=None):
     """Return (line, rule, message) findings for `post`, sorted by line.
 
     `posts_dir` holds the earlier posts; `week`, if given, is the week the
-    title must carry.
+    title must carry; `now` is the moment the post is checked against,
+    defaulting to the present.
     """
     findings = []
+    now = now or dt.datetime.now(dt.timezone.utc)
 
     def add(line, rule, message):
         if (line, rule, message) not in findings:
@@ -186,6 +205,15 @@ def check(post, posts_dir, week=None):
             post.title_line,
             "meta",
             f"title week is {post.week or 'missing'}, not {week}",
+        )
+
+    # future
+    if post.stamp and post.stamp > now:
+        add(
+            post.date_line,
+            "future",
+            f"date {post.stamp:%Y-%m-%dT%H:%M:%SZ} is in the future, so a Hugo "
+            "build with buildFuture = false will drop the post",
         )
 
     # week

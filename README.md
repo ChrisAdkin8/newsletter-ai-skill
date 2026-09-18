@@ -14,8 +14,6 @@ A Claude Code skill that curates a weekly newsletter on agentic AI and LLMs, and
 - **Holds bad issues back.** A checker blocks any issue that reuses links, cites stale or homepage sources, or mislabels them. A held issue stays unpublished and you get a notification.
 - **Feeds your notes.** After each publish, up to five items that match your interests land in your notes inbox, each with a `/research quick` command ready to run.
 
-> **What's new (September 2026).** The skill now only writes the post; publishing is the wrapper's job, and only after the checker passes. Titles carry the ISO week (`2026-W37`) rather than an issue number. The local archive copy is gone.
-
 ---
 
 ## Quick start
@@ -34,9 +32,10 @@ The skill is a project skill in this repo. Open Claude Code here and run:
 
 The skill writes the post but never commits or pushes it. To use it in another project, copy `.claude/skills/newsletter-ai/` into that project's `.claude/skills/`.
 
-### Publish every week automatically
+### Publish every week automatically (macOS)
 
-Run these in an ordinary Terminal window, since two of them prompt you:
+Scheduling needs launchd, the Keychain and notifications, so it's macOS only. Run
+these in an ordinary Terminal window, since two of them prompt you:
 
 ```bash
 claude setup-token                                                 # sign in; copy the one-year token
@@ -48,7 +47,10 @@ scripts/install-agent.sh                                           # switch to r
 
 From then on the agent runs daily at 09:07 and 18:07 and publishes at most one issue per week (Friday to Thursday). [Scheduled publishing](docs/customising.md#scheduled-publishing-launchd) covers held issues, logs, changing the schedule and uninstalling.
 
-To publish by hand instead, run `scripts/weekly.sh`: it does the same checks, commits and pushes.
+To publish by hand instead, run `NEWSLETTER_REPO=$PWD scripts/weekly.sh` from the repo:
+it does the same checks, commits and pushes. The wrapper works on `$NEWSLETTER_REPO`,
+which the agent sets for you; from a terminal, set it yourself unless your clone is at
+`~/code/github.com/newsletter-ai-skill`.
 
 ---
 
@@ -95,9 +97,22 @@ wrote that he agreed OpenAI should do the same…
 
 ## How quality is enforced
 
-The skill follows hard rules when it picks stories: nothing from the last four issues, no story twice, every item dated inside the week, article links rather than homepages, a label that names the linked page's publisher, no press-release wires, and no investment, fan or off-topic crypto sites.
+The skill follows hard rules when it picks stories, and
+[`scripts/check_issue.py`](scripts/check_issue.py) re-checks the finished post against
+most of them:
 
-[`scripts/check_issue.py`](scripts/check_issue.py) then checks the finished post against most of those rules, plus the filename, date and week. `scripts/weekly.sh` publishes only if the post is the only change in the tree and the checker passes it. Otherwise the issue is held, uncommitted, and you're notified.
+- **No reused links** — nothing linked twice in one issue, or already linked in any of the last four issues.
+- **Nothing stale** — a link whose URL carries a date before the seven-day window fails.
+- **Articles, not homepages** — every source link needs a path, not just a domain.
+- **Honest labels** — a label naming a publisher has to link to that publisher.
+- **No press-release wires.**
+- **Sound metadata** — filename, frontmatter date and the issue week in the title, all agreeing, none in the future, and no week an earlier issue already used.
+
+Excluding investment, fan and off-topic crypto sites, and the cap of four items per
+category, are the skill's own rules; the checker can't see them.
+
+`scripts/weekly.sh` publishes only if the post is the only change in the tree and the
+checker passes it. Otherwise the issue is held, uncommitted, and you're notified.
 
 The model runs with no shell, no MCP servers and no access to your notes, and can write only the post and its triage file. See [How it works](docs/how-it-works.md) for the full workflow.
 
@@ -179,18 +194,11 @@ Runs use the skill files in `.claude/skills/newsletter-ai/` directly, so there's
 
 ## Companion skill: `claude-hacks`
 
-The repo also contains `claude-hacks`, which curates Claude Code productivity hacks into an [awesome-list](https://github.com/ChrisAdkin8/claude-code-hacks)-style README. It needs a target GitHub repo (`gh repo create claude-code-hacks --public --source=. --push`).
-
-```bash
-cp -r .claude/skills/claude-hacks/ ~/.claude/skills/claude-hacks/
-```
-
-```
-/claude-hacks                                  # Writes to ~/claude-code-hacks/
-/claude-hacks repo:~/my-lists/claude-code-hacks
-```
-
-Each run appends only new items. It searches Reddit, Hacker News, X, GitHub, Anthropic's docs and blog, YouTube, personal blogs and the MCP ecosystem, and sorts what it finds into nine sections, from Setup & Configuration to Video Tutorials.
+The repo also carries `claude-hacks`, a second skill that curates Claude Code productivity
+hacks into an [awesome-list](https://github.com/ChrisAdkin8/claude-code-hacks)-style README,
+appending only new items on each run. Copy it into `~/.claude/skills/` and run
+`/claude-hacks`; [its `SKILL.md`](.claude/skills/claude-hacks/SKILL.md) has the arguments,
+the nine sections and the sources it searches.
 
 ---
 
