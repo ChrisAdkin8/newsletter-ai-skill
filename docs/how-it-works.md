@@ -99,7 +99,7 @@ Each candidate item is evaluated against four criteria:
 | **Signal vs noise** | Is this a meaningful development, or marketing/hype? |
 | **Audience fit** | Would a technical practitioner find this useful? |
 
-PR fluff, duplicate coverage (same story from 3 outlets), and content lacking substance are discarded. The goal is **up to 4 high-quality items per category**, not exhaustive coverage.
+PR fluff, duplicate coverage (same story from 3 outlets), and content lacking substance are discarded. The goal is **up to 4 high-quality items per category**, not exhaustive coverage. Two rules then spread the issue out: at most one item per publisher per section — counting editorial voices, not venues such as arXiv or GitHub — and no pivot phrase or case-study company carried over from last week. Neither is something the checker can see.
 
 Then come hard rules. `scripts/check_issue.py` enforces most of them on the finished post; it compares URLs only, so a story repeated under a different URL is caught by the model's rule alone:
 
@@ -197,9 +197,9 @@ See [Customising → Web publishing](customising.md#web-publishing-hugo--papermo
 `scripts/weekly.sh` turns a run into a published issue. launchd runs it twice a day (see [Customising → Scheduled publishing (launchd)](customising.md#scheduled-publishing-launchd)), and you can run it by hand. It publishes at most one issue per week:
 
 1. It runs a pinned copy of the Claude Code CLI with `--restricted`, the skill loaded from `.claude/` as a plugin, no shell, no MCP servers, and file writes allowed only under `site/content/posts/` and `.newsletter/`.
-2. It holds the issue unless the only change in the tree is the new post and `scripts/check_issue.py` passes it.
+2. It holds the issue unless the only change in the tree is the new post, `scripts/check_issue.py` passes it, and the model left a `.newsletter/triage.md`. A run that skipped Step 5 may have skipped others, so the issue waits for you.
 3. It commits `Newsletter <date>` and pushes. Cloudflare Pages deploys within about 30 seconds.
-4. It moves the triage note into `~/notes/inbox/` and sends a notification with the run's cost.
+4. It moves the triage note into `~/notes/inbox/` and sends a notification with the run's cost, and with the number of `secondary` warnings if the checker printed any.
 
 A held issue stays uncommitted, and you get a notification. It blocks later runs until you deal with it.
 
