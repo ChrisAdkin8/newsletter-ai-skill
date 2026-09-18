@@ -8,11 +8,12 @@ Use these sources and search strategies for each category. Always prefer primary
 
 These turned up in past issues when a category came up short. Skip the item, or find its primary source or a specialist outlet, rather than cite:
 
-- **Investment and personal-finance sites** (The Motley Fool, Seeking Alpha, Benzinga, InvestorPlace). Cite the company's announcement or a news report.
-- **Syndicated finance pages** (Yahoo Finance, MSN). Cite the original publisher named on the page.
-- **Fan and enthusiast sites for one company** (e.g. SammyFans). Cite the company or a trade outlet such as those in section 10.
+- **Investment and personal-finance sites** (The Motley Fool, Seeking Alpha, Benzinga, InvestorPlace). Cite the company's announcement or a news report. Enforced by `scripts/check_issue.py`.
+- **Syndicated finance pages** (Yahoo Finance, MSN). Cite the original publisher named on the page. Enforced by `scripts/check_issue.py`.
+- **Fan and enthusiast sites for one company** (e.g. SammyFans). Cite the company or a trade outlet such as those in section 10. Enforced by `scripts/check_issue.py`.
 - **Crypto outlets for stories that aren't about crypto** (e.g. Forkast on AI infrastructure CVEs). Cite the researcher's disclosure.
 - **Rewrites of a primary source you can reach** (a news post about a leaderboard, a changelog or a paper). Cite the leaderboard, changelog or paper.
+- **Rolling indexes** (a blog root, changelog, releases page, docs root or trending list). Every URL in this file is a place to look, not a URL to cite: cite the page carrying the story. Enforced by `scripts/check_issue.py`.
 - **Press-release wires**: a hard rule in SKILL.md Step 2.
 
 ---
@@ -380,7 +381,7 @@ These labs publish the actual zero-day disclosures, campaign analyses, and incid
 - Arena (formerly LMSYS Chatbot Arena): https://arena.ai/leaderboard (leaderboard changes)
 
 ### Developer tool release notes
-- Claude Code changelog: https://code.claude.com/docs/en/changelog
+- Claude Code changelog: https://code.claude.com/docs/en/changelog — a place to find a release, never to cite: it has no per-version anchor (checked 2026-09-18). Cite the release's own page, `https://github.com/anthropics/claude-code/releases/tag/vX.Y.Z`.
 
 ### Funding & M&A
 - Search: `AI startup funding 2026 series`
@@ -474,7 +475,7 @@ Practitioner-focused sources on building and operating agentic AI systems in pro
 ### Coding agents
 | Product | URL | Focus |
 |---|---|---|
-| Claude Code changelog | https://code.claude.com/docs/en/changelog | Release notes (also section 6) |
+| Claude Code changelog | https://code.claude.com/docs/en/changelog | Release notes (also section 6); a place to find a release, never to cite: it has no per-version anchor (checked 2026-09-18). Cite the release's own page, `https://github.com/anthropics/claude-code/releases/tag/vX.Y.Z` |
 | Cognition (Devin) | https://cognition.ai/blog | Autonomous SWE agents, benchmarks |
 | Cursor | https://cursor.com/blog | Editor-integrated agents, model routing |
 | n8n | https://blog.n8n.io/ | Workflow automation with LLM steps |
@@ -497,7 +498,7 @@ Practitioner-focused sources on building and operating agentic AI systems in pro
 - **Anyscale blog**: https://www.anyscale.com/blog — Ray framework, distributed ML in production
 - **vLLM blog**: https://blog.vllm.ai/ (also https://vllm.ai/blog) — dominant open-source inference serving framework
 - **SGLang**: https://docs.sglang.ai/ and https://github.com/sgl-project/sglang — the other high-throughput serving engine; releases often benchmark against vLLM
-- **llama.cpp**: https://github.com/ggml-org/llama.cpp/releases — the local-inference substrate under Ollama and much else; releases track new model architectures
+- **llama.cpp**: https://github.com/ggml-org/llama.cpp/releases — the local-inference substrate under Ollama and much else; releases track new model architectures. The releases index is where to look; cite the release's own page, `/releases/tag/bXXXX`.
 - **Ollama blog**: https://ollama.com/blog — most popular local model runner
 - **SemiAnalysis**: https://newsletter.semianalysis.com/ — chip economics, GPU supply chain
 
@@ -614,7 +615,7 @@ How AI models and agents are built and run on Kubernetes and CNCF projects, plus
 
 ### AI on Kubernetes projects
 
-CNCF maturity as listed in the CNCF landscape on 2026-09-13.
+CNCF maturity as listed in the CNCF landscape on 2026-09-13. Where the URL is a releases index, cite the release's own `/releases/tag/…` page, not the index.
 
 | Project | Maturity | URL | Focus |
 |---|---|---|---|

@@ -105,13 +105,15 @@ Then come hard rules. `scripts/check_issue.py` enforces most of them on the fini
 
 | Rule | Checker rule |
 |---|---|
+| Primary or specialist outlets; nothing from the "Don't cite" list in `sources.md` | `never` (the outlets banned outright), `secondary` (a warning on outlets that habitually rewrite); the rest is the model's rule |
 | No URL, or story, from the last four posts | `repeat` (same URL only) |
 | No story or URL twice in the issue | `repeat` (same URL only) |
 | The item's own date is inside the window; URL dates and arXiv IDs count | `stale` |
-| Article URLs, never homepages | `homepage` |
+| Article URLs, never homepages, blog indexes or docs roots | `homepage`, `rolling` |
 | The label names the publisher of the linked page | `label` |
 | No press-release wires | `wire` |
-| Primary or specialist outlets; nothing from the "Don't cite" list in `sources.md` | none: the model's rule |
+
+Every rule but `secondary` holds the issue: `scripts/weekly.sh` publishes nothing the checker fails. `secondary` prints `<path>:<line>: warning: secondary: …` and leaves the exit status alone, so the issue publishes and the notification carries the count. A tier-2 outlet is often a story's only coverage, and a taste judgement shouldn't be able to block a push.
 
 ---
 

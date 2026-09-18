@@ -4,7 +4,8 @@
 Usage: check_issue.py <post> [--posts-dir DIR] [--week YYYY-Www]
 
 Prints `path:line: RULE: message` for each finding and exits 1 if there are
-any. Standard library only.
+any. Warnings print as `path:line: warning: RULE: message` and don't affect
+the exit status. Standard library only.
 """
 
 import argparse
@@ -35,6 +36,41 @@ WIRES = (
     "businesswire.com",
     "einpresswire.com",
     "accesswire.com",
+)
+
+# The outlets "Don't cite" in sources.md bans outright: investment and
+# personal-finance sites, syndicated finance pages and single-company fan
+# sites. Crypto outlets aren't here: they're banned only for stories that
+# aren't about crypto, which a host list can't tell.
+NEVER = (
+    "fool.com",
+    "seekingalpha.com",
+    "benzinga.com",
+    "investorplace.com",
+    "finance.yahoo.com",
+    "msn.com",
+    "sammyfans.com",
+)
+
+# A living index rather than the page carrying the story. A path whose last
+# segment is one of these is the index itself; a page below it is not, so
+# /docs/en/some-page passes and a bare /docs doesn't.
+ROLLING_LAST = ("changelog", "trending", "releases", "blog", "docs")
+# A dataset section that's updated in place, e.g. epoch.ai/data/ai-data-centers.
+ROLLING_FIRST = ("data",)
+
+# Outlets that habitually rewrite a primary source they link to. A warning,
+# not a hold: a tier-2 outlet is often the only coverage of a story, and a
+# taste judgement mustn't be able to block a push.
+SECONDARY = (
+    "theregister.com",
+    "techzine.eu",
+    "techrepublic.com",
+    "techradar.com",
+    "venturebeat.com",
+    "dev.to",
+    "sherwood.news",
+    "forkast.news",
 )
 
 LABEL_DOMAINS = {
@@ -134,6 +170,14 @@ def on_domain(url, domains):
     return any(h == d or h.endswith("." + d) for d in domains)
 
 
+def is_rolling(url):
+    """Whether the URL points at a living index rather than one story."""
+    segments = [part for part in urlsplit(url).path.split("/") if part]
+    if not segments:
+        return False
+    return segments[-1].lower() in ROLLING_LAST or segments[0].lower() in ROLLING_FIRST
+
+
 def month_end(year, month):
     """The last day of the month."""
     if month == 12:
@@ -179,18 +223,24 @@ def earlier_posts(post, posts_dir):
 
 
 def check(post, posts_dir, week=None, now=None):
-    """Return (line, rule, message) findings for `post`, sorted by line.
+    """Return (findings, warnings) for `post`, each sorted by line.
 
-    `posts_dir` holds the earlier posts; `week`, if given, is the week the
-    title must carry; `now` is the moment the post is checked against,
-    defaulting to the present.
+    Both are lists of (line, rule, message). A finding holds the issue; a
+    warning is reported and doesn't. `posts_dir` holds the earlier posts;
+    `week`, if given, is the week the title must carry; `now` is the moment
+    the post is checked against, defaulting to the present.
     """
     findings = []
+    warnings = []
     now = now or dt.datetime.now(dt.timezone.utc)
 
     def add(line, rule, message):
         if (line, rule, message) not in findings:
             findings.append((line, rule, message))
+
+    def warn(line, rule, message):
+        if (line, rule, message) not in warnings:
+            warnings.append((line, rule, message))
 
     earlier = earlier_posts(post, posts_dir)
     previous = earlier[-PREVIOUS_POSTS:]
@@ -258,10 +308,28 @@ def check(post, posts_dir, week=None, now=None):
         if on_domain(url, WIRES):
             add(n, "wire", f"{url} is a press-release wire")
 
+    # rolling
+    for n, url in links:
+        if is_rolling(url):
+            add(n, "rolling", f"{url} is a rolling index, not the page with the story")
+
+    # never
+    for n, url in links:
+        if on_domain(url, NEVER):
+            add(n, "never", f"{host(url)} is on the \"Don't cite\" list in sources.md")
+
     for n, label, url in post.sources():
         # homepage
         if urlsplit(url).path in ("", "/"):
             add(n, "homepage", f"{url} is a homepage, not an article")
+        # secondary
+        if on_domain(url, SECONDARY):
+            warn(
+                n,
+                "secondary",
+                f"{host(url)} often rewrites a primary source it links to; "
+                "cite the primary if the page names one",
+            )
         # label
         for name, domains in LABEL_DOMAINS.items():
             if re.match(
@@ -272,7 +340,10 @@ def check(post, posts_dir, week=None, now=None):
                 )
                 break
 
-    return sorted(findings, key=lambda f: (f[0], f[1]))
+    return (
+        sorted(findings, key=lambda f: (f[0], f[1])),
+        sorted(warnings, key=lambda f: (f[0], f[1])),
+    )
 
 
 def main(argv=None):
@@ -287,9 +358,11 @@ def main(argv=None):
 
     post = Post(args.post)
     posts_dir = args.posts_dir or args.post.parent
-    findings = check(post, posts_dir, args.week)
+    findings, warnings = check(post, posts_dir, args.week)
     for line, rule, message in findings:
         print(f"{args.post}:{line}: {rule}: {message}")
+    for line, rule, message in warnings:
+        print(f"{args.post}:{line}: warning: {rule}: {message}")
     return 1 if findings else 0
 
 

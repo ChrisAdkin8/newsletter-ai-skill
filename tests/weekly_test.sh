@@ -92,11 +92,21 @@ check "a new URL is kept, with the command appended" has "$(inbox)" \
 check "a line not in the format is dropped" lacks "$(inbox)" "not an item"
 check "a line with backticks is dropped" lacks "$(inbox)" "example.com/code"
 check "notifies the publish" notified "Published $WEEK"
+check "says nothing about warnings when there are none" not notified " warning"
 
 run_weekly
 check "second run exits 0" eq "$RC" 0
 check "second run makes no commit" eq "$(remote_commits)" "$((before + 1))"
 check "second run doesn't call claude" eq "$(calls)" 1
+
+# --- A secondary-outlet citation warns without holding, and is counted.
+setup secondary
+before=$(remote_commits)
+run_weekly FAKE_MODE=secondary
+check "exits 0" eq "$RC" 0
+check "the post is published" eq "$(remote_commits)" "$((before + 1))"
+check "the check log carries the warning" has "$T/log/$WEEK.check" "warning: secondary:"
+check "the notification counts it" notified "1 warning"
 
 # --- An existing inbox file isn't overwritten.
 setup inbox-exists
@@ -135,6 +145,17 @@ run_weekly FAKE_MODE=readme
 check "exits 1" eq "$RC" 1
 check "nothing pushed" eq "$(remote_commits)" "$before"
 check "notifies held" notified "held"
+
+# --- A run that writes no triage file is held, post and all.
+setup notriage
+before=$(remote_commits)
+run_weekly FAKE_MODE=notriage
+check "exits 1" eq "$RC" 1
+check "nothing pushed" eq "$(remote_commits)" "$before"
+check "post stays untracked" eq "$(git -C "$T/work" status --porcelain)" "?? $POST"
+check "notifies the missing triage file" notified "held: no triage file"
+check "no last-ok" eq "$(last_ok)" ""
+check "no inbox file" test ! -e "$(inbox)"
 
 # --- A skill that didn't load is a failed run, not a held issue.
 setup noload

@@ -273,5 +273,5 @@ Use this exact structure when writing the newsletter output.
 
 ---
 
-*Curated by Claude Code · Sources span Reddit, Hacker News, Alignment Forum, arXiv, OWASP, MITRE, NIST, CISA, IAPP, Covington, Ada Lovelace Institute, analyst reports, technical blogs, the CNCF, and hardware press*
+*Curated by Claude Code*
 ```
