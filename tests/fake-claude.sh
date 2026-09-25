@@ -53,7 +53,7 @@ mkdir -p "$web/content/posts"
 cat >"$web/content/posts/$name.md" <<EOF
 ---
 title: "Agentic AI & LLM Weekly — $week"
-date: ${date}T09:00:00Z
+date: ${date}T00:00:00Z
 draft: false
 ---
 
