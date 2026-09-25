@@ -1,6 +1,6 @@
 # newsletter-ai
 
-A Claude Code skill that curates a weekly newsletter on agentic AI and LLMs, and the scripts that publish it for you.
+A Claude Code skill that curates a weekly newsletter on agentic AI and LLMs, the scripts that publish it for you, and a [companion skill](#companion-skill-claude-hacks) for Claude Code tips.
 
 **Read it:** [newsletter-ai-skill.pages.dev](https://newsletter-ai-skill.pages.dev/) · **Subscribe:** [RSS](https://newsletter-ai-skill.pages.dev/index.xml)
 
@@ -36,7 +36,7 @@ The skill writes the post but never commits or pushes it. To use it in another p
 
 ### Publish every week automatically (macOS)
 
-Scheduling needs launchd, the Keychain and notifications, so it's macOS only. Run these in an ordinary Terminal window, since two of them prompt you:
+Scheduling needs launchd, the Keychain and notifications, so it's macOS only. In a fork, do the steps in [Use it for your own newsletter](#use-it-for-your-own-newsletter) first. Run these in an ordinary Terminal window, since two of them prompt you:
 
 ```bash
 claude setup-token                                                 # sign in; copy the one-year token
@@ -46,7 +46,7 @@ launchctl kickstart -k gui/$(id -u)/local.newsletter-ai.weekly     # expect a "p
 scripts/install-agent.sh                                           # switch to real runs
 ```
 
-From then on the agent runs daily at 09:07 and 18:07 and publishes at most one issue per week (Friday to Thursday). [Scheduled publishing](docs/customising.md#scheduled-publishing-launchd) covers held issues, logs, changing the schedule and uninstalling.
+From then on the agent runs daily at 09:07 and 18:07 and publishes at most one issue per week (Friday to Thursday). If the Mac is asleep at a run time, the run happens when it wakes. [Scheduled publishing](docs/customising.md#scheduled-publishing-launchd) covers held issues, logs, changing the schedule and uninstalling.
 
 To publish by hand instead, run `NEWSLETTER_REPO=$PWD scripts/weekly.sh` from the repo — the same checks, then commit and push. The wrapper works on `$NEWSLETTER_REPO`, which the launchd agent sets for you.
 
@@ -54,10 +54,10 @@ To publish by hand instead, run `NEWSLETTER_REPO=$PWD scripts/weekly.sh` from th
 
 ## Requirements
 
-- **Claude Code** with a subscription, installed with the native installer. The scheduler copies a pinned version (`CLAUDE_PIN` in `scripts/install-agent.sh`) from `~/.local/share/claude/versions/`.
+- **Claude Code** with a subscription, installed with the native installer. The scheduler copies a pinned version (`CLAUDE_PIN` in `scripts/install-agent.sh`) from `~/.local/share/claude/versions/`, and `install-agent.sh` stops if that version isn't there. To move to one you have, follow "Bump the CLI" in [Day to day](docs/customising.md#day-to-day).
 - **macOS** for scheduled publishing. The skill itself runs anywhere Claude Code does.
 - **Room in your quota.** A scheduled run uses Sonnet, stops at `--max-budget-usd 10` and is killed after an hour. Recent issues have reported $6–8 of equivalent usage, drawn from your subscription rather than billed as API credits.
-- **Hugo Extended** to scaffold and preview the site (`brew install hugo`). Cloudflare Pages builds it on every push.
+- **Hugo Extended** to preview the site locally (`brew install hugo`). Cloudflare Pages builds it on every push.
 - **Python 3, jq, git and curl**, which the wrapper and the checker use. Recent macOS includes them; Python 3 comes with the Xcode command line tools.
 
 The triage note goes to `~/notes/inbox/`. To use another folder, set `NOTES_DIR` in the plist template's environment and re-run `scripts/install-agent.sh`.
@@ -106,7 +106,14 @@ The skill follows hard rules when it picks stories, and [`scripts/check_issue.py
 - **No banned outlets** — a link to an investment, syndicated-finance or fan site named in the "Don't cite" list fails.
 - **Sound metadata** — filename, frontmatter date and the issue week in the title, all agreeing, none in the future, and no week an earlier issue already used.
 
-Two rules rest on the skill alone, because the checker can't see them: no crypto outlets for stories that aren't about crypto, and at most four items per category.
+The checker also warns, without holding anything, when a link goes to an outlet that often rewrites a primary source; the publish notification says how many warnings there were.
+
+Some rules rest on the skill alone, because the checker reads URLs and labels and can't see what a page says:
+
+- the same story under two different URLs;
+- a page that rewrites a primary source it links to;
+- more than one item from the same publisher in a section, or more than four items in a category;
+- crypto outlets for stories that aren't about crypto, and anonymous aggregators.
 
 `scripts/weekly.sh` publishes only if the post is the only change in the tree and the checker passes it. Otherwise the issue is held, uncommitted, and you're notified. See [How it works](docs/how-it-works.md) for the full workflow.
 
@@ -122,14 +129,17 @@ Two rules rest on the skill alone, because the checker can't see them: no crypto
 
 ## Hosting the site
 
-The bundled `site/` is a [Hugo](https://gohugo.io) site with the [PaperMod](https://github.com/adityatelange/hugo-PaperMod) theme, deployed free on [Cloudflare Pages](https://pages.cloudflare.com/). One-time setup:
+The bundled `site/` is a [Hugo](https://gohugo.io) site with the [PaperMod](https://github.com/adityatelange/hugo-PaperMod) theme, deployed free on [Cloudflare Pages](https://pages.cloudflare.com/). It's already scaffolded, so `site/scripts/bootstrap.sh` exits straight away here; it's for starting a site from nothing.
 
-```bash
-./site/scripts/bootstrap.sh                      # Scaffold Hugo + PaperMod into site/
-git add site/ && git commit -m "Scaffold site" && git push
-```
+### Use it for your own newsletter
 
-Then connect the repo to Cloudflare Pages; [`site/README.md`](site/README.md) has the exact dashboard settings. Vercel and Netlify also support Hugo if you prefer them.
+A fork carries this newsletter's issues and address. Before its first publish:
+
+1. **Point the site at your address.** Set `baseURL` in `site/hugo.toml` to your Cloudflare Pages URL, and change the "Read it" and RSS links at the top of this README.
+2. **Remove this newsletter's issues.** Delete the files in `site/content/posts/`, or your site republishes them. The checker also compares each new issue with the last four in that folder, so old issues would block stories you haven't run.
+3. **Connect the repo to Cloudflare Pages.** [`site/README.md`](site/README.md) has the exact dashboard settings. Vercel and Netlify also support Hugo if you prefer them.
+
+Then follow [Quick start](#quick-start).
 
 ---
 
