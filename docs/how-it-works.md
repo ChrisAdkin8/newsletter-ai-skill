@@ -79,7 +79,7 @@ Claude searches each of the 14 source categories defined in `sources.md`:
 8. **Agent Era & Technical Workflows** — Vellum AI, ByteByteGo, LangChain / LangGraph Blog, Pydantic AI
 9. **Open Source & Infrastructure** — HuggingFace, vLLM, Ollama, Anyscale, SemiAnalysis
 10. **Macro & Hardware Watch** — NVIDIA (primary), Next Platform, Datacenter Dynamics, Computing.co.uk, SemiAnalysis
-11. **Model Evaluations & Transparency** — LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench, AlpacaEval, HF Open LLM Leaderboard, WhatLLM.org
+11. **Model Evaluations & Transparency** — LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench, WhatLLM.org
 12. **Newsletters & Podcasts** — The Batch, Latent Space, TWIML; secondary sources only, used to find stories whose primary source is then cited
 13. **Cloud Native & CNCF** — CNCF blog and announcements, Kubernetes blog, LWKD; AI-on-Kubernetes projects (Kubeflow, KServe, llm-d, kagent, KAITO, Volcano, HAMi, Dapr, OpenTelemetry); The New Stack
 14. **Trending Open Source AI** — projects gaining traction this week, from GitHub Trending, OSS Insight, Trendshift, Hugging Face trending, Show HN and OpenRouter rankings; each item states its evidence and cites the project itself

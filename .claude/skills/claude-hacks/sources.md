@@ -95,16 +95,19 @@ Primary authoritative source. Docs and changelog entries are definitively accura
 
 | Source | URL |
 |---|---|
-| Claude Code docs | https://docs.anthropic.com/en/docs/claude-code/ |
+| Claude Code docs | https://code.claude.com/docs/en/ |
 | Anthropic blog (Claude Code posts) | https://www.anthropic.com/news |
-| Anthropic changelog | https://www.anthropic.com/changelog |
+| Claude Code changelog | https://code.claude.com/docs/en/changelog |
 | Claude Code GitHub repo | https://github.com/anthropics/claude-code |
+| Anthropic Engineering | https://www.anthropic.com/engineering |
+| Claude blog | https://claude.com/blog |
 
 **Search strategy**:
 
 ```
-site:docs.anthropic.com "claude code" tips OR configuration OR CLAUDE.md
+site:code.claude.com tips OR configuration OR CLAUDE.md
 site:anthropic.com/news "Claude Code" 2025 OR 2026
+site:anthropic.com/engineering OR site:claude.com/blog "Claude Code"
 ```
 
 ---
@@ -135,6 +138,7 @@ Individual practitioners who write detailed Claude Code posts. Simon Willison is
 | Author / Site | URL | Signal type |
 |---|---|---|
 | Simon Willison | https://simonwillison.net | Detailed experiments, prompt injection, practical use cases |
+| Armin Ronacher | https://lucumr.pocoo.org | Long posts on agentic coding workflows and what works in practice |
 | Lena Reinhard | search `"Claude Code" site:lenareinhard.com` | Enterprise workflow posts |
 | Dev.to | https://dev.to/search?q=claude+code | Community developer posts |
 | Medium | search `"Claude Code" tips site:medium.com` | Tutorial articles |
@@ -145,6 +149,7 @@ Individual practitioners who write detailed Claude Code posts. Simon Willison is
 
 ```
 site:simonwillison.net "claude code"
+site:lucumr.pocoo.org agent OR "Claude Code"
 "Claude Code" productivity tips site:dev.to OR site:medium.com OR site:hashnode.com
 "CLAUDE.md" example site:substack.com
 ```
@@ -160,8 +165,8 @@ MCP (Model Context Protocol) is Claude Code's primary extension mechanism. The M
 | MCP official docs | https://modelcontextprotocol.io |
 | MCP servers registry | https://github.com/modelcontextprotocol/servers |
 | Awesome MCP Servers | search `site:github.com "awesome-mcp"` |
-| Composio blog | https://blog.composio.io |
-| Pydantic AI blog | https://ai.pydantic.dev/blog/ |
+| Composio blog | https://composio.dev/blog |
+| Pydantic AI blog | https://pydantic.dev/articles |
 
 **Search strategy**:
 
