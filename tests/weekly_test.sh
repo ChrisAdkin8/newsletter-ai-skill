@@ -5,6 +5,9 @@
 set -uo pipefail
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
+# UTC, so the local date the wrapper names the post after is never ahead of
+# the UTC clock the checker holds future-dated posts against.
+export TZ=UTC
 DATE=$(date +%F)
 WEEK=$(date -v-4d +%G-W%V)
 POST=site/content/posts/$DATE.md
