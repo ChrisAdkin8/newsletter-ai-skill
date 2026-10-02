@@ -23,7 +23,7 @@ A Claude Code skill that curates a weekly newsletter on agentic AI and LLMs, the
 The skill is a project skill in this repo. Open Claude Code here and run:
 
 ```
-/newsletter-ai                                          # Last 7 days, all 14 categories
+/newsletter-ai                                          # Last 7 days, all 15 categories
 /newsletter-ai security focus                           # Narrow to one topic
 /newsletter-ai web:./site                               # Also write the post into the bundled site/
 /newsletter-ai web:~/my-hugo-site                       # Write it into a separate Hugo repo
@@ -154,6 +154,7 @@ Then follow [Quick start](#quick-start).
 | 5 | AI Security | 12 | Newsletters & Podcasts (leads to primary sources only) |
 | 6 | Product & Company News | 13 | Cloud Native & CNCF |
 | 7 | Regulatory & Policy | 14 | Trending Open Source AI |
+|   |   | 15 | AI Coding Practitioners |
 
 Every source, with why it's there and how to search it, is in [`docs/sources.md`](docs/sources.md).
 
@@ -189,7 +190,7 @@ Runs use the skill files in `.claude/skills/newsletter-ai/` directly, so there's
 | Doc | Covers |
 |---|---|
 | [`docs/how-it-works.md`](docs/how-it-works.md) | The six-step workflow, the hard rules and checker, publishing |
-| [`docs/sources.md`](docs/sources.md) | Every source in all 14 categories, with search strategies |
+| [`docs/sources.md`](docs/sources.md) | Every source in all 15 categories, with search strategies |
 | [`docs/customising.md`](docs/customising.md) | Adding sources, changing the format, web publishing, scheduled publishing, held issues and recovery |
 | [`site/README.md`](site/README.md) | Hugo + PaperMod bootstrap, Cloudflare Pages settings, theme updates |
 | [`CLAUDE.md`](CLAUDE.md) | The rules Claude Code follows in this repo |

@@ -177,6 +177,27 @@ Use this exact structure when writing the newsletter output.
 
 ---
 
+## AI Coding Practitioners
+*How engineers are actually working with coding agents*
+
+### [Headline — the lesson, not the tool]
+`[Practice]`
+
+[2–4 sentences: who did what with a coding agent, what worked or failed, and what another engineer could take from it. For a study, say what was measured and the result.]
+
+[Source: [Publisher of the linked page](URL)]
+
+---
+
+### [Next item]
+`[Practice]`
+
+[2–4 sentences.]
+
+[Source: [Publisher of the linked page](URL)]
+
+---
+
 ## Open Source & Infrastructure
 *Model rankings, benchmarks, and the stack underneath*
 

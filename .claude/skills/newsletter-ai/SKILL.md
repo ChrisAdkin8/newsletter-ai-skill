@@ -1,6 +1,6 @@
 ---
 name: newsletter-ai
-description: Curate a newsletter covering agentic AI and LLM news across 14 categories: community (Reddit incl. r/MLOps, Hacker News, X/Twitter), research and alignment safety labs (ARC, CAIS, Apollo, METR, Redwood, FAR AI, BAIR, AI2, Alignment Forum, LessWrong), technical blogs and infra companies (NVIDIA, W&B, vLLM, Databricks, Ollama, CrewAI, Modal, Microsoft Agent Framework), AI-only media (MIT Tech Review, Ars Technica, IEEE Spectrum), individual writers (Chollet, Marcus, Wolfe), analyst and VC reports (Gartner, a16z, Sequoia, Brookings), AI security (OWASP, MITRE, NIST, CISA, ENISA, NCSC, Trail of Bits, Lakera, HiddenLayer, Embrace the Red, Snyk Labs), regulatory/policy (EU Commission, UK AISI, FTC, ICO, OSTP, Future of Life Institute, Ada Lovelace Institute, CDT, EFF), agent era (LangChain, Pydantic AI, Composio, HF Agents), open-source infra, macro/hardware (NVIDIA, AMD, Next Platform, Datacenter Dynamics, Chips and Cheese, Fabricated Knowledge), model evaluations (LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench), newsletters/podcasts as secondary sources (The Batch, Latent Space, TWIML), cloud native AI (CNCF, Kubernetes, Kubeflow, KServe, llm-d, kagent, OpenTelemetry), and open-source AI projects gaining traction (GitHub Trending, OSS Insight, Hugging Face trending, OpenRouter rankings). Use when the user asks for AI news, an LLM digest, an agentic AI roundup, or a newsletter.
+description: Curate a newsletter covering agentic AI and LLM news across 15 categories: community (Reddit incl. r/MLOps, Hacker News, X/Twitter), research and alignment safety labs (ARC, CAIS, Apollo, METR, Redwood, FAR AI, BAIR, AI2, Alignment Forum, LessWrong), technical blogs and infra companies (NVIDIA, W&B, vLLM, Databricks, Ollama, CrewAI, Modal, Microsoft Agent Framework), AI-only media (MIT Tech Review, Ars Technica, IEEE Spectrum), individual writers (Chollet, Marcus, Wolfe), analyst and VC reports (Gartner, a16z, Sequoia, Brookings), AI security (OWASP, MITRE, NIST, CISA, ENISA, NCSC, Trail of Bits, Lakera, HiddenLayer, Embrace the Red, Snyk Labs), regulatory/policy (EU Commission, UK AISI, FTC, ICO, OSTP, Future of Life Institute, Ada Lovelace Institute, CDT, EFF), agent era (LangChain, Pydantic AI, Composio, HF Agents), open-source infra, macro/hardware (NVIDIA, AMD, Next Platform, Datacenter Dynamics, Chips and Cheese, Fabricated Knowledge), model evaluations (LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench), newsletters/podcasts as secondary sources (The Batch, Latent Space, TWIML), cloud native AI (CNCF, Kubernetes, Kubeflow, KServe, llm-d, kagent, OpenTelemetry), open-source AI projects gaining traction (GitHub Trending, OSS Insight, Hugging Face trending, OpenRouter rankings), and AI coding practitioners (Simon Willison, Armin Ronacher, Mitchell Hashimoto, Kent Beck, martinfowler.com, DORA). Use when the user asks for AI news, an LLM digest, an agentic AI roundup, or a newsletter.
 argument-hint: "[topic-focus, optional] [web:<hugo-site>] [date:YYYY-MM-DD] [week:YYYY-Www] [triage:<dir>]"
 disable-model-invocation: true
 allowed-tools: WebSearch, WebFetch, Read
@@ -20,7 +20,7 @@ $ARGUMENTS
 
 ## Run rules
 
-- **No parallel subagents for gathering** — search all 14 categories sequentially in the main session.
+- **No parallel subagents for gathering** — search all 15 categories sequentially in the main session.
 - **WebSearch before WebFetch** — use snippets to identify stories; only fetch when snippet lacks enough detail. One fetch per story maximum.
 - **One query per category** — if first query returns 3+ usable results, move on. Skip sections with nothing newsworthy.
 - **No intermediate output** — output only the finished newsletter, then the line from Step 6c.
@@ -50,6 +50,7 @@ Refer to [sources.md](sources.md) for the full list of URLs and search queries p
 12. **Newsletters & Podcasts** (secondary sources only — The Batch, Latent Space, TWIML; use to identify stories then cite the primary source)
 13. **Cloud Native & CNCF** (CNCF blog and announcements, Kubernetes blog, LWKD; AI-on-Kubernetes projects — Kubeflow, KServe, llm-d, kagent, KAITO, Volcano, HAMi, Dapr, OpenTelemetry; The New Stack)
 14. **Trending Open Source AI** (projects gaining stars, downloads or users this week — GitHub Trending, OSS Insight, Trendshift, Hugging Face trending, Show HN, OpenRouter rankings; fetch GitHub Trending and OSS Insight directly, since they're lists, not stories)
+15. **AI Coding Practitioners** (how engineers use coding agents in their own work — Simon Willison, Armin Ronacher, Mitchell Hashimoto, Geoffrey Huntley, Kent Beck, Addy Osmani, martinfowler.com, Thorsten Ball, Jesse Vincent; practice data from DORA, The Pragmatic Engineer, Thoughtworks Radar, METR)
 
 ---
 
@@ -90,7 +91,7 @@ Follow the template in [template.md](template.md) exactly. For each item write:
 - A **punchy headline** (not the original title — rewrite it to convey the insight)
 - A **2–4 sentence summary** explaining what happened and *why it matters*
 - A **direct link** to the primary source, labelled with its publisher (Step 2, rule 6)
-- A **tag** from: `[Research]` `[Tool]` `[Security]` `[Industry]` `[Community]` `[Policy]` `[Eval]` `[Safety]`
+- A **tag** from: `[Research]` `[Tool]` `[Security]` `[Industry]` `[Community]` `[Policy]` `[Eval]` `[Safety]` `[Practice]`
 
 ---
 

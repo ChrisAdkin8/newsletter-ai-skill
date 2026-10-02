@@ -23,7 +23,7 @@ The first scheduled issue (2026-W37) filled its thinnest sections from sources l
 
 These sites block automated fetches (HTTP 403 or no connection when checked on 2026-09-13), so fetching one wastes a turn. Find their stories by search, take the date from the snippet, and cite the article URL the search returns:
 
-OpenAI News, xAI News, Reuters, Euractiv, Axios, Bloomberg (also paywalled), The Information (also paywalled), Gartner, McKinsey, Datacenter Dynamics, Dark Reading, Computing.co.uk, the Center for Democracy & Technology, Lawfare, EU Council press releases, and Reddit (login wall). The BAIR blog didn't respond at all on 2026-09-13.
+OpenAI News, xAI News, Reuters, Rapporteur (ex-Euractiv), Axios, Bloomberg (also paywalled), The Information (also paywalled), Gartner, McKinsey, BCG (403 since 2026-10-02), Datacenter Dynamics, Dark Reading, Computing.co.uk, the Center for Democracy & Technology, Lawfare, EU Council press releases, and Reddit (login wall). The BAIR blog didn't respond at all on 2026-09-13.
 
 ---
 
@@ -146,14 +146,14 @@ These labs are essential for agentic AI coverage. They publish work that context
 
 | Lab | URL | What they publish |
 |---|---|---|
-| Alignment Research Center (ARC) | https://alignment.org/blog | Alignment research, eval methodology, red-teaming |
+| Alignment Research Center (ARC) | https://www.alignment.org/blog/ | Alignment research, eval methodology, red-teaming — quiet since June 2026 |
 | Center for AI Safety (CAIS) | https://safe.ai/work/research | Policy briefs, evals, frontier risk framing. Dan Hendrycks leads this |
 | Apollo Research | https://www.apolloresearch.ai/science | Deception, scheming, and agentic model evaluations |
 | METR | https://metr.org | Frontier model capability benchmarking; produces evaluations used by major labs |
 | Redwood Research | https://blog.redwoodresearch.org/ | Adversarial training, scalable oversight, alignment techniques |
-| FAR AI | https://far.ai/ | Scalable oversight, mechanistic interpretability, alignment |
+| FAR AI | https://www.far.ai/ | Scalable oversight, mechanistic interpretability, alignment |
 | Transluce | https://transluce.org | Independent evals and interpretability lab; its agent-behaviour investigations get picked up widely |
-| Goodfire | https://www.goodfire.ai/research | Interpretability research lab |
+| Goodfire | https://www.goodfire.com/research | Interpretability research lab |
 | Anthropic Alignment Science | https://alignment.anthropic.com/ | Anthropic's alignment team blog, separate from anthropic.com/research; misalignment and automated-alignment work often lands here first |
 | OpenAI Alignment | https://alignment.openai.com/ | OpenAI's research-first safety posts. Fetchable, unlike openai.com/news |
 
@@ -213,11 +213,11 @@ A large share of each week's open-weight releases comes from these labs, and the
 | DeepSeek on GitHub | https://github.com/deepseek-ai | Weights, technical reports, inference code |
 | Qwen (Alibaba) | https://qwen.ai/research | Qwen releases with benchmark tables and model cards |
 | Qwen on GitHub | https://github.com/QwenLM | Weights and serving code |
-| Moonshot AI (Kimi) | https://www.kimi.com/blog | Kimi releases, long-context work |
+| Moonshot AI (Kimi) | https://www.kimi.ai/blog/ | Kimi releases, long-context work |
 | Z.ai / Zhipu (GLM) | https://docs.z.ai/release-notes/new-released | GLM family releases |
 | MiniMax | https://www.minimax.io/news | Model and product announcements |
 | ByteDance Seed | https://seed.bytedance.com/en/ | Seed research and model releases |
-| Baidu ERNIE | https://ernie.baidu.com/blog/ | ERNIE and research output |
+| Baidu ERNIE | https://ernie.baidu.com/blog/ | ERNIE and research output — quiet since May 2026 |
 | Tencent Hunyuan | https://huggingface.co/tencent | Frequent open-weight releases (Hunyuan / Hy) |
 | Xiaomi MiMo | https://huggingface.co/XiaomiMiMo | MiMo reasoning and agent models |
 | Meituan LongCat | https://huggingface.co/meituan-longcat | Large MIT-licensed LongCat models |
@@ -233,19 +233,19 @@ These companies often publish technical deep-dives before mainstream press picks
 |---|---|---|
 | NVIDIA Developer Blog | https://developer.nvidia.com/blog/ | CUDA, inference libraries, new GPU architecture, TensorRT |
 | NVIDIA News | https://nvidianews.nvidia.com/ | Official product and partnership announcements |
-| Cerebras | https://cerebras.ai/blog/ | Wafer-scale compute, speed records |
+| Cerebras | https://www.cerebras.ai/blog | Wafer-scale compute, speed records |
 | Groq | https://groq.com/blog/ | LPU inference, throughput benchmarks |
 | Lambda | https://lambda.ai/blog | GPU cloud, training infrastructure |
-| CoreWeave | https://www.coreweave.com/blog | GPU cloud, HPC, enterprise AI infrastructure |
+| CoreWeave | https://www.coreweave.com/blog-categories/blog | GPU cloud, HPC, enterprise AI infrastructure |
 | Fireworks AI | https://fireworks.ai/blog | Inference optimisation, model serving |
 | Anyscale | https://www.anyscale.com/blog | Ray framework, distributed ML, production agent orchestration |
 | AWS Machine Learning | https://aws.amazon.com/blogs/machine-learning/ | Bedrock, Trainium and SageMaker; the hyperscaler missing next to Azure and Google Cloud |
-| Weights & Biases | https://wandb.ai/fully-connected | MLOps, experiment tracking, agent observability — de facto standard |
+| Weights & Biases (CoreWeave) | https://wandb.ai/site/articles/ | W&B articles; the old Fully Connected URL now redirects to CoreWeave Forge. MLOps, experiment tracking, agent observability — de facto standard |
 | vLLM | https://vllm.ai/blog | Dominant open-source inference serving; PagedAttention, throughput |
 | Scale AI | https://scale.com/blog | Data labelling, fine-tuning, RLHF methodology |
 | Databricks | https://www.databricks.com/blog | Enterprise LLM training and deployment; acquired MosaicML |
 | Ollama | https://ollama.com/blog | Most popular local model runner |
-| CrewAI | https://www.crewai.com/blog | Multi-agent frameworks, role-based agent patterns |
+| CrewAI | https://crewai.com/blog | Multi-agent frameworks, role-based agent patterns |
 | Modal | https://modal.com/blog | Serverless GPU inference; high-quality engineering posts on cold starts, GPU utilisation, and model deployment patterns |
 | Microsoft Agent Framework | https://devblogs.microsoft.com/agent-framework/ | Agent Framework releases (successor to AutoGen and Semantic Kernel); Microsoft's agentic AI frameworks widely deployed in enterprise |
 
@@ -279,7 +279,7 @@ Publish infrequently but with depth. These individuals often surface shifts befo
 | ARC Prize (François Chollet) | https://arcprize.org/blog | ARC-AGI benchmark results and analysis; capability scepticism grounded in data |
 | Gary Marcus | https://garymarcus.substack.com | High-profile AI sceptic; covers AI failures and limitation claims |
 | Cameron Wolfe | https://cameronrwolfe.substack.com | High-quality deep learning newsletter with detailed paper breakdowns |
-| Dario Amodei | https://www.darioamodei.com | Essays from Anthropic's CEO; when the essay is the story, this is the primary source |
+| Dario Amodei | https://darioamodei.com | Essays from Anthropic's CEO; when the essay is the story, this is the primary source |
 | Tim Dettmers | https://timdettmers.com | Quantisation, efficient training and GPU economics; posts rarely but in depth |
 
 ### Engineering & framework blogs
@@ -348,7 +348,7 @@ MITRE maintains threat taxonomies widely used by security teams and governments.
 
 | Resource | URL | What it covers |
 |---|---|---|
-| NIST AI Risk Management Framework | https://www.nist.gov/artificial-intelligence | AI RMF 1.0, Playbook, profiles |
+| NIST AI hub (now titled "Super intelligence") | https://www.nist.gov/super-intelligence | AI RMF 1.0, Playbook, profiles |
 | NIST AI publications | https://csrc.nist.gov/publications | Formal publications, drafts open for comment |
 
 ### Government cybersecurity agencies
@@ -357,7 +357,7 @@ These are the primary government sources for operational AI security guidance �
 
 | Agency | URL | What it covers |
 |---|---|---|
-| CISA (US) | https://www.cisa.gov/ai | Operational AI security for critical infrastructure; joint advisories |
+| CISA (US) | https://www.cisa.gov/topics/cybersecurity-best-practices/super-intelligence | Operational AI security for critical infrastructure; joint advisories |
 | ENISA (EU) | https://www.enisa.europa.eu/ | EU AI threat landscape reports; security guidance for AI Act compliance |
 | NCSC (UK) | https://www.ncsc.gov.uk/section/advice-guidance/all-topics?topics=Artificial%20intelligence | UK AI security guidance; publishes joint advisories with CISA and ENISA |
 
@@ -398,11 +398,11 @@ These labs publish the actual zero-day disclosures, campaign analyses, and incid
 | Bloomberg Cyber | https://www.bloomberg.com/cybersecurity | Breaking enterprise incidents and AI-related breach disclosures (paywalled) |
 | Check Point Research | https://research.checkpoint.com/ | Primary vulnerability research; frequent findings in AI and LLM platforms, such as cross-account data leakage in ChatGPT (2026) |
 | OX Security | https://www.ox.security/blog/ | Primary research, with CVEs, on AI coding agents and MCP supply-chain flaws; cited in two of the first three issues |
-| Anthropic Frontier Red Team | https://red.anthropic.com/ | Primary findings on AI cyber and bio capabilities |
+| Anthropic Frontier Red Team | https://www.anthropic.com/research/team/frontier-red-team | Primary findings on AI cyber and bio capabilities |
 | Wiz Research | https://www.wiz.io/blog/tag/ai | Primary disclosures of flaws in AI and cloud infrastructure |
 | XBOW | https://xbow.com/blog | AI-driven vulnerability discovery, with CVEs |
-| AISLE | https://www.aisle.com/blog | AI-driven vulnerability discovery, with CVEs in core open-source projects |
-| Zenity Labs | https://www.zenity.io/blog | Attacks on agents and enterprise copilots |
+| AISLE | https://aisle.com/blog | AI-driven vulnerability discovery, with CVEs in core open-source projects |
+| Zenity Labs | https://zenity.io/blog | Attacks on agents and enterprise copilots |
 | Pillar Security | https://www.pillar.security/blog | Agent and AI-app attack research |
 | Malwarebytes Labs (AI) | https://www.malwarebytes.com/blog/category/ai | Consumer-side AI-assistant threats; cite only their own research |
 | BankInfoSecurity / ISMG (AI & ML) | https://www.bankinfosecurity.com/artificial-intelligence-machine-learning-c-469 | Named reporters with original reporting on AI security and policy |
@@ -456,7 +456,7 @@ Posts from researchers and executives often contain opinions and context not pub
 | UK AI Security Institute (AISI) | https://www.aisi.gov.uk/ | UK frontier AI safety evaluations, international coordination on standards |
 | EU AI Office | https://digital-strategy.ec.europa.eu/en/policies/ai-office | AI Act enforcement body: GPAI code of practice, guidelines, consultations |
 | EU AI Board | https://digital-strategy.ec.europa.eu/en/policies/ai-board | Member-state board steering AI Act enforcement; meeting outcomes land here |
-| NIST CAISI (US) | https://www.nist.gov/caisi | US Center for AI Standards and Innovation: pre-deployment model testing, model evaluations, AI Agent Standards Initiative |
+| NIST CAISSI (US, ex-CAISI) | https://www.nist.gov/caissi | US Center for Advancing Innovation and Standards for Super Intelligence (renamed from CAISI; nist.gov/caisi redirects): pre-deployment model testing, model evaluations, AI Agent Standards Initiative |
 | International AI Safety Report | https://internationalaisafetyreport.org | Annual report (February) plus occasional Key Updates; check it when a new edition lands |
 | White House OSTP | https://www.whitehouse.gov/ostp/ | US AI executive policy, national AI strategy, Federal agency guidance |
 | FTC (US) | https://www.ftc.gov/news-events/news/press-releases | US enforcement on AI deception, unfair practices, and data misuse — enforcement actions here are news |
@@ -485,7 +485,7 @@ Government sites and law firms publish irregularly: in 2026-W37, 13 searches of 
 
 | Source | URL | What it covers |
 |---|---|---|
-| Euractiv Tech | https://www.euractiv.com/section/tech/ | EU policy news, often first on AI Act and digital omnibus negotiations (blocks automated fetches; found by search) |
+| Rapporteur (ex-Euractiv) | https://www.rapporteur.com/ | Euractiv relaunched as Rapporteur on 2026-09-28 and euractiv.com redirects there. EU policy news, often first on AI Act and digital omnibus negotiations (blocks automated fetches; found by search) |
 | Tech Policy Press | https://www.techpolicy.press/ | Frequent news and analysis on US, EU and UK tech and AI policy |
 | Transformer | https://www.transformernews.ai/ | Weekly AI policy and safety news; strong on frontier-model regulation and lab governance |
 | EU AI Act Newsletter | https://artificialintelligenceact.substack.com/ | Weekly AI Act implementation roundup; secondary, pointing to Commission, AI Office and member-state documents |
@@ -539,9 +539,9 @@ The agentic coding tools are both the most-used agents in practice and a steady 
 | Cognition (Devin) | https://cognition.com/blog | Autonomous software engineering, benchmark claims worth checking |
 | Cursor | https://cursor.com/blog | Editor-integrated agents, model routing, latency work |
 | n8n | https://blog.n8n.io/ | Workflow automation with LLM steps; the low-code end of agent building |
-| Factory | https://factory.ai/news | Autonomous coding agents (Droids) |
-| Amp | https://ampcode.com/news | Coding agent from Sourcegraph's team |
-| OpenHands | https://openhands.dev/blog | Open-source coding agent |
+| Factory | https://factory.com/news | Autonomous coding agents (Droids) |
+| Amp | https://ampcode.com/chronicle | Coding agent from Sourcegraph's team |
+| OpenHands | https://www.openhands.dev/blog | Open-source coding agent |
 | GitHub Copilot changelog | https://github.blog/changelog/label/copilot/ | Copilot agent releases; a changelog index, so cite the entry's own page |
 
 ### A2A Protocol
@@ -598,7 +598,7 @@ UK-based enterprise IT publication with dedicated AI & Machine Learning and Infr
 | SemiAnalysis | https://newsletter.semianalysis.com/ | Best analysis of chip industry economics and GPU supply chain |
 | The Next Platform | https://www.nextplatform.com/ | Best publication covering HPC and AI infrastructure economics in depth |
 | Datacenter Dynamics | https://www.datacenterdynamics.com/ | Industry bible for data centre construction, power capacity, and AI infrastructure buildout |
-| Cerebras blog | https://cerebras.ai/blog/ | Wafer-scale compute, interconnect architecture |
+| Cerebras blog | https://www.cerebras.ai/blog | Wafer-scale compute, interconnect architecture |
 | Groq blog | https://groq.com/blog/ | LPU inference, throughput, energy efficiency |
 | The Information (AI hardware) | search `"AI chips" OR "GPU" site:theinformation.com` | Insider reporting on Nvidia, AMD, custom silicon |
 | Tom's Hardware AI | https://www.tomshardware.com | GPU benchmarks, hardware release coverage |
@@ -619,7 +619,7 @@ Evaluation is now a discipline in its own right — large enough to stand alone,
 
 The team behind Chatbot Arena. Their blog provides methodology insights, dataset releases, and analysis of preference data that goes well beyond the Arena UI.
 
-- **Blog**: https://lmsys.org/blog/
+- **Blog**: https://www.lmsys.org/blog/
 - **Arena**: https://arena.ai/leaderboard (formerly LMSYS Chatbot Arena)
 - **Strength**: Human preference data at scale, Elo methodology, head-to-head model comparisons
 
@@ -691,7 +691,7 @@ Live model rankings and comparisons, with an occasional blog. Useful for trackin
 |---|---|---|
 | The Batch (deeplearning.ai) | https://www.deeplearning.ai/the-batch/ | Andrew Ng's weekly digest; surfaces enterprise adoption signals and research framing before mainstream press |
 | Latent Space | https://www.latent.space/podcast | Developer-focused interviews with AI researchers and builders; often first to surface new research directions |
-| TWIML AI Podcast | https://twimlai.com/podcast | Technical ML and AI interviews; strong on production ML, research and hardware |
+| TWIML AI Podcast | https://twimlai.com/podcast/twimlai | Technical ML and AI interviews; strong on production ML, research and hardware |
 | Don't Worry About the Vase (Zvi Mowshowitz) | https://thezvi.substack.com | The most complete weekly roundup of the AI week; good for finding stories |
 | Exponential View (Azeem Azhar) | https://www.exponentialview.co | Weekly on AI's economic and social effects |
 | Understanding AI (Timothy B. Lee) | https://www.understandingai.org | Explainers and reporting on AI policy and capabilities |
@@ -726,9 +726,9 @@ CNCF maturity as listed in the [CNCF landscape](https://landscape.cncf.io/) on 2
 | llm-d | sandbox | https://llm-d.ai/blog | Distributed LLM inference on Kubernetes, with disaggregated prefill and decode |
 | kagent | sandbox | https://kagent.dev/blog | Framework for AI agents that run on, and operate, Kubernetes |
 | KAITO | sandbox | https://github.com/kaito-project/kaito/releases | Automates model deployment and fine-tuning, including GPU node provisioning |
-| Volcano | incubating | https://volcano.sh/blog/ | Batch scheduler used for AI training and inference jobs |
+| Volcano | incubating | https://volcano.sh/blog/ | Batch scheduler used for AI training and inference jobs — blog quiet since May 2026 |
 | HAMi | incubating | https://github.com/Project-HAMi/HAMi/releases | GPU sharing and virtualisation across vendors |
-| Dapr | graduated | https://blog.dapr.io/posts/ | Dapr Agents and durable workflows for long-running agents |
+| Dapr | graduated | https://blog.dapr.io/posts/ | Dapr Agents and durable workflows for long-running agents — blog quiet since June 2026 |
 | OpenTelemetry | graduated | https://opentelemetry.io/blog/ | GenAI semantic conventions: the emerging standard for tracing model and agent calls |
 | Kueue | Kubernetes SIG Scheduling | https://kueue.sigs.k8s.io/ | Job queueing and quotas for shared GPU clusters |
 | Gateway API Inference Extension | Kubernetes SIG Network | https://gateway-api-inference-extension.sigs.k8s.io/ | Model-aware load balancing for inference traffic |
@@ -782,3 +782,59 @@ Lists and dashboards measure the trend; the skill cites the project itself.
 Stars are easy to game, and fake stars are a known problem on GitHub. The skill treats a spike with little commit, issue or contributor activity as suspect and checks Star History or OSS Insight before featuring a project. It skips awesome-lists, course and tutorial repos, prompt collections, and anything tied to a crypto token. Because the checker rejects a URL used in the last four posts, the same trending repo can't reappear every week.
 
 **Search strategy**: fetch GitHub Trending (weekly) and OSS Insight Trending, pick 2–4 AI projects, and confirm each on Star History. Then search `"Show HN" open source AI agent`, `open source AI agent framework GitHub stars this week`, `site:aaif.io`, `site:lfaidata.foundation`.
+
+---
+
+## 15. AI Coding Practitioners
+
+The rest of the catalogue tracks what is released, funded, regulated and benchmarked. This section tracks how engineers actually work with coding agents: their workflows, what fails, how teams adopt the tools and what studies measure. The section takes first-hand accounts and measured studies, and leaves product launches to sections 6 and 8.
+
+Every source was live on 2026-10-02 and had posted in the previous two months, except where noted. Candidates left out because they had gone quiet: Peter Steinberger (last post February 2026), the Aider blog (April 2026) and Eugene Yan (June 2026).
+
+### Practitioner writers
+
+| Writer | URL | Focus |
+|---|---|---|
+| Simon Willison | https://simonwillison.net/tags/coding-agents/ and https://simonwillison.net/tags/ai-assisted-programming/ | Daily notes on coding agents, agentic engineering patterns and their security limits (also section 3; one item per issue across both) |
+| Armin Ronacher | https://lucumr.pocoo.org/ | Flask creator; detailed accounts of agentic coding in real projects, and what goes wrong |
+| Mitchell Hashimoto | https://mitchellh.com/writing | Ghostty and HashiCorp founder; how he uses agents in a large open-source codebase (posts every month or two) |
+| Geoffrey Huntley | https://ghuntley.com/ | Autonomous agent loops ("Ralph"), building and running coding agents unattended |
+| Harper Reed | https://harper.blog/posts/ | End-to-end LLM codegen workflows: spec, plan, execute |
+| Kent Beck | https://newsletter.kentbeck.com/ | TDD and design with AI "genies"; augmented coding (was tidyfirst.substack.com) |
+| Addy Osmani | https://addyo.substack.com/ | Agent workflows, spec-driven development, team adoption |
+| Birgitta Böckeler (martinfowler.com) | https://martinfowler.com/articles/exploring-gen-ai.html | Thoughtworks' running series on generative AI in software delivery; context engineering, spec-driven development |
+| Thorsten Ball | https://registerspill.thorstenball.com/ | Weekly notes on building and using coding agents |
+| Jesse Vincent | https://blog.fsck.com/ | Superpowers skills library; Claude Code workflows and agent skills |
+| Hamel Husain | https://hamel.dev/ | Evals and error analysis applied to AI-written code and AI features |
+| Sean Goedecke | https://www.seangoedecke.com/ | How AI changes day-to-day engineering inside a large company |
+| Drew Breunig | https://www.dbreunig.com/ | Context engineering, how context fails, and DSPy-style practice |
+| Jason Liu | https://jxnl.co/writing/ | Context engineering for coding agents; interviews with tool builders |
+| Steve Yegge | https://steve-yegge.medium.com/ | Agent orchestration (Beads, Gas Town), vibe coding at scale; opinionated, posts monthly |
+| Charity Majors | https://charity.wtf/ | Observability, production ownership and what AI-written code means for on-call |
+| Every — Source Code | https://every.to/source-code | Kieran Klaassen and others on "compounding engineering" with agents in a small company |
+| HumanLayer (Dex Horthy) | https://www.humanlayer.dev/blog | Context engineering for coding agents in large brownfield codebases; "12-factor agents" |
+
+### Practice reporting and data
+
+| Source | URL | Focus |
+|---|---|---|
+| The Pragmatic Engineer (Gergely Orosz) | https://newsletter.pragmaticengineer.com/ | Reported surveys and deep dives on how engineering teams use AI tools; many posts are paywalled, so cite only what the free page states |
+| DORA | https://dora.dev/research/ | Google's research on AI-assisted software delivery; the annual report is primary data (quiet since June 2026, the report is due in the autumn) |
+| Stack Overflow blog | https://stackoverflow.blog/ | Developer survey results and practitioner essays on AI tooling |
+| Thoughtworks Technology Radar | https://www.thoughtworks.com/radar | Twice-yearly verdicts (adopt, trial, assess, hold) on AI coding tools and practices |
+| METR | https://metr.org | Controlled studies of AI's effect on developer speed (also section 2) |
+
+### Community
+
+| Venue | Focus |
+|---|---|
+| r/ChatGPTCoding, r/ClaudeAI, r/cursor | Practitioners comparing workflows and tools (Reddit is search only) |
+| Hacker News | Threads on practitioner posts, where the comments add field reports |
+
+### Rules for this section
+
+- **Practice, not product.** An item says what someone did with a coding agent and what they learned: a workflow, a failure, a measured result. A feature launch belongs in section 6 or 8.
+- **First-hand or measured.** Prefer a practitioner's account of their own work, or a study with data. Skip listicles, "10 prompts for Cursor" posts and vendor marketing dressed as a case study.
+- **One post per writer.** Several of these writers post daily, so the one-per-publisher rule matters here.
+
+**Search strategy**: fetch Simon Willison's coding-agents tag once. Then search `site:lucumr.pocoo.org OR site:mitchellh.com OR site:ghuntley.com OR site:harper.blog`, `site:martinfowler.com "generative AI" OR agent`, `site:addyo.substack.com OR site:newsletter.kentbeck.com OR site:registerspill.thorstenball.com`, `site:blog.fsck.com OR site:seangoedecke.com OR site:dbreunig.com OR site:jxnl.co`, `"coding agent" OR "Claude Code" OR "Codex" OR "Cursor" workflow lessons`, `site:reddit.com/r/ChatGPTCoding OR site:reddit.com/r/ClaudeAI workflow`.
