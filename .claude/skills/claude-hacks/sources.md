@@ -86,6 +86,8 @@ Also check:
 - `https://github.com/anthropics/claude-code` — README, issues, discussions
 - `https://github.com/topics/claude-code` — repos tagged with the topic
 - Gists: `site:gist.github.com "CLAUDE.md" OR "claude code"`
+- Official Anthropic repos, for new features to write tips about: `https://github.com/anthropics/claude-code-action`, `https://github.com/anthropics/skills`, `https://github.com/anthropics/claude-plugins-official` and `https://github.com/anthropics/claude-agent-sdk-python`. Cite a release tag or commit, not the repo root.
+- Superpowers (Jesse Vincent's skills plugin): `https://github.com/obra/superpowers/releases` — widely used Claude Code skills; cite `/releases/tag/…`
 
 ---
 
@@ -100,14 +102,17 @@ Primary authoritative source. Docs and changelog entries are definitively accura
 | Claude Code changelog | https://code.claude.com/docs/en/changelog |
 | Claude Code GitHub repo | https://github.com/anthropics/claude-code |
 | Anthropic Engineering | https://www.anthropic.com/engineering |
-| Claude blog | https://claude.com/blog |
+| Claude blog | https://claude.com/resources/articles (claude.com/blog redirects here) |
+| Claude Platform release notes | https://platform.claude.com/docs/en/release-notes/overview |
+| Claude app release notes | search `site:support.claude.com "release notes"` |
 
 **Search strategy**:
 
 ```
 site:code.claude.com tips OR configuration OR CLAUDE.md
 site:anthropic.com/news "Claude Code" 2025 OR 2026
-site:anthropic.com/engineering OR site:claude.com/blog "Claude Code"
+site:anthropic.com/engineering OR site:claude.com/resources OR site:claude.com/blog "Claude Code"
+site:platform.claude.com/docs/en/release-notes
 ```
 
 ---
@@ -139,6 +144,10 @@ Individual practitioners who write detailed Claude Code posts. Simon Willison is
 |---|---|---|
 | Simon Willison | https://simonwillison.net | Detailed experiments, prompt injection, practical use cases |
 | Armin Ronacher | https://lucumr.pocoo.org | Long posts on agentic coding workflows and what works in practice |
+| Jesse Vincent | https://blog.fsck.com | Claude Code skills and workflows; author of the Superpowers plugin |
+| Geoffrey Huntley | https://ghuntley.com | Agentic coding techniques; posts several times a week |
+| Hamel Husain | https://hamel.dev | Evals and Claude tooling |
+| Addy Osmani | https://addyo.substack.com | Engineering practice with coding agents; every two weeks |
 | Lena Reinhard | search `"Claude Code" site:lenareinhard.com` | Enterprise workflow posts |
 | Dev.to | https://dev.to/search?q=claude+code | Community developer posts |
 | Medium | search `"Claude Code" tips site:medium.com` | Tutorial articles |
@@ -150,6 +159,7 @@ Individual practitioners who write detailed Claude Code posts. Simon Willison is
 ```
 site:simonwillison.net "claude code"
 site:lucumr.pocoo.org agent OR "Claude Code"
+site:blog.fsck.com OR site:ghuntley.com OR site:hamel.dev OR site:addyo.substack.com "Claude Code"
 "Claude Code" productivity tips site:dev.to OR site:medium.com OR site:hashnode.com
 "CLAUDE.md" example site:substack.com
 ```

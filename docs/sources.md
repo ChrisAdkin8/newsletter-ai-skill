@@ -21,9 +21,11 @@ The first scheduled issue (2026-W37) filled its thinnest sections from sources l
 
 ## Search only
 
-These sites block automated fetches (HTTP 403 or no connection when checked on 2026-09-13), so fetching one wastes a turn. Find their stories by search, take the date from the snippet, and cite the article URL the search returns:
+These sites block automated fetches (HTTP 403 or no connection when checked on 2026-09-13 and 2026-10-12), so fetching one wastes a turn. Find their stories by search, take the date from the snippet, and cite the article URL the search returns:
 
-OpenAI News, xAI News, Reuters, Euractiv, Axios, Bloomberg (also paywalled), The Information (also paywalled), Gartner, McKinsey, Datacenter Dynamics, Dark Reading, Computing.co.uk, the Center for Democracy & Technology, Lawfare, EU Council press releases, and Reddit (login wall). The BAIR blog didn't respond at all on 2026-09-13.
+OpenAI News, xAI News, Reuters, Rapporteur (formerly Euractiv), Axios, Bloomberg (also paywalled), The Information (also paywalled), Gartner, McKinsey, BCG, Datacenter Dynamics, Dark Reading, The Hacker News, Computing.co.uk, the Center for Democracy & Technology, Lawfare, EU Council press releases, and Reddit (login wall). The BAIR blog didn't respond at all on 2026-09-13.
+
+Some sites refuse curl but load with WebFetch: the FTC (curl gets a 404 from every ftc.gov page), Meta AI, Canada.ca, VentureBeat and Red Hat (checked 2026-10-12). They aren't search only; the skill fetches them with WebFetch.
 
 ---
 
@@ -54,6 +56,13 @@ One of the highest-signal sources for technical AI discussion. Papers, tools, an
 - **HN Search**: https://hn.algolia.com (search by date range)
 - Focus on posts with 100+ points and active threads
 - **Why it matters**: When something interesting happens in AI, HN often has the first substantive community reaction within hours — and the comments frequently contain corrections, nuance, and links that blogs miss
+
+### Lobsters
+
+An invitation-only link community with a strong practitioner bent. Added on 2026-10-12 because Community Pulse often ran to only two items and drew almost entirely on Hacker News and Reddit; Lobsters gives a second view on the same stories, and catches some that never reach HN.
+
+- **URL**: https://lobste.rs/t/ai
+- **Search strategy**: `site:lobste.rs AI OR LLM`
 
 ### X / Twitter
 
@@ -91,7 +100,7 @@ LinkedIn posts from named practitioners surface field notes, opinions, and previ
 | Mustafa Suleyman | mustafa-suleyman | Microsoft AI CEO | Microsoft's in-house frontier models (MAI Superintelligence) and safety framing; Copilot moved to Jacob Andreou in March 2026 |
 | Cassie Kozyrkov | kozyrkov | CEO and AI adviser, ex-Google Chief Decision Scientist | AI decision-making, MLOps foundations, statistical thinking — prolific and genuinely educational |
 | Sebastian Raschka | sebastianraschka | Independent researcher | LLM training, architectures, concise paper summaries — high-quality technical content in short-form |
-| Jay Alammar | jalammar | Independent / Cohere | ML visualisations, transformer explanations, educational deep-dives |
+| Jay Alammar | jalammar | Cohere (Director and Engineering Fellow) | ML visualisations, transformer explanations, educational deep-dives |
 | Chip Huyen | chiphuyen | Independent | Inference systems, real-world LLM deployment, MLOps |
 | Harrison Chase | harrison-chase-961287118 | LangChain CEO | Agent frameworks, production LLM tooling, agentic design patterns |
 | Jerry Liu | jerry-liu-64390071 | LlamaIndex CEO | RAG systems, agentic data pipelines, agent architectures |
@@ -136,6 +145,7 @@ High-impact peer-reviewed journal; slower cadence but authoritative on capabilit
 | Lab | URL | Notes |
 |---|---|---|
 | Google DeepMind | https://deepmind.google/research/publications/ | Primary source for DeepMind research before arXiv |
+| Google Research | https://research.google/blog/ | Google's own research blog, separate from DeepMind; posts several times a week. Added 2026-10-12 after the 2026-10-09 issue cited it without a catalogue entry |
 | Microsoft Research | https://www.microsoft.com/en-us/research/blog/ | One of the largest AI research orgs globally; covers LLMs, agents, reasoning |
 | Apple ML Research | https://machinelearning.apple.com/ | On-device inference, privacy-preserving ML, multimodal; often underreported |
 | Amazon Science | https://www.amazon.science/blog | AWS and Alexa AI teams; relevant for agent tooling and cloud inference |
@@ -153,7 +163,7 @@ These labs are essential for agentic AI coverage. They publish work that context
 | Redwood Research | https://blog.redwoodresearch.org/ | Adversarial training, scalable oversight, alignment techniques |
 | FAR AI | https://far.ai/ | Scalable oversight, mechanistic interpretability, alignment |
 | Transluce | https://transluce.org | Independent evals and interpretability lab; its agent-behaviour investigations get picked up widely |
-| Goodfire | https://www.goodfire.ai/research | Interpretability research lab |
+| Goodfire | https://www.goodfire.com/research | Interpretability research lab |
 | Anthropic Alignment Science | https://alignment.anthropic.com/ | Anthropic's alignment team blog, separate from anthropic.com/research; misalignment and automated-alignment work often lands here first |
 | OpenAI Alignment | https://alignment.openai.com/ | OpenAI's research-first safety posts. Fetchable, unlike openai.com/news |
 
@@ -213,13 +223,15 @@ A large share of each week's open-weight releases comes from these labs, and the
 | DeepSeek on GitHub | https://github.com/deepseek-ai | Weights, technical reports, inference code |
 | Qwen (Alibaba) | https://qwen.ai/research | Qwen releases with benchmark tables and model cards |
 | Qwen on GitHub | https://github.com/QwenLM | Weights and serving code |
-| Moonshot AI (Kimi) | https://www.kimi.com/blog | Kimi releases, long-context work |
+| Moonshot AI (Kimi) | https://www.kimi.ai/blog/ | Kimi releases, long-context work |
 | Z.ai / Zhipu (GLM) | https://docs.z.ai/release-notes/new-released | GLM family releases |
+| Z.ai blog | search `site:z.ai/blog` | GLM technical posts; the /blog index returns 404 but its articles load, and an issue has cited one |
 | MiniMax | https://www.minimax.io/news | Model and product announcements |
 | ByteDance Seed | https://seed.bytedance.com/en/ | Seed research and model releases |
 | Baidu ERNIE | https://ernie.baidu.com/blog/ | ERNIE and research output |
 | Tencent Hunyuan | https://huggingface.co/tencent | Frequent open-weight releases (Hunyuan / Hy) |
 | Xiaomi MiMo | https://huggingface.co/XiaomiMiMo | MiMo reasoning and agent models |
+| Xiaomi MiMo news | https://mimo.mi.com/docs/en-US/news | Xiaomi's own MiMo release posts; already cited in an issue |
 | Meituan LongCat | https://huggingface.co/meituan-longcat | Large MIT-licensed LongCat models |
 | Ant Group inclusionAI (Ling, Ming) | https://huggingface.co/inclusionAI | Ant Group's open-model organisation |
 
@@ -236,11 +248,10 @@ These companies often publish technical deep-dives before mainstream press picks
 | Cerebras | https://cerebras.ai/blog/ | Wafer-scale compute, speed records |
 | Groq | https://groq.com/blog/ | LPU inference, throughput benchmarks |
 | Lambda | https://lambda.ai/blog | GPU cloud, training infrastructure |
-| CoreWeave | https://www.coreweave.com/blog | GPU cloud, HPC, enterprise AI infrastructure |
+| CoreWeave | https://www.coreweave.com/blog | GPU cloud, HPC, enterprise AI infrastructure. Weights & Biases' Fully Connected was folded into CoreWeave Forge (https://forge.coreweave.com/forge-reports) on 2026-09-30, so W&B no longer has an entry of its own |
 | Fireworks AI | https://fireworks.ai/blog | Inference optimisation, model serving |
 | Anyscale | https://www.anyscale.com/blog | Ray framework, distributed ML, production agent orchestration |
 | AWS Machine Learning | https://aws.amazon.com/blogs/machine-learning/ | Bedrock, Trainium and SageMaker; the hyperscaler missing next to Azure and Google Cloud |
-| Weights & Biases | https://wandb.ai/fully-connected | MLOps, experiment tracking, agent observability — de facto standard |
 | vLLM | https://vllm.ai/blog | Dominant open-source inference serving; PagedAttention, throughput |
 | Scale AI | https://scale.com/blog | Data labelling, fine-tuning, RLHF methodology |
 | Databricks | https://www.databricks.com/blog | Enterprise LLM training and deployment; acquired MosaicML |
@@ -271,16 +282,20 @@ Publish infrequently but with depth. These individuals often surface shifts befo
 | Sebastian Raschka | https://magazine.sebastianraschka.com | Training, architectures, paper reviews |
 | Lilian Weng (OpenAI) | https://lilianweng.github.io | Deep technical surveys, agent architectures |
 | Simon Willison | https://simonwillison.net | LLM tooling, prompt injection, practical use |
-| Andrej Karpathy (blog) | https://karpathy.bearblog.dev/blog/ | Fundamentals, model internals; posts rarely since he joined Anthropic in May 2026 |
 | Nathan Lambert | https://www.interconnects.ai | RLHF, alignment, open-source models |
 | Dwarkesh Patel | https://www.dwarkesh.com/ | Long-form interviews with frontier lab leaders |
 | Ethan Mollick | https://www.oneusefulthing.org | Practical enterprise AI adoption signal; research-backed |
-| Percy Liang | https://crfm.stanford.edu | HELM benchmark, AI transparency, evaluation methodology |
+| Percy Liang | https://crfm.stanford.edu | HELM benchmark, AI transparency, evaluation methodology; quiet since 2026-05-26, re-check at the next refresh |
 | ARC Prize (François Chollet) | https://arcprize.org/blog | ARC-AGI benchmark results and analysis; capability scepticism grounded in data |
 | Gary Marcus | https://garymarcus.substack.com | High-profile AI sceptic; covers AI failures and limitation claims |
 | Cameron Wolfe | https://cameronrwolfe.substack.com | High-quality deep learning newsletter with detailed paper breakdowns |
 | Dario Amodei | https://www.darioamodei.com | Essays from Anthropic's CEO; when the essay is the story, this is the primary source |
 | Tim Dettmers | https://timdettmers.com | Quantisation, efficient training and GPU economics; posts rarely but in depth |
+| Hamel Husain | https://hamel.dev | Evals and LLM tooling in practice; already cited in an issue |
+| Geoffrey Huntley | https://ghuntley.com | Agentic coding; posts several times a week; already cited |
+| Addy Osmani | https://addyo.substack.com | Engineering practice with coding agents; already cited |
+
+Karpathy's blog was dropped on 2026-10-12: nothing since 2026-04-30. Follow him on X (section 1) instead.
 
 ### Engineering & framework blogs
 - LangChain: https://www.langchain.com/blog
@@ -321,6 +336,18 @@ Publish infrequently but with depth. These individuals often surface shifts befo
 | Import AI (Jack Clark) | https://jack-clark.net | Weekly digest, safety, capabilities |
 | Air Street Press (Nathan Benaich) | https://press.airstreet.com/ | Analysis and the annual State of AI Report (usually October) |
 | Stratechery (Ben Thompson) | https://stratechery.com | Business strategy, platform dynamics |
+| Menlo Ventures | https://menlovc.com/perspective/ | State of Consumer and Enterprise AI reports; widely quoted market data |
+
+### Data and business reporting
+
+Added on 2026-10-12. Industry & Analyst Watch often ran to one or two items, and the consulting firms above mostly block fetches; these give hard numbers and original reporting.
+
+| Source | URL | Strength |
+|---|---|---|
+| Ramp AI Index | https://ramp.com/data/ai-index | Business spending on AI models by vendor, from card and bill-pay data. The index is updated in place, so `check_issue.py` rejects it as a rolling index: cite Ramp's dated write-up |
+| Pew Research (Internet & Technology) | https://www.pewresearch.org/topic/internet-technology/ | First-hand survey data on public use of and attitudes to AI |
+| Fortune AI | https://fortune.com/section/artificial-intelligence/ | Named reporters with original reporting on the labs' business; already cited |
+| The Pragmatic Engineer | https://newsletter.pragmaticengineer.com/ | Gergely Orosz's original reporting and surveys on how AI is changing software teams |
 
 ---
 
@@ -348,7 +375,7 @@ MITRE maintains threat taxonomies widely used by security teams and governments.
 
 | Resource | URL | What it covers |
 |---|---|---|
-| NIST AI Risk Management Framework | https://www.nist.gov/artificial-intelligence | AI RMF 1.0, Playbook, profiles |
+| NIST AI Risk Management Framework | https://www.nist.gov/super-intelligence | AI RMF 1.0, Playbook, profiles. NIST renamed its AI pages "super intelligence" after Executive Order 14434 (2026-09-29) |
 | NIST AI publications | https://csrc.nist.gov/publications | Formal publications, drafts open for comment |
 
 ### Government cybersecurity agencies
@@ -357,7 +384,7 @@ These are the primary government sources for operational AI security guidance �
 
 | Agency | URL | What it covers |
 |---|---|---|
-| CISA (US) | https://www.cisa.gov/ai | Operational AI security for critical infrastructure; joint advisories |
+| CISA (US) | https://www.cisa.gov/topics/cybersecurity-best-practices/super-intelligence | Operational AI security for critical infrastructure; joint advisories. Now titled "Super Intelligence (SI)" |
 | ENISA (EU) | https://www.enisa.europa.eu/ | EU AI threat landscape reports; security guidance for AI Act compliance |
 | NCSC (UK) | https://www.ncsc.gov.uk/section/advice-guidance/all-topics?topics=Artificial%20intelligence | UK AI security guidance; publishes joint advisories with CISA and ENISA |
 
@@ -365,23 +392,24 @@ These are the primary government sources for operational AI security guidance �
 
 ### Threat intelligence labs
 
-These labs publish the actual zero-day disclosures, campaign analyses, and incident write-ups — they break the stories that corporate security blogs (Lakera, HiddenLayer) interpret. Distinct from §5 vendor security blogs in that their primary output is threat reporting, not product marketing.
+These labs publish the actual zero-day disclosures, campaign analyses, and incident write-ups — they break the stories that corporate security blogs (HiddenLayer, Adversa) interpret. Distinct from §5 vendor security blogs in that their primary output is threat reporting, not product marketing.
 
 | Lab | URL | Focus |
 |---|---|---|
 | Google Threat Intelligence Group (GTIG) | https://cloud.google.com/blog/topics/threat-intelligence | AI-assisted attacks, zero-day discovery, state-sponsored campaigns — publishes Google's confirmed AI exploit disclosures |
 | Microsoft Threat Intelligence | https://www.microsoft.com/en-us/security/blog/topic/threat-intelligence/ | Enterprise threat actor reporting, AI-assisted intrusions, ransomware campaigns |
 | Palo Alto Unit 42 | https://unit42.paloaltonetworks.com | MCP attack vectors, prompt injection research, agent framework vulnerabilities |
-| Mandiant (Google Cloud) | https://cloud.google.com/blog/topics/threat-intelligence/mandiant | Incident response, nation-state AI use, breach forensics |
+| Cisco Talos | https://blog.talosintelligence.com/ | Malware and threat-actor research, including AI-built phishing lures and attacks on AI-assisted analysis; already cited |
 
-**Search strategy**: `site:cloud.google.com/blog "threat intelligence"`, `site:microsoft.com/en-us/security/blog "threat intelligence"`, `site:unit42.paloaltonetworks.com`, `"GTIG" OR "Mandiant" AI 2026`.
+Mandiant's own entry was dropped on 2026-10-12: its topic page shows Google's 404, and its work now appears under GTIG.
+
+**Search strategy**: `site:cloud.google.com/blog "threat intelligence"`, `site:microsoft.com/en-us/security/blog "threat intelligence"`, `site:unit42.paloaltonetworks.com`, `site:blog.talosintelligence.com AI`, `"GTIG" OR "Mandiant" AI 2026`.
 
 ### Security research outlets
 
 | Source | URL | Focus |
 |---|---|---|
 | AI Village | https://aivillage.org | DEF CON AI track, red-teaming, community |
-| Lakera Research | https://www.lakera.ai/research | Gandalf adversarial attack analysis (279k real attacks), AI Model Risk Index; Lakera is now part of Check Point |
 | HiddenLayer | https://www.hiddenlayer.com/innovation-hub | Adversarial ML research. Discovered **Policy Puppetry** (2025) — zero-day exploiting XML/JSON to bypass all major safety filters — and **EchoGram** (adversarial attack on defensive classifiers) |
 | Embrace the Red | https://embracethered.com/blog/ | Johann Rehberger's documented prompt injection CVEs against GitHub Copilot (RCE via CVE-2025-53773), Claude Code, Amazon Q Developer, Windsurf, and others. The most prolific real-world prompt injection researcher |
 | Snyk Labs (ex-Invariant) | https://labs.snyk.io/ | ETH Zurich spin-off acquired by Snyk (2025). Discovered **Tool Poisoning Attacks** (TPAs) on MCP and built MCP-Scan. Primary source for MCP security research |
@@ -396,9 +424,9 @@ These labs publish the actual zero-day disclosures, campaign analyses, and incid
 | The Register (AI/ML) | https://www.theregister.com/ai_ml/ | Sceptical, technically literate AI and security incident reporting |
 | CyberScoop | https://cyberscoop.com | Government cybersecurity reporting; strong on CISA, NSA, and Five Eyes advisories |
 | Bloomberg Cyber | https://www.bloomberg.com/cybersecurity | Breaking enterprise incidents and AI-related breach disclosures (paywalled) |
-| Check Point Research | https://research.checkpoint.com/ | Primary vulnerability research; frequent findings in AI and LLM platforms, such as cross-account data leakage in ChatGPT (2026) |
+| Check Point Research | https://research.checkpoint.com/ | Primary vulnerability research; frequent findings in AI and LLM platforms, such as cross-account data leakage in ChatGPT (2026). Lakera, now part of Check Point, has published no research of its own since 2026-04-21, so it was dropped on 2026-10-12 |
 | OX Security | https://www.ox.security/blog/ | Primary research, with CVEs, on AI coding agents and MCP supply-chain flaws; cited in two of the first three issues |
-| Anthropic Frontier Red Team | https://red.anthropic.com/ | Primary findings on AI cyber and bio capabilities |
+| Anthropic Frontier Red Team | https://www.anthropic.com/research/team/frontier-red-team | Primary findings on AI cyber and bio capabilities; red.anthropic.com now redirects here |
 | Wiz Research | https://www.wiz.io/blog/tag/ai | Primary disclosures of flaws in AI and cloud infrastructure |
 | XBOW | https://xbow.com/blog | AI-driven vulnerability discovery, with CVEs |
 | AISLE | https://www.aisle.com/blog | AI-driven vulnerability discovery, with CVEs in core open-source projects |
@@ -406,6 +434,9 @@ These labs publish the actual zero-day disclosures, campaign analyses, and incid
 | Pillar Security | https://www.pillar.security/blog | Agent and AI-app attack research |
 | Malwarebytes Labs (AI) | https://www.malwarebytes.com/blog/category/ai | Consumer-side AI-assistant threats; cite only their own research |
 | BankInfoSecurity / ISMG (AI & ML) | https://www.bankinfosecurity.com/artificial-intelligence-machine-learning-c-469 | Named reporters with original reporting on AI security and policy |
+| Cisco AI (Foundation AI) | https://blogs.cisco.com/ai | First-hand AI security research, agent risk, Cisco's AI security leaderboard |
+| Irregular | https://www.irregular.com/publications | Security evaluations of frontier models, done for the labs and named in their system cards |
+| Straiker | https://www.straiker.ai/blog | Agent-attack research; cite research posts only, not awards or product news |
 
 ---
 
@@ -456,12 +487,13 @@ Posts from researchers and executives often contain opinions and context not pub
 | UK AI Security Institute (AISI) | https://www.aisi.gov.uk/ | UK frontier AI safety evaluations, international coordination on standards |
 | EU AI Office | https://digital-strategy.ec.europa.eu/en/policies/ai-office | AI Act enforcement body: GPAI code of practice, guidelines, consultations |
 | EU AI Board | https://digital-strategy.ec.europa.eu/en/policies/ai-board | Member-state board steering AI Act enforcement; meeting outcomes land here |
-| NIST CAISI (US) | https://www.nist.gov/caisi | US Center for AI Standards and Innovation: pre-deployment model testing, model evaluations, AI Agent Standards Initiative |
+| NIST CAISSI (US, formerly CAISI) | https://www.nist.gov/caissi | Center for Advancing Innovation and Standards for Super Intelligence: pre-deployment model testing, model evaluations, AI Agent Standards Initiative. Renamed after Executive Order 14434 (2026-09-29) told federal agencies to say "super intelligence" instead of "AI"; older items still say CAISI, so searches cover both |
 | International AI Safety Report | https://internationalaisafetyreport.org | Annual report (February) plus occasional Key Updates; check it when a new edition lands |
 | White House OSTP | https://www.whitehouse.gov/ostp/ | US AI executive policy, national AI strategy, Federal agency guidance |
-| FTC (US) | https://www.ftc.gov/news-events/news/press-releases | US enforcement on AI deception, unfair practices, and data misuse — enforcement actions here are news |
+| FTC (US) | https://www.ftc.gov/news-events/news/press-releases | US enforcement on AI deception, unfair practices, and data misuse — enforcement actions here are news. curl gets a 404 from every ftc.gov page, but WebFetch works |
+| California Governor newsroom | https://www.gov.ca.gov/newsroom/ | State AI bill signings and vetoes. Added 2026-10-12 after an issue cited a single state senator's page for a bill signing; the governor's newsroom or leginfo is the primary source |
 | UK ICO | https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/artificial-intelligence/ | UK data protection regulator with an active AI guidance programme |
-| Canada — responsible AI | https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai.html | Federal responsible-AI guidance. The AIDA bill died in January 2025 with no successor, so Canada has no federal AI law |
+| Canada — responsible AI | https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai.html | Guidance on the federal government's own use of AI. The AIDA bill died in January 2025; there is still no standalone federal AI law, and AI measures now sit in privacy and online-harms bills tabled in 2026. curl times out, WebFetch works |
 | Future of Life Institute | https://futureoflife.org/ | Policy advocacy; published the Pause AI letter; engages with EU AI Act and international governance |
 | Frontier Model Forum | https://www.frontiermodelforum.org/publications/ | Industry safety body's technical reports and frameworks |
 
@@ -485,7 +517,8 @@ Government sites and law firms publish irregularly: in 2026-W37, 13 searches of 
 
 | Source | URL | What it covers |
 |---|---|---|
-| Euractiv Tech | https://www.euractiv.com/section/tech/ | EU policy news, often first on AI Act and digital omnibus negotiations (blocks automated fetches; found by search) |
+| Rapporteur Tech (formerly Euractiv) | https://www.rapporteur.com/section/tech/ | EU policy news, often first on AI Act and digital omnibus negotiations. Euractiv relaunched as Rapporteur in September 2026 (blocks automated fetches; found by search) |
+| Nextgov/FCW | https://www.nextgov.com/artificial-intelligence/ | US federal AI policy and procurement from named reporters; already cited, and about 18 AI stories a month |
 | Tech Policy Press | https://www.techpolicy.press/ | Frequent news and analysis on US, EU and UK tech and AI policy |
 | Transformer | https://www.transformernews.ai/ | Weekly AI policy and safety news; strong on frontier-model regulation and lab governance |
 | EU AI Act Newsletter | https://artificialintelligenceact.substack.com/ | Weekly AI Act implementation roundup; secondary, pointing to Commission, AI Office and member-state documents |
@@ -511,7 +544,7 @@ One of the highest-circulation technical newsletters on system design. Increasin
 ### LangChain / LangGraph Blog
 The primary source for updates to LangGraph (the dominant graph-based agent orchestration framework) and LangChain. Also publishes the periodic **State of Agent Engineering** report — a survey-based snapshot of what agents are being built in production and where the blockers are.
 
-- **URL**: https://www.langchain.com/blog — also published at https://blog.langchain.com and https://interrupt.langchain.com, so a search may return any of the three
+- **URL**: https://www.langchain.com/blog — also published at https://interrupt.langchain.com, so a search may return either (blog.langchain.com now redirects to the first)
 - **Strength**: Authoritative on agent framework patterns; release notes for LangGraph Platform, LangGraph Studio, and LangChain 1.0
 
 ### Pydantic AI
@@ -539,8 +572,8 @@ The agentic coding tools are both the most-used agents in practice and a steady 
 | Cognition (Devin) | https://cognition.com/blog | Autonomous software engineering, benchmark claims worth checking |
 | Cursor | https://cursor.com/blog | Editor-integrated agents, model routing, latency work |
 | n8n | https://blog.n8n.io/ | Workflow automation with LLM steps; the low-code end of agent building |
-| Factory | https://factory.ai/news | Autonomous coding agents (Droids) |
-| Amp | https://ampcode.com/news | Coding agent from Sourcegraph's team |
+| Factory | https://factory.com/news | Autonomous coding agents (Droids); moved from factory.ai |
+| Amp | https://ampcode.com/chronicle | Coding agent from Sourcegraph's team; /news now redirects here |
 | OpenHands | https://openhands.dev/blog | Open-source coding agent |
 | GitHub Copilot changelog | https://github.blog/changelog/label/copilot/ | Copilot agent releases; a changelog index, so cite the entry's own page |
 
@@ -573,6 +606,9 @@ The agent-to-agent protocol, at v1.0 and donated by Google to the Linux Foundati
 | llama.cpp | https://github.com/ggml-org/llama.cpp/releases (cite the release's own `/releases/tag/bXXXX` page) | The substrate under Ollama and most local inference; release notes are the earliest signal that a new architecture can run on consumer hardware |
 | Ollama | https://ollama.com/blog | Most popular local model runner; tracks which models are available locally |
 | Anyscale | https://www.anyscale.com/blog | Ray framework; distributed ML and production agent orchestration |
+| LMCache | https://blog.lmcache.ai/ | KV-cache offload (keeping a model's working memory off the GPU) for vLLM and SGLang; one of the busiest pieces of open inference infrastructure |
+| Modular | https://www.modular.com/blog | Mojo and the MAX inference engine, now with an open-source compiler: the most serious open alternative to the CUDA stack |
+| NVIDIA Dynamo | https://github.com/ai-dynamo/dynamo/releases | Open-source distributed inference serving; also in section 13 |
 | SemiAnalysis | https://newsletter.semianalysis.com/ | Chip economics and GPU supply chain analysis |
 
 ---
@@ -608,6 +644,15 @@ UK-based enterprise IT publication with dedicated AI & Machine Learning and Infr
 | TrendForce | https://www.trendforce.com/news/ | Primary market research on HBM, DRAM and foundry pricing and capacity: the numbers other outlets quote |
 | ServeTheHome | https://www.servethehome.com/ | Hands-on server, accelerator and networking hardware coverage |
 | Reuters Technology | https://www.reuters.com/technology/ | Chip deals, export controls and supply-chain news (blocks automated fetches; found by search) |
+| SK hynix Newsroom | https://news.skhynix.com/ | First-hand HBM and AI memory announcements; already cited |
+| Samsung Newsroom (semiconductors) | https://news.samsung.com/global/ | HBM, foundry and AI supply deals; the primary source that Korean finance-press rewrites summarise |
+| TheElec | https://www.thelec.net/ | Korean chip, memory and NPU supply chain, from named reporters |
+| EE Times | https://www.eetimes.com/ | Daily chip-industry trade reporting from named reporters |
+| Data Center Knowledge | https://www.datacenterknowledge.com/ | Data centre buildout, power and permits; fetchable, unlike Datacenter Dynamics |
+| HPCwire / AIwire | https://www.hpcwire.com/ | HPC and AI-factory hardware. It also reprints press releases, so the skill cites only staff-bylined articles |
+| US Department of Energy (AI, Genesis Mission) | https://www.energy.gov/topics/artificial-intelligence | US science-AI compute funding, national-lab supercomputers and awards |
+
+The seven sources above were added on 2026-10-12. Hardware & Macro Watch had only one item in each of the three issues before, and leaned on sources that block fetches.
 
 ---
 
@@ -714,6 +759,17 @@ This section covers how AI models and agents are built and run on Kubernetes and
 | CNCF TOC | https://github.com/cncf/toc/issues | Where projects apply to join or move between sandbox, incubating and graduated; primary for maturity changes |
 | Kubernetes Blog | https://kubernetes.io/blog/ | Release announcements and feature deep-dives, such as Dynamic Resource Allocation for GPUs and other accelerators |
 | Last Week in Kubernetes Development | https://lwkd.info/ | Weekly summary of merged features, KEPs and release timelines, written by Kubernetes contributors |
+| Linux Foundation Blog | https://www.linuxfoundation.org/blog | LF research reports and surveys on open source and AI |
+
+### Cloud and vendor engineering blogs
+
+Added on 2026-10-12: the section had one item in each of the three issues before. These are first-hand posts from the platforms that run AI on Kubernetes and the companies driving the projects.
+
+| Source | URL | Strength |
+|---|---|---|
+| AWS Containers Blog | https://aws.amazon.com/blogs/containers/ | EKS for AI workloads, AgentCore on EKS; several posts a week |
+| Google Cloud — Containers & Kubernetes | https://cloud.google.com/blog/products/containers-kubernetes | GKE AI features such as Agent Sandbox and inference gateways |
+| Red Hat AI Blog | https://www.redhat.com/en/blog/channel/artificial-intelligence | llm-d, vLLM and OpenShift AI; Red Hat drives llm-d. curl gets a 403, WebFetch works |
 
 ### AI on Kubernetes projects
 
@@ -726,12 +782,16 @@ CNCF maturity as listed in the [CNCF landscape](https://landscape.cncf.io/) on 2
 | llm-d | sandbox | https://llm-d.ai/blog | Distributed LLM inference on Kubernetes, with disaggregated prefill and decode |
 | kagent | sandbox | https://kagent.dev/blog | Framework for AI agents that run on, and operate, Kubernetes |
 | KAITO | sandbox | https://github.com/kaito-project/kaito/releases | Automates model deployment and fine-tuning, including GPU node provisioning |
-| Volcano | incubating | https://volcano.sh/blog/ | Batch scheduler used for AI training and inference jobs |
+| Volcano | incubating | https://github.com/volcano-sh/volcano/releases | Batch scheduler used for AI training and inference jobs. Its blog (https://volcano.sh/blog/) hasn't posted since 2026-05-30 while releases kept coming, so the releases page is where to look |
 | HAMi | incubating | https://github.com/Project-HAMi/HAMi/releases | GPU sharing and virtualisation across vendors |
-| Dapr | graduated | https://blog.dapr.io/posts/ | Dapr Agents and durable workflows for long-running agents |
+| Dapr | graduated | https://github.com/dapr/dapr/releases | Dapr Agents and durable workflows for long-running agents. Its blog (https://blog.dapr.io/posts/) posts only at major releases (last on 2026-06-10) |
 | OpenTelemetry | graduated | https://opentelemetry.io/blog/ | GenAI semantic conventions: the emerging standard for tracing model and agent calls |
 | Kueue | Kubernetes SIG Scheduling | https://kueue.sigs.k8s.io/ | Job queueing and quotas for shared GPU clusters |
 | Gateway API Inference Extension | Kubernetes SIG Network | https://gateway-api-inference-extension.sigs.k8s.io/ | Model-aware load balancing for inference traffic |
+| LeaderWorkerSet | Kubernetes SIG Apps | https://github.com/kubernetes-sigs/lws/releases | Multi-host inference: one model spread across several pods |
+| AIBrix | vLLM project | https://github.com/vllm-project/aibrix/releases | Control plane for running vLLM at scale on Kubernetes |
+| NVIDIA Dynamo and Grove | not CNCF | https://github.com/ai-dynamo/dynamo/releases, https://github.com/ai-dynamo/grove/releases | Distributed inference serving, and Kubernetes-native orchestration for it; among the most active AI-on-Kubernetes projects |
+| KAI Scheduler | not CNCF (NVIDIA) | https://github.com/NVIDIA/KAI-Scheduler/releases | GPU-aware scheduling for AI workloads |
 
 ### News
 
@@ -740,7 +800,9 @@ CNCF maturity as listed in the [CNCF landscape](https://landscape.cncf.io/) on 2
 | The New Stack | https://thenewstack.io/kubernetes/ | Daily cloud native and platform engineering news |
 | KubeWeekly | https://www.cncf.io/kubeweekly/ | The CNCF's weekly digest. Secondary: use it to find stories, then cite the primary |
 
-**Search strategy**: `site:cncf.io/blog AI OR agent`, `site:cncf.io/announcements`, `site:kubernetes.io/blog`, `site:lwkd.info`, `site:thenewstack.io kubernetes AI`, `site:llm-d.ai`, `site:kagent.dev`, `KServe release`, `"Dynamic Resource Allocation" GPU kubernetes`, `KubeCon 2026 AI`.
+**Search strategy**: `site:cncf.io/blog AI OR agent`, `site:cncf.io/announcements`, `site:kubernetes.io/blog`, `site:lwkd.info`, `site:thenewstack.io kubernetes AI`, `site:llm-d.ai`, `site:kagent.dev`, `KServe release`, `"Dynamic Resource Allocation" GPU kubernetes`, `KubeCon 2026 AI`, `site:aws.amazon.com/blogs/containers AI`, `site:cloud.google.com/blog GKE AI`, `site:redhat.com/en/blog AI`, `site:linuxfoundation.org AI`.
+
+KubeCon + CloudNativeCon North America runs 9–12 November 2026 in Salt Lake City, with an Agentics Day (MCP and agents) and a Cloud Native AI + Inference Day. Expect releases and CNCF announcements to cluster around it.
 
 ---
 
