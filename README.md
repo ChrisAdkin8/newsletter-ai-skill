@@ -1,20 +1,24 @@
 # newsletter-ai
 
-A Claude Code skill that curates a weekly newsletter on agentic AI and LLMs, and the scripts that publish it for you.
+A Claude Code skill, `/newsletter-ai`, that curates *Agentic AI & LLM Weekly*, and the scripts that publish it for you every week.
 
 **Read it:** [newsletter-ai-skill.pages.dev](https://newsletter-ai-skill.pages.dev/) · **Subscribe:** [RSS](https://newsletter-ai-skill.pages.dev/index.xml)
-
----
 
 ## What it does
 
 - **Curates.** `/newsletter-ai` searches [15 source categories](#source-categories) and writes a digest: rewritten headlines, two-to-four sentence summaries, a tag on every item, and an "Editor's Picks" theme that ties the week together.
 - **Writes a web post.** Each issue becomes a Hugo post, published on Cloudflare Pages with no npm dependencies in the build.
 - **Publishes every week without you.** A launchd agent on your Mac runs the skill headless on your Claude Code subscription, at most once per issue week.
-- **Holds bad issues back.** A checker blocks any issue that reuses links, cites stale or homepage sources, or mislabels them. A held issue stays unpublished and you get a notification.
-- **Feeds your notes.** After each publish, up to five items that match your interests land in your notes inbox, each with a `/research quick` command ready to run.
+- **Holds bad issues back.** A checker re-reads every finished post against nine rules — reused or stale links, homepages and rolling indexes, press-release wires, banned outlets, mislabelled sources, raw HTML, a half-finished issue — and anything that fails stays unpublished, with a notification to you. The rules are [listed below](#how-quality-is-enforced).
+- **Feeds your notes.** After each publish, up to five items that match the interests you list in `scripts/interests.txt` are written to a markdown note, one link per line with the reason it matched, for whatever you use to read notes.
 
----
+## Requirements
+
+- **Claude Code** with a subscription, installed with the native installer. The scheduler copies a pinned version (`CLAUDE_PIN` in `scripts/install-agent.sh`) from `~/.local/share/claude/versions/`, and `install-agent.sh` stops if that version isn't there. To move to one you have, follow "Bump the CLI" in [Day to day](docs/customising.md#day-to-day).
+- **macOS** for scheduled publishing, which needs launchd, the Keychain and notifications. The skill itself runs anywhere Claude Code does.
+- **Room in your quota.** A run searches 15 categories, so it takes a while — scheduled runs are capped at an hour — and spends real quota: a pinned Sonnet model (`CLAUDE_MODEL` in `scripts/weekly.sh`) with a `--max-budget-usd 10` cap. Issues up to October 2026, with 14 categories, reported $6–8 of equivalent usage, drawn from your subscription rather than billed as API credits; the fifteenth category adds to that, and each publish notification carries the run's cost.
+- **Hugo Extended** to preview the site locally (`brew install hugo`). Cloudflare Pages builds it on every push.
+- **Python 3, jq, git and curl**, which the wrapper and the checker use. Recent macOS includes them; Python 3 comes with the Xcode command line tools.
 
 ## Quick start
 
@@ -36,7 +40,7 @@ The skill writes the post but never commits or pushes it. To use it in another p
 
 ### Publish every week automatically (macOS)
 
-Scheduling needs launchd, the Keychain and notifications, so it's macOS only. In a fork, do the steps in [Use it for your own newsletter](#use-it-for-your-own-newsletter) first. Run these in an ordinary Terminal window, since two of them prompt you:
+In a fork, do the steps in [Use it for your own newsletter](#use-it-for-your-own-newsletter) first. Run these in an ordinary Terminal window, since two of them prompt you:
 
 ```bash
 claude setup-token                                                 # sign in; copy the one-year token
@@ -50,49 +54,36 @@ From then on the agent runs daily at 09:07 and 18:07 and publishes at most one i
 
 To publish by hand instead, run `NEWSLETTER_REPO=$PWD scripts/weekly.sh` from the repo — the same checks, then commit and push. The wrapper works on `$NEWSLETTER_REPO`, which the launchd agent sets for you.
 
----
-
-## Requirements
-
-- **Claude Code** with a subscription, installed with the native installer. The scheduler copies a pinned version (`CLAUDE_PIN` in `scripts/install-agent.sh`) from `~/.local/share/claude/versions/`, and `install-agent.sh` stops if that version isn't there. To move to one you have, follow "Bump the CLI" in [Day to day](docs/customising.md#day-to-day).
-- **macOS** for scheduled publishing. The skill itself runs anywhere Claude Code does.
-- **Room in your quota.** A scheduled run uses a pinned Sonnet model (`CLAUDE_MODEL` in `scripts/weekly.sh`), stops at `--max-budget-usd 10` and is killed after an hour. Issues up to October 2026, with 14 categories, reported $6–8 of equivalent usage, drawn from your subscription rather than billed as API credits; the fifteenth category adds to that, and each publish notification carries the run's cost.
-- **Hugo Extended** to preview the site locally (`brew install hugo`). Cloudflare Pages builds it on every push.
-- **Python 3, jq, git and curl**, which the wrapper and the checker use. Recent macOS includes them; Python 3 comes with the Xcode command line tools.
-
-The triage note goes to `~/notes/inbox/`. To use another folder, set `NOTES_DIR` in the plist template's environment and re-run `scripts/install-agent.sh`.
-
----
-
 ## Example output
 
-From a recent issue — [browse them all](https://newsletter-ai-skill.pages.dev/posts/):
+From the issue of 9 October 2026 — [browse them all](https://newsletter-ai-skill.pages.dev/posts/):
 
 ````markdown
 # Agentic AI & LLM Weekly
-**2026-W37 — 6 September – 13 September 2026**
+**2026-W41 — 2 October – 9 October 2026**
 
-> AI's own leaders and the US government both signalled this week that the
-> race itself is the risk, not just any single model.
+> The infrastructure for trusting agents got tested this week — one prompt
+> took over a cloud account, and a new index started scoring how often
+> agents lie.
 
 ## Editor's Picks
 
-Three stories capture a week where the brakes got more attention than the
-accelerator. Dario Amodei's "We Must Pace the Frontier" essay proposed the
-industry's first concrete plan to deliberately slow capability gains…
+Three stories this week are really about the same question: how do you know
+an agent is behaving? Zenity Labs showed that a single prompt to one
+public-facing AWS Bedrock agent could compromise every agent in the same
+account and region…
 
-## Community Pulse
+## AI Security & Safety
 
-### Amodei's Call to Slow Down AI Splits Hacker News Between Relief and Suspicion
-`[Community]`
+### One Prompt to a Public Chatbot Could Take Over Every Agent in an AWS Account
+`[Security]`
 
-Within hours of Dario Amodei publishing "We Must Pace the Frontier," Sam Altman
-wrote that he agreed OpenAI should do the same…
+Zenity Labs disclosed AgentCorruption, a chain of flaws in Amazon Bedrock
+AgentCore where a single prompt to one public-facing agent let researchers
+pivot to every other agent in the same AWS account and region…
 
-[Source: [Hacker News](https://news.ycombinator.com/item?id=49672510)]
+[Source: [Zenity Labs](https://zenity.io/press-release/zenity-labs-discloses-agentcorruption-a-chain-of-aws-agentcore-flaws)]
 ````
-
----
 
 ## How quality is enforced
 
@@ -121,32 +112,27 @@ Some rules rest on the skill alone, because the checker reads URLs and labels an
 
 `scripts/weekly.sh` publishes only if the post is the only change in the tree and the checker passes it. Otherwise the issue is held, uncommitted, and you're notified. See [How it works](docs/how-it-works.md) for the full workflow.
 
----
-
 ## Why it's safe to leave running
 
-- **The model can't reach your machine.** Scheduled runs pass `--restricted` with no Bash and no MCP servers, and `--allowedTools` lets the model write only `site/content/posts/` and its triage file. Your notes are never in scope.
+- **The model's reach is this repo and the web.** Scheduled runs pass `--restricted` with no Bash and no MCP servers. `--allowedTools` lets the model read the repo (which is public), fetch web pages, and write only under `site/content/posts/` and its triage file. Your notes, your Keychain and the rest of the machine are never in scope.
 - **The scripts own git.** The model never runs git. `scripts/weekly.sh` stages the post only after the checker passes, and only if it is the only change in the tree.
 - **What the model reads can't reach the page.** The model fetches arbitrary web pages, so a post is treated as untrusted on the way out: the checker holds any post carrying raw HTML or a Hugo shortcode, and Hugo renders raw HTML off (`unsafe = false`) regardless.
-- **Nothing auto-updates.** Hugo is a single Go binary published with SHA256SUMS, PaperMod is vendored at a pinned commit (`site/themes/PaperMod/.papermod-sha`), scheduled runs use a pinned copy of the Claude Code CLI and a pinned model ID rather than a floating alias, and no `npm install` runs in this repo.
-
----
+- **Nothing auto-updates.** Hugo is one Go binary at the version `HUGO_VERSION` pins in the Cloudflare build, and its release checksums let you verify the copy you install locally. PaperMod is vendored at a pinned commit (`site/themes/PaperMod/.papermod-sha`). Scheduled runs use a pinned copy of the Claude Code CLI and a pinned model ID rather than a floating alias. No `npm install` runs in this repo.
 
 ## Hosting the site
 
-The bundled `site/` is a [Hugo](https://gohugo.io) site with the [PaperMod](https://github.com/adityatelange/hugo-PaperMod) theme, deployed free on [Cloudflare Pages](https://pages.cloudflare.com/). It's already scaffolded, so `site/scripts/bootstrap.sh` exits straight away here; it's for starting a site from nothing.
+The bundled `site/` is a [Hugo](https://gohugo.io) site with the [PaperMod](https://github.com/adityatelange/hugo-PaperMod) theme, deployed free on [Cloudflare Pages](https://pages.cloudflare.com/). It's already scaffolded, so `site/scripts/bootstrap.sh` exits straight away here; it's for starting a site from nothing, and `--theme-only` re-vendors the theme.
 
 ### Use it for your own newsletter
 
-A fork carries this newsletter's issues and address. Before its first publish:
+A fork carries this newsletter's issues, address and interests. Before its first publish:
 
 1. **Point the site at your address.** Set `baseURL` in `site/hugo.toml` to your Cloudflare Pages URL, and change the "Read it" and RSS links at the top of this README.
 2. **Remove this newsletter's issues.** Delete the files in `site/content/posts/`, or your site republishes them. The checker also compares each new issue with the last four in that folder, so old issues would block stories you haven't run.
-3. **Connect the repo to Cloudflare Pages.** [`site/README.md`](site/README.md) has the exact dashboard settings. Vercel and Netlify also support Hugo if you prefer them.
+3. **Make the notes feed yours.** Put your own interests in `scripts/interests.txt`, one per line. The note lands in `~/notes/inbox/` and each line ends with a `/research quick <url>` command for a Claude Code skill the author uses; change the folder with `NOTES_DIR` in the plist template's environment, and change or drop the command in `move_triage` in `scripts/weekly.sh`. Both are one-line edits you carry in your fork.
+4. **Connect the repo to Cloudflare Pages.** [`site/README.md`](site/README.md) has the exact dashboard settings. Vercel and Netlify also support Hugo if you prefer them.
 
 Then follow [Quick start](#quick-start).
-
----
 
 ## Source categories
 
@@ -163,14 +149,12 @@ Then follow [Quick start](#quick-start).
 
 Every source, with what it's for and how to search it, is in [`.claude/skills/newsletter-ai/sources.md`](.claude/skills/newsletter-ai/sources.md), the one catalogue the model reads; [`docs/sources.md`](docs/sources.md) is a map of it.
 
----
-
 ## Repository layout
 
 ```
 newsletter-ai-skill/
 ├── .claude/
-│   ├── .claude-plugin/plugin.json           # Lets headless runs load the skills with --plugin-dir
+│   ├── .claude-plugin/plugin.json           # Lets headless runs load the skill with --plugin-dir
 │   └── skills/
 │       └── newsletter-ai/                   # The skill: SKILL.md, sources.md, template.md
 ├── docs/                                    # See Documentation below; specs/ holds the designs
@@ -185,9 +169,18 @@ newsletter-ai-skill/
 └── tests/                                   # Checker unit tests, offline test of weekly.sh
 ```
 
-Runs use the skill files in `.claude/skills/newsletter-ai/` directly, so there's no second copy to keep in sync. Run `make check` after changing the skill, the checker or the scripts.
+Runs use the skill files in `.claude/skills/newsletter-ai/` directly, so there's no second copy to keep in sync.
 
----
+## Development
+
+```bash
+make check                    # checker unit tests, an offline run of weekly.sh against a fake claude, lint
+python3 -m unittest discover tests
+bash tests/weekly_test.sh
+cd site && hugo server        # preview the site at http://localhost:1313
+```
+
+Run `make check` after changing the skill, the checker or the scripts. Lint runs shellcheck only if it's installed (`brew install shellcheck`) and skips it otherwise, so install it if you touch a script. The wrapper test and the plist lint are macOS-only (`date -v`, `plutil`); the checker tests run anywhere.
 
 ## Documentation
 
@@ -199,13 +192,9 @@ Runs use the skill files in `.claude/skills/newsletter-ai/` directly, so there's
 | [`site/README.md`](site/README.md) | Hugo + PaperMod bootstrap, Cloudflare Pages settings, theme updates |
 | [`CLAUDE.md`](CLAUDE.md) | The rules Claude Code follows in this repo |
 
----
-
 ## Formerly here: `claude-hacks`
 
 The `claude-hacks` skill, which curates Claude Code productivity tips into an awesome-list README, used to live in this repo. It now lives with the list it writes, at [ChrisAdkin8/claude-code-hacks](https://github.com/ChrisAdkin8/claude-code-hacks); this repo's history up to October 2026 has the old copy.
-
----
 
 ## Licence
 
