@@ -276,7 +276,7 @@ launchctl kickstart -k gui/$(id -u)/local.newsletter-ai.weekly
 1. It exits if this week's issue is already out (`last-ok` holds the week), or if the Anthropic API is unreachable.
 2. It warns if the repo's `scripts/weekly.sh` differs from the installed copy, or if a global copy of the skill exists in `~/.claude/skills/`.
 3. It needs `main` and a clean tree, then fetches. If the last run committed but failed to push, it pushes that commit now, rebased onto `origin/main` if that has moved since; a rebase conflict (the same post pushed by hand, say) stops it with a notification until you resolve it. Any other unpushed commit stops it.
-4. It runs `/newsletter:newsletter-ai web:<repo>/site date:<today> week:<week> triage:<repo>/.newsletter`.
+4. It runs `/newsletter:newsletter-ai web:<repo>/site date:<today> week:<week> triage:<repo>/.newsletter`. `<today>` is the UTC date, so the post's `T00:00:00Z` stamp is never ahead of the clock the checker and Cloudflare build against, wherever the Mac is.
 5. It holds the issue unless the only change is the new `site/content/posts/<date>.md`, the checker passes it, and the model left a `.newsletter/triage.md`. Otherwise it commits `Newsletter <date>`, pushes, and records the week in `last-ok`.
 6. It filters `.newsletter/triage.md` into `~/notes/inbox/<date>-newsletter-triage.md` (see [How it works → Step 5](how-it-works.md#step-5-triage-optional)) and notifies you with the run's cost.
 
@@ -320,6 +320,7 @@ Before a hand run: be on `main` with a clean tree, with `baseURL` in `site/hugo.
 | Change the wrapper | Edit `scripts/weekly.sh`, run `make check`, then re-run `scripts/install-agent.sh`. Every slot notifies you until you do. |
 | Change the triage interests | Edit `scripts/interests.txt`, one interest per line. |
 | Change the schedule | Edit `StartCalendarInterval` in `scripts/local.newsletter-ai.weekly.plist.in` and re-run the installer. |
+| Bump the model | Change `CLAUDE_MODEL` in `scripts/weekly.sh` to the new model ID (never an alias such as `sonnet`, which moves on its own), run `make check`, re-run the installer, and read the next issue closely: a new model writes differently and may cost differently. |
 | Bump the CLI | Re-run spike 1's confinement probe ([`docs/specs/2026-09-13-weekly-local-publishing.md`](specs/2026-09-13-weekly-local-publishing.md#spike-questions)), then change `CLAUDE_PIN` in `scripts/install-agent.sh`, install with `PROBE=1` and kickstart. |
 | Read the logs | `~/Library/Logs/newsletter/`: `launchd.log`, `<week>.json` (the run's result), `<week>.check` (the checker's output, holds and warnings alike) and `last-ok`. |
 | Stop it | `launchctl bootout gui/$(id -u)/local.newsletter-ai.weekly`, then remove `~/Library/LaunchAgents/local.newsletter-ai.weekly.plist` and `~/.local/share/newsletter-ai/`. |

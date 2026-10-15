@@ -56,7 +56,7 @@ To publish by hand instead, run `NEWSLETTER_REPO=$PWD scripts/weekly.sh` from th
 
 - **Claude Code** with a subscription, installed with the native installer. The scheduler copies a pinned version (`CLAUDE_PIN` in `scripts/install-agent.sh`) from `~/.local/share/claude/versions/`, and `install-agent.sh` stops if that version isn't there. To move to one you have, follow "Bump the CLI" in [Day to day](docs/customising.md#day-to-day).
 - **macOS** for scheduled publishing. The skill itself runs anywhere Claude Code does.
-- **Room in your quota.** A scheduled run uses Sonnet, stops at `--max-budget-usd 10` and is killed after an hour. Recent issues have reported $6–8 of equivalent usage, drawn from your subscription rather than billed as API credits.
+- **Room in your quota.** A scheduled run uses a pinned Sonnet model (`CLAUDE_MODEL` in `scripts/weekly.sh`), stops at `--max-budget-usd 10` and is killed after an hour. Recent issues have reported $6–8 of equivalent usage, drawn from your subscription rather than billed as API credits.
 - **Hugo Extended** to preview the site locally (`brew install hugo`). Cloudflare Pages builds it on every push.
 - **Python 3, jq, git and curl**, which the wrapper and the checker use. Recent macOS includes them; Python 3 comes with the Xcode command line tools.
 
@@ -126,7 +126,7 @@ Some rules rest on the skill alone, because the checker reads URLs and labels an
 - **The model can't reach your machine.** Scheduled runs pass `--restricted` with no Bash and no MCP servers, and `--allowedTools` lets the model write only `site/content/posts/` and its triage file. Your notes are never in scope.
 - **The scripts own git.** The model never runs git. `scripts/weekly.sh` stages the post only after the checker passes, and only if it is the only change in the tree.
 - **What the model reads can't reach the page.** The model fetches arbitrary web pages, so a post is treated as untrusted on the way out: the checker holds any post carrying raw HTML or a Hugo shortcode, and Hugo renders raw HTML off (`unsafe = false`) regardless.
-- **Nothing auto-updates.** Hugo is a single Go binary published with SHA256SUMS, PaperMod is vendored at a pinned commit (`site/themes/PaperMod/.papermod-sha`), scheduled runs use a pinned copy of the Claude Code CLI, and no `npm install` runs in this repo.
+- **Nothing auto-updates.** Hugo is a single Go binary published with SHA256SUMS, PaperMod is vendored at a pinned commit (`site/themes/PaperMod/.papermod-sha`), scheduled runs use a pinned copy of the Claude Code CLI and a pinned model ID rather than a floating alias, and no `npm install` runs in this repo.
 
 ---
 

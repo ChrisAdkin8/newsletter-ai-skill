@@ -147,7 +147,7 @@ This runs last so the picks are chosen with full visibility of everything gather
 
 Only runs with a `triage:<dir>` argument, which `scripts/weekly.sh` passes. Claude reads `<dir>/interests.txt` and writes `<dir>/triage.md`: up to five items, from the issue or cut from it for space, that match those interests. Each is one line, `- [title](url): why it matches`, with no commands.
 
-After a successful publish, `weekly.sh` keeps only lines in that exact form, drops any whose URL is already somewhere in `~/notes`, appends a `/research quick <url>` command to each, and writes the result to `~/notes/inbox/<date>-newsletter-triage.md`. The model itself never reads or writes `~/notes`.
+After a successful publish, `weekly.sh` keeps only lines in that exact form, drops any whose URL already appears whole somewhere in `~/notes`, appends a `/research quick <url>` command to each, and writes the result to `~/notes/inbox/<date>-newsletter-triage.md`. The model itself never reads or writes `~/notes`.
 
 ---
 
