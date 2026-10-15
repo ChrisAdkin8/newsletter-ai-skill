@@ -58,6 +58,12 @@ name = "Tags"
 url = "/tags/"
 weight = 20
 
+[[menu.main]]
+identifier = "search"
+name = "Search"
+url = "/search/"
+weight = 30
+
 # The posts are written by a model that reads the open web, so raw HTML in a
 # post is a prompt-injection path to the live site. Keep it off; the template
 # needs no HTML, and scripts/check_issue.py holds any post that carries some.

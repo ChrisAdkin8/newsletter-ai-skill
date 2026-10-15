@@ -11,6 +11,9 @@
 #
 # Override either pinned version via environment variable.
 # Re-run safe: exits early if site/hugo.toml already exists.
+#
+# --theme-only re-vendors PaperMod at PAPERMOD_REF (a tag, branch or commit
+# SHA) in an existing site and touches nothing else. Use it to bump the theme.
 
 set -euo pipefail
 
@@ -19,10 +22,49 @@ PAPERMOD_REF="${PAPERMOD_REF:-v8.0}"
 HUGO_MIN_VERSION="${HUGO_MIN_VERSION:-0.128.0}"
 # -----------------------------------------------------------------------------
 
+THEME_ONLY=0
+case "${1:-}" in
+  --theme-only) THEME_ONLY=1 ;;
+  "") ;;
+  *) echo "usage: $0 [--theme-only]" >&2; exit 2 ;;
+esac
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SITE_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 cd "${SITE_DIR}"
+
+# -- Vendor PaperMod at the pinned ref ----------------------------------------
+# A frozen copy, not a submodule: the clone's .git is stripped and the resolved
+# commit recorded in themes/PaperMod/.papermod-sha.
+
+PAPERMOD_URL=https://github.com/adityatelange/hugo-PaperMod.git
+
+vendor_papermod() {
+  echo "==> Fetching PaperMod @ ${PAPERMOD_REF} (frozen copy, not submodule)"
+  mkdir -p themes
+  rm -rf themes/PaperMod
+  if [[ "${PAPERMOD_REF}" =~ ^[0-9a-f]{40}$ ]]; then
+    # clone --branch takes no SHA; fetch the one commit instead.
+    git init -q themes/PaperMod
+    git -C themes/PaperMod fetch -q --depth 1 "${PAPERMOD_URL}" "${PAPERMOD_REF}"
+    git -C themes/PaperMod checkout -q FETCH_HEAD
+  else
+    git clone -q --depth 1 --branch "${PAPERMOD_REF}" "${PAPERMOD_URL}" themes/PaperMod
+  fi
+  PAPERMOD_SHA="$(git -C themes/PaperMod rev-parse HEAD)"
+  rm -rf themes/PaperMod/.git
+  echo "==> PaperMod pinned to ${PAPERMOD_REF} = ${PAPERMOD_SHA}"
+  echo "${PAPERMOD_SHA}" > themes/PaperMod/.papermod-sha
+}
+
+if [ "${THEME_ONLY}" -eq 1 ]; then
+  command -v git >/dev/null 2>&1 || { echo "ERROR: git not found on PATH." >&2; exit 1; }
+  [ -f hugo.toml ] || { echo "ERROR: no hugo.toml in ${SITE_DIR}; scaffold first (run without --theme-only)." >&2; exit 1; }
+  vendor_papermod
+  echo "Review the change, then: git add site/themes/PaperMod && git commit -m \"Bump PaperMod to ${PAPERMOD_REF}\""
+  exit 0
+fi
 
 # -- Pre-flight checks --------------------------------------------------------
 
@@ -85,18 +127,7 @@ done
 echo "==> Initialising Hugo site"
 hugo new site . --force --format toml >/dev/null
 
-# -- Vendor PaperMod theme at pinned ref --------------------------------------
-
-echo "==> Cloning PaperMod @ ${PAPERMOD_REF} (frozen copy, not submodule)"
-mkdir -p themes
-rm -rf themes/PaperMod
-git clone --depth 1 --branch "${PAPERMOD_REF}" \
-  https://github.com/adityatelange/hugo-PaperMod.git themes/PaperMod
-# Record the resolved commit SHA before stripping .git
-PAPERMOD_SHA="$(cd themes/PaperMod && git rev-parse HEAD)"
-rm -rf themes/PaperMod/.git
-echo "==> PaperMod pinned to ${PAPERMOD_REF} = ${PAPERMOD_SHA}"
-echo "${PAPERMOD_SHA}" > themes/PaperMod/.papermod-sha
+vendor_papermod
 
 # -- Write a minimal site config ---------------------------------------------
 
@@ -153,6 +184,12 @@ name = "Tags"
 url = "/tags/"
 weight = 20
 
+[[menu.main]]
+identifier = "search"
+name = "Search"
+url = "/search/"
+weight = 30
+
 # Posts come from a model that reads the open web; raw HTML stays off.
 [markup.goldmark.renderer]
 unsafe = false
@@ -169,6 +206,21 @@ url: "/archives/"
 summary: "All newsletter issues."
 ShowToc: false
 ShowReadingTime: false
+---
+EOF
+
+# -- Search page (PaperMod's "search" layout over the JSON index) -------------
+
+cat > content/search.md <<'EOF'
+---
+title: "Search"
+layout: "search"
+url: "/search/"
+summary: "Search every issue."
+placeholder: "Search issues…"
+ShowToc: false
+ShowReadingTime: false
+ShowBreadCrumbs: false
 ---
 EOF
 

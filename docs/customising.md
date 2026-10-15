@@ -213,7 +213,7 @@ Each issue becomes a post at `https://your-site.pages.dev/posts/YYYY-MM-DD/`. Pa
 - Chronological post list on the home page with reading time + summary
 - Archive page at `/archives/` with one-line entries grouped by year
 - Tag pages (e.g. `/tags/newsletter/`) grouping all issues with that tag
-- Full-text search via the built-in Fuse-style index
+- Full-text search at `/search/`, over the JSON index Hugo builds (`content/search.md` + the `JSON` home output)
 - RSS feed at `/index.xml`
 - Dark/light mode based on system preference
 - Mobile-responsive layout with clean typography
