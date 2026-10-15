@@ -110,6 +110,8 @@ The skill follows hard rules when it picks stories, and [`scripts/check_issue.py
 
 The checker also warns, without holding anything, when a link goes to an outlet that often rewrites a primary source; the publish notification says how many warnings there were.
 
+Every issue from 25 September 2026 on passes all of these. The four earlier issues went out before the rules took their current form; they stay on the site as published, each with an editor's note saying so.
+
 Some rules rest on the skill alone, because the checker reads URLs and labels and can't see what a page says:
 
 - the same story under two different URLs;
