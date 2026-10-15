@@ -1,6 +1,6 @@
 # newsletter-ai — Project Guidelines
 
-This repo holds two Claude Code skills — `/newsletter-ai` and `/claude-hacks` — the scripts that publish the newsletter, and the Hugo site it publishes to.
+This repo holds the `/newsletter-ai` Claude Code skill, the scripts that publish the newsletter, and the Hugo site it publishes to.
 
 Scheduled runs don't load this file. `scripts/weekly.sh` passes `--restricted`, which skips the project `CLAUDE.md` (verified in [`docs/specs/2026-09-13-weekly-local-publishing.md`](docs/specs/2026-09-13-weekly-local-publishing.md)). Anything that has to reach a scheduled run belongs in `.claude/skills/newsletter-ai/SKILL.md`, not here.
 

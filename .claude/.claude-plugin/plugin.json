@@ -1,5 +1,5 @@
 {
   "name": "newsletter",
-  "description": "The newsletter-ai and claude-hacks skills, loaded with --plugin-dir ./.claude for headless runs.",
+  "description": "The newsletter-ai skill, loaded with --plugin-dir ./.claude for headless runs.",
   "author": { "name": "Chris Adkin" }
 }

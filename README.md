@@ -1,6 +1,6 @@
 # newsletter-ai
 
-A Claude Code skill that curates a weekly newsletter on agentic AI and LLMs, the scripts that publish it for you, and a [companion skill](#companion-skill-claude-hacks) for Claude Code tips.
+A Claude Code skill that curates a weekly newsletter on agentic AI and LLMs, and the scripts that publish it for you.
 
 **Read it:** [newsletter-ai-skill.pages.dev](https://newsletter-ai-skill.pages.dev/) · **Subscribe:** [RSS](https://newsletter-ai-skill.pages.dev/index.xml)
 
@@ -171,8 +171,7 @@ newsletter-ai-skill/
 ├── .claude/
 │   ├── .claude-plugin/plugin.json           # Lets headless runs load the skills with --plugin-dir
 │   └── skills/
-│       ├── newsletter-ai/                   # The skill: SKILL.md, sources.md, template.md
-│       └── claude-hacks/                    # Companion skill (see below)
+│       └── newsletter-ai/                   # The skill: SKILL.md, sources.md, template.md
 ├── docs/                                    # See Documentation below; specs/ holds the designs
 ├── scripts/
 │   ├── weekly.sh                            # Runs the skill headless, checks, commits, pushes
