@@ -23,7 +23,7 @@ These turned up in past issues when a category came up short. Skip the item, or 
 
 These sites block automated fetches (HTTP 403 or no connection when checked on 2026-09-13 and 2026-10-12), so fetching one wastes a turn. Find their stories by search, take the date from the snippet, and cite the article URL the search returns:
 
-OpenAI News, xAI News, Reuters, Rapporteur (formerly Euractiv), Axios, Bloomberg (also paywalled), The Information (also paywalled), Gartner, McKinsey, BCG, Datacenter Dynamics, Dark Reading, The Hacker News, Computing.co.uk, the Center for Democracy & Technology, Lawfare, EU Council press releases, and Reddit (login wall). The BAIR blog didn't respond at all on 2026-09-13.
+OpenAI News, xAI News, Reuters, Rapporteur (formerly Euractiv), Axios, Bloomberg (also paywalled), The Information (also paywalled), Gartner, McKinsey, BCG, Datacenter Dynamics, Dark Reading, The Hacker News, Computing.co.uk, the Center for Democracy & Technology, Lawfare, EU Council press releases, Reddit (login wall), and Medium: every medium.com blog, such as steve-yegge.medium.com (403, checked 2026-10-15). The BAIR blog didn't respond at all on 2026-09-13.
 
 Some sites refuse curl but load with WebFetch, so fetch them with WebFetch: the FTC, Meta AI, Canada.ca, VentureBeat and Red Hat (checked 2026-10-12).
 
@@ -290,9 +290,8 @@ Higher signal-to-noise than general tech press.
 | Cameron Wolfe | https://cameronrwolfe.substack.com | Deep learning deep-dives, paper breakdowns |
 | Dario Amodei | https://darioamodei.com | Essays from Anthropic's CEO, cited as primary when the essay is the story |
 | Tim Dettmers | https://timdettmers.com | Quantisation, efficient training, hardware economics |
-| Hamel Husain | https://hamel.dev | Evals and LLM tooling in practice |
-| Geoffrey Huntley | https://ghuntley.com | Agentic coding; posts several times a week |
-| Addy Osmani | https://addyo.substack.com | Engineering practice with coding agents |
+
+Writers on how engineers use coding agents day to day (Hamel Husain, Geoffrey Huntley, Addy Osmani, Simon Willison's coding-agent notes, and others) are catalogued in section 15. A person is cited at most once per issue, whichever section lists them.
 
 ### Engineering & framework blogs
 - LangChain: https://www.langchain.com/blog and https://interrupt.langchain.com (same publisher, two hosts; blog.langchain.com now redirects to the first)
@@ -815,7 +814,7 @@ Sources checked on 2026-10-02. Each posted within the previous two months except
 | Sean Goedecke | https://www.seangoedecke.com/ | How AI changes day-to-day engineering inside a large company |
 | Drew Breunig | https://www.dbreunig.com/ | Context engineering, how context fails, and DSPy-style practice |
 | Jason Liu | https://jxnl.co/writing/ | Context engineering for coding agents; interviews with tool builders |
-| Steve Yegge | https://steve-yegge.medium.com/ | Agent orchestration (Beads, Gas Town), vibe coding at scale; opinionated, posts monthly |
+| Steve Yegge | https://steve-yegge.medium.com/ (search only: Medium blocks fetches) | Agent orchestration (Beads, Gas Town), vibe coding at scale; opinionated, posts monthly |
 | Charity Majors | https://charity.wtf/ | Observability, production ownership and what AI-written code means for on-call |
 | Every — Source Code | https://every.to/source-code | Kieran Klaassen and others on "compounding engineering" with agents in a small company |
 | HumanLayer (Dex Horthy) | https://www.humanlayer.dev/blog | Context engineering for coding agents in large brownfield codebases; "12-factor agents" |
@@ -824,7 +823,7 @@ Sources checked on 2026-10-02. Each posted within the previous two months except
 
 | Source | URL | Focus |
 |---|---|---|
-| The Pragmatic Engineer (Gergely Orosz) | https://newsletter.pragmaticengineer.com/ | Reported surveys and deep dives on how engineering teams use AI tools; many posts are paywalled, so cite only what the free page states |
+| The Pragmatic Engineer (Gergely Orosz) | https://newsletter.pragmaticengineer.com/ | (also section 4) Reported surveys and deep dives on how engineering teams use AI tools; many posts are paywalled, so cite only what the free page states |
 | DORA | https://dora.dev/research/ | Google's research on AI-assisted software delivery; the annual report is primary data (quiet since June 2026, the report is due in the autumn) |
 | Stack Overflow blog | https://stackoverflow.blog/ | Developer survey results and practitioner essays on AI tooling |
 | Thoughtworks Technology Radar | https://www.thoughtworks.com/radar | Twice-yearly verdicts (adopt, trial, assess, hold) on AI coding tools and practices |

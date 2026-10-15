@@ -12,14 +12,14 @@ An earlier version of this page carried a second, annotated copy of the whole ca
 
 | # | Category | # | Category |
 |---|---|---|---|
-| 1 | Community & Discussion | 8 | Agent Era & Technical Workflows |
-| 2 | Research & Papers | 9 | Open Source & Specialised Infrastructure |
-| 3 | Technical Blogs & Engineering Posts | 10 | Macro & Hardware Watch |
-| 4 | Analyst & Industry Reports | 11 | Model Evaluations & Transparency |
-| 5 | AI Security | 12 | Newsletters & Podcasts (leads to primary sources only) |
-| 6 | Product & Company News | 13 | Cloud Native & CNCF |
-| 7 | Regulatory & Policy | 14 | Trending Open Source AI |
-|   |   | 15 | AI Coding Practitioners |
+| 1 | Community & Discussion | 9 | Open Source & Specialised Infrastructure |
+| 2 | Research & Papers | 10 | Macro & Hardware Watch |
+| 3 | Technical Blogs & Engineering Posts | 11 | Model Evaluations & Transparency |
+| 4 | Analyst & Industry Reports | 12 | Newsletters & Podcasts (leads to primary sources only) |
+| 5 | AI Security | 13 | Cloud Native & CNCF |
+| 6 | Product & Company News | 14 | Trending Open Source AI |
+| 7 | Regulatory & Policy | 15 | AI Coding Practitioners |
+| 8 | Agent Era & Technical Workflows |   |   |
 
 ## Changing it
 

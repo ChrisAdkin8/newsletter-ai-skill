@@ -100,7 +100,7 @@ Each candidate item is evaluated against four criteria:
 | **Signal vs noise** | Is this a meaningful development, or marketing/hype? |
 | **Audience fit** | Would a technical practitioner find this useful? |
 
-PR fluff, duplicate coverage (same story from 3 outlets), and content lacking substance are discarded. The goal is **up to 4 high-quality items per category**, not exhaustive coverage. Two rules then spread the issue out: at most one item per publisher per section — counting editorial voices, not venues such as arXiv or GitHub — and no pivot phrase or case-study company carried over from last week. Neither is something the checker can see.
+PR fluff, duplicate coverage (same story from 3 outlets), and content lacking substance are discarded. The goal is **up to 4 high-quality items per category**, not exhaustive coverage. Two rules then spread the issue out: at most one item per publisher per section — counting editorial voices, not venues such as arXiv or GitHub — and a named writer at most once per issue, and no pivot phrase or case-study company carried over from last week. Neither is something the checker can see.
 
 Then come hard rules. `scripts/check_issue.py` enforces most of them on the finished post; it compares URLs only, so a story repeated under a different URL is caught by the model's rule alone:
 
