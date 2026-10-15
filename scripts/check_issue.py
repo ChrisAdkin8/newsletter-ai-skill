@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Check a newsletter post for the defects the published issues had.
 
-Usage: check_issue.py <post> [--posts-dir DIR] [--week YYYY-Www]
+Usage: check_issue.py <post> [--posts-dir DIR] [--week YYYY-Www] [--min-items N]
 
 Prints `path:line: RULE: message` for each finding and exits 1 if there are
 any. Warnings print as `path:line: warning: RULE: message` and don't affect
@@ -13,10 +13,15 @@ import datetime as dt
 import re
 import sys
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import parse_qsl, urlencode, urlsplit
 
 PREVIOUS_POSTS = 4
 WINDOW_DAYS = 7
+# The fewest sourced items a post can carry and still be an issue. The
+# template runs to about 24; the skill may skip a quiet section, but a post
+# with fewer than this came from a run that stopped early, not a quiet week.
+MIN_ITEMS = 15
+PICKS_HEADING = "## Editor's Picks"
 
 # A markdown link target, allowing one level of balanced parentheses.
 LINK = re.compile(r"\]\((https?://[^()\s]*(?:\([^()\s]*\)[^()\s]*)*)\)")
@@ -24,6 +29,10 @@ SOURCE_LINK = re.compile(
     r"\[([^\]]+)\]\((https?://[^()\s]*(?:\([^()\s]*\)[^()\s]*)*)\)"
 )
 POST_NAME = re.compile(r"^\d{4}-\d{2}-\d{2}\.md$")
+# A raw HTML tag or comment, or a Hugo shortcode. The site renders neither,
+# and the model that writes the post reads the open web, so either one in a
+# post is an injection attempt or a model slip, not markup to keep.
+MARKUP = re.compile(r"<[A-Za-z/!][^>]*>?|\{\{[<%]")
 WEEK = re.compile(r"\b(\d{4}-W\d{2})\b")
 
 DAY_IN_URL = re.compile(r"(?<!\d)(\d{4})([/-])(\d{2})\2(\d{2})(?!\d)")
@@ -72,6 +81,11 @@ SECONDARY = (
     "sherwood.news",
     "forkast.news",
 )
+
+# Query parameters that track the click rather than name the page. They're
+# dropped before two URLs are compared, so a repeat can't hide behind them;
+# anything else in the query stays, since HN's item?id= is the page.
+TRACKING = re.compile(r"^(utm_.*|fbclid|gclid|msclkid|mc_[ce]id|ref|ref_src|mkt_tok|igshid|si)$")
 
 LABEL_DOMAINS = {
     "Reddit": ("reddit.com", "redd.it"),
@@ -127,6 +141,22 @@ class Post:
             for m in LINK.finditer(line):
                 yield n, m[1]
 
+    def items(self):
+        """Yield the line number of each item: a ### heading with a [Source: line under it."""
+        heading = None
+        for n, line in enumerate(self.lines, start=1):
+            if line.startswith("### "):
+                heading = n
+            elif line.startswith("## "):
+                heading = None
+            elif heading and line.lstrip().startswith("[Source:"):
+                yield heading
+                heading = None
+
+    def has_heading(self, text):
+        """Whether a line of the post is exactly `text`."""
+        return any(line.strip() == text for line in self.lines)
+
     def sources(self):
         """Yield (line number, label, url) for every link inside [Source: ...]."""
         for n, line in enumerate(self.lines, start=1):
@@ -152,10 +182,17 @@ def parse_stamp(value):
 
 
 def normalise(url):
-    """The URL as compared for repeats: host lowercased, no fragment or trailing slash."""
+    """The URL as compared for repeats.
+
+    Host lowercased, no fragment or trailing slash, and no tracking parameters
+    in the query.
+    """
     parts = urlsplit(url)
+    query = urlencode(
+        [(k, v) for k, v in parse_qsl(parts.query, keep_blank_values=True) if not TRACKING.match(k)]
+    )
     return f"{parts.scheme}://{parts.netloc.lower()}{parts.path.rstrip('/')}" + (
-        f"?{parts.query}" if parts.query else ""
+        f"?{query}" if query else ""
     )
 
 
@@ -222,13 +259,14 @@ def earlier_posts(post, posts_dir):
     return [Post(p) for p in names]
 
 
-def check(post, posts_dir, week=None, now=None):
+def check(post, posts_dir, week=None, now=None, min_items=MIN_ITEMS):
     """Return (findings, warnings) for `post`, each sorted by line.
 
     Both are lists of (line, rule, message). A finding holds the issue; a
     warning is reported and doesn't. `posts_dir` holds the earlier posts;
     `week`, if given, is the week the title must carry; `now` is the moment
-    the post is checked against, defaulting to the present.
+    the post is checked against, defaulting to the present; `min_items` is
+    the fewest sourced items the post may carry.
     """
     findings = []
     warnings = []
@@ -276,6 +314,28 @@ def check(post, posts_dir, week=None, now=None):
                     f"{post.week} is also the title of {other.path.name}",
                 )
                 break
+
+    # thin
+    count = sum(1 for _ in post.items())
+    if count < min_items:
+        add(
+            1,
+            "thin",
+            f"{count} item{'' if count == 1 else 's'} with a source; an issue has at "
+            f"least {min_items}, so the run stopped early",
+        )
+    if min_items and not post.has_heading(PICKS_HEADING):
+        add(1, "thin", f"no {PICKS_HEADING!r} section")
+
+    # markup
+    for n, line in enumerate(post.lines, start=1):
+        m = MARKUP.search(line)
+        if m:
+            add(
+                n,
+                "markup",
+                f"{m[0][:40]!r} is raw HTML or a Hugo shortcode; posts are markdown only",
+            )
 
     # repeat
     links = list(post.links())
@@ -330,10 +390,11 @@ def check(post, posts_dir, week=None, now=None):
                 f"{host(url)} often rewrites a primary source it links to; "
                 "cite the primary if the page names one",
             )
-        # label
+        # label: the name alone, or followed by a space or a separator. A
+        # hyphen doesn't count, so "X-Ray Research" isn't a claim to be X.
         for name, domains in LABEL_DOMAINS.items():
             if re.match(
-                re.escape(name) + r"(?![\w])", label, re.IGNORECASE
+                re.escape(name) + r"(?=$|[\s/(:,])", label, re.IGNORECASE
             ) and not on_domain(url, domains):
                 add(
                     n, "label", f"label {label!r} names {name} but links to {host(url)}"
@@ -352,13 +413,21 @@ def main(argv=None):
     parser.add_argument("post", type=Path)
     parser.add_argument("--posts-dir", type=Path)
     parser.add_argument("--week", help="the issue week the title must carry, YYYY-Www")
+    parser.add_argument(
+        "--min-items",
+        type=int,
+        default=MIN_ITEMS,
+        help=f"the fewest sourced items an issue may carry (default {MIN_ITEMS}; 0 to skip)",
+    )
     args = parser.parse_args(argv)
     if args.week and not re.fullmatch(r"\d{4}-W\d{2}", args.week):
         parser.error(f"--week must be YYYY-Www, not {args.week!r}")
+    if args.min_items < 0:
+        parser.error("--min-items can't be negative")
 
     post = Post(args.post)
     posts_dir = args.posts_dir or args.post.parent
-    findings, warnings = check(post, posts_dir, args.week)
+    findings, warnings = check(post, posts_dir, args.week, min_items=args.min_items)
     for line, rule, message in findings:
         print(f"{args.post}:{line}: {rule}: {message}")
     for line, rule, message in warnings:

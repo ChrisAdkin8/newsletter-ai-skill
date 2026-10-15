@@ -33,7 +33,7 @@ No other files need updating — `SKILL.md` references `sources.md` as a whole, 
 1. Add a new section to `sources.md`:
 
 ```markdown
-## 15. Podcasts & Video
+## 16. Podcasts & Video
 
 | Source | URL |
 |---|---|
@@ -45,12 +45,12 @@ No other files need updating — `SKILL.md` references `sources.md` as a whole, 
 2. Add the category to the list in `SKILL.md` under **Step 1**:
 
 ```markdown
-15. **Podcasts & Video** (Latent Space, TWIML, Lex Fridman AI episodes)
+16. **Podcasts & Video** (Latent Space, TWIML, Lex Fridman AI episodes)
 ```
 
 3. Add a matching section to `template.md` following the same pattern as existing sections.
 
-4. Add the category, with the rationale for each source, to [`docs/sources.md`](sources.md).
+4. Add the category to the table in [`docs/sources.md`](sources.md), which maps the catalogue.
 
 ---
 
@@ -96,6 +96,12 @@ In `SKILL.md`, Step 1 says:
 > search for content published in the window: the **7 days up to the issue date**
 
 Change `7 days` there and in Step 2's "Dated inside the window" rule, and change `WINDOW_DAYS` in `scripts/check_issue.py` to match, or the checker will hold items your window allows.
+
+---
+
+## Changing the minimum issue size
+
+`scripts/check_issue.py` holds a post with fewer than `MIN_ITEMS` items that carry a `[Source:` line (15 by default), or with no `## Editor's Picks` section, on the grounds that it came from a run that stopped early. The template runs to about 24 items and the skill may skip a quiet section, so 15 is a floor, not a target. If you trim the template to fewer sections, lower `MIN_ITEMS` to match; for a one-off check, `--min-items N` overrides it, and `--min-items 0` skips the rule.
 
 ---
 
@@ -207,7 +213,7 @@ Each issue becomes a post at `https://your-site.pages.dev/posts/YYYY-MM-DD/`. Pa
 - Chronological post list on the home page with reading time + summary
 - Archive page at `/archives/` with one-line entries grouped by year
 - Tag pages (e.g. `/tags/newsletter/`) grouping all issues with that tag
-- Full-text search via the built-in Fuse-style index
+- Full-text search at `/search/`, over the JSON index Hugo builds (`content/search.md` + the `JSON` home output)
 - RSS feed at `/index.xml`
 - Dark/light mode based on system preference
 - Mobile-responsive layout with clean typography
@@ -269,8 +275,8 @@ launchctl kickstart -k gui/$(id -u)/local.newsletter-ai.weekly
 
 1. It exits if this week's issue is already out (`last-ok` holds the week), or if the Anthropic API is unreachable.
 2. It warns if the repo's `scripts/weekly.sh` differs from the installed copy, or if a global copy of the skill exists in `~/.claude/skills/`.
-3. It needs `main` and a clean tree, then fetches. If the last run committed but failed to push, it pushes that commit now; any other unpushed commit stops it.
-4. It runs `/newsletter:newsletter-ai web:<repo>/site date:<today> week:<week> triage:<repo>/.newsletter`.
+3. It needs `main` and a clean tree, then fetches. If the last run committed but failed to push, it pushes that commit now, rebased onto `origin/main` if that has moved since; a rebase conflict (the same post pushed by hand, say) stops it with a notification until you resolve it. Any other unpushed commit stops it.
+4. It runs `/newsletter:newsletter-ai web:<repo>/site date:<today> week:<week> triage:<repo>/.newsletter`. `<today>` is the UTC date, so the post's `T00:00:00Z` stamp is never ahead of the clock the checker and Cloudflare build against, wherever the Mac is.
 5. It holds the issue unless the only change is the new `site/content/posts/<date>.md`, the checker passes it, and the model left a `.newsletter/triage.md`. Otherwise it commits `Newsletter <date>`, pushes, and records the week in `last-ok`.
 6. It filters `.newsletter/triage.md` into `~/notes/inbox/<date>-newsletter-triage.md` (see [How it works → Step 5](how-it-works.md#step-5-triage-optional)) and notifies you with the run's cost.
 
@@ -314,6 +320,7 @@ Before a hand run: be on `main` with a clean tree, with `baseURL` in `site/hugo.
 | Change the wrapper | Edit `scripts/weekly.sh`, run `make check`, then re-run `scripts/install-agent.sh`. Every slot notifies you until you do. |
 | Change the triage interests | Edit `scripts/interests.txt`, one interest per line. |
 | Change the schedule | Edit `StartCalendarInterval` in `scripts/local.newsletter-ai.weekly.plist.in` and re-run the installer. |
+| Bump the model | Change `CLAUDE_MODEL` in `scripts/weekly.sh` to the new model ID (never an alias such as `sonnet`, which moves on its own), run `make check`, re-run the installer, and read the next issue closely: a new model writes differently and may cost differently. |
 | Bump the CLI | Re-run spike 1's confinement probe ([`docs/specs/2026-09-13-weekly-local-publishing.md`](specs/2026-09-13-weekly-local-publishing.md#spike-questions)), then change `CLAUDE_PIN` in `scripts/install-agent.sh`, install with `PROBE=1` and kickstart. |
 | Read the logs | `~/Library/Logs/newsletter/`: `launchd.log`, `<week>.json` (the run's result), `<week>.check` (the checker's output, holds and warnings alike) and `last-ok`. |
 | Stop it | `launchctl bootout gui/$(id -u)/local.newsletter-ai.weekly`, then remove `~/Library/LaunchAgents/local.newsletter-ai.weekly.plist` and `~/.local/share/newsletter-ai/`. |

@@ -11,17 +11,23 @@
 # result, without touching git. Use it to vet a new pinned CLI under launchd.
 #
 # Overrides, for tests: NEWSLETTER_REPO, NEWSLETTER_LOG, NOTES_DIR,
-# CLAUDE_BIN and NOTIFY_CMD.
+# CLAUDE_BIN, CLAUDE_MODEL and NOTIFY_CMD.
 set -uo pipefail
 
 REPO=${NEWSLETTER_REPO:-$HOME/code/github.com/newsletter-ai-skill}
 LOG=${NEWSLETTER_LOG:-$HOME/Library/Logs/newsletter}
 NOTES_DIR=${NOTES_DIR:-$HOME/notes}
 CLAUDE_BIN=${CLAUDE_BIN:-$HOME/.local/share/newsletter-ai/claude}
+# Pinned like the CLI (CLAUDE_PIN in install-agent.sh): an alias such as
+# "sonnet" moves when Anthropic releases a model, and with it the writing and
+# the cost. Bump it on purpose; see "Bump the model" in docs/customising.md.
+CLAUDE_MODEL=${CLAUDE_MODEL:-claude-sonnet-5-5}
 PROBE=${PROBE:-}
 
-DATE=$(date +%F)
-WEEK=$(date -v-4d +%G-W%V) # Friday..Thursday map to the same issue week
+# The UTC date: the post is stamped <DATE>T00:00:00Z and checked against the
+# UTC clock, so a local date ahead of UTC would make every morning run hold.
+DATE=$(TZ=UTC date +%F)
+WEEK=$(TZ=UTC date -v-4d +%G-W%V) # Friday..Thursday map to the same issue week
 TRIAGE_MAX=5
 WARN_NOTE= # set by step 8; a retried push never reaches the checker
 
@@ -60,13 +66,24 @@ unpushed_issue() {
   echo "$d"
 }
 
+# The characters a URL in a triage line may contain; a match must end where
+# they stop, so a URL isn't "known" because a longer one starts with it.
+URL_CHARS='A-Za-z0-9._~:/?#@!&+,;=%-'
+
+# Succeeds if the URL appears whole in the notes, or in the file given second.
+known_url() {
+  local re
+  re=$(printf '%s' "$1" | sed 's/[][\.*^$+?(){}|]/\\&/g')
+  grep -rqE --exclude-dir=.git -e "$re([^$URL_CHARS]|\$)" "$NOTES_DIR" "$2" 2>/dev/null
+}
+
 # Step 11: filter the model's triage file into the notes inbox. Keeps only
 # one-line items of the form "- [title](url): reason", drops URLs already
 # anywhere in the notes, and appends the command itself.
 move_triage() {
   local triage="$REPO/.newsletter/triage.md"
   local inbox="$NOTES_DIR/inbox/$DATE-newsletter-triage.md"
-  local item='^- \[[^]]+\]\((https?://[A-Za-z0-9._~:/?#@!&+,;=%-]+)\): .+$'
+  local item="^- \[[^]]+\]\((https?://[$URL_CHARS]+)\): .+\$"
   local line url tmp
   KEPT=0 DROPPED=0 KNOWN=0
   if [ ! -f "$triage" ]; then
@@ -87,7 +104,7 @@ move_triage() {
       continue
     fi
     url=${BASH_REMATCH[1]}
-    if grep -rqF --exclude-dir=.git -e "$url" "$NOTES_DIR" "$tmp" 2>/dev/null; then
+    if known_url "$url" "$tmp"; then
       KNOWN=$((KNOWN + 1))
       continue
     fi
@@ -124,7 +141,8 @@ if [ -z "$PROBE" ]; then
   [ "$(git symbolic-ref --short -q HEAD)" = main ] || fail "not on main; nothing run"
   [ -z "$(git status --porcelain)" ] || fail "working tree not clean (a held issue?); nothing run"
 
-  # Step 4: retry a failed push, refuse other local commits, else fast-forward.
+  # Step 4: retry a failed push (rebased if origin moved), refuse other local
+  # commits, else fast-forward.
   git fetch -q origin || fail "git fetch failed"
   if [ "$(git rev-list --count origin/main..main)" != 0 ]; then
     retry=$(unpushed_issue) || fail "main has unpushed commits that aren't a newsletter; nothing run"
@@ -137,6 +155,14 @@ if [ -n "$retry" ]; then
   DATE=$retry
   WEEK=$(week_of "$DATE")
   OUT="$LOG/$WEEK.json"
+  # origin/main may have moved since the failed push, and a push of a diverged
+  # main fails every time. The commit only adds the post, so put it on top.
+  if [ "$(git rev-list --count main..origin/main)" != 0 ]; then
+    git rebase -q origin/main >/dev/null 2>&1 || {
+      git rebase --abort 2>/dev/null
+      fail "Newsletter $DATE conflicts with new commits on origin/main; rebase it by hand"
+    }
+  fi
   git push -q origin main || fail "push of Newsletter $DATE failed again; the next slot retries it"
 else
   # Step 5: fresh scratch dir for the model. Nothing from ~/notes goes in. A
@@ -157,7 +183,7 @@ else
   export CLAUDE_CODE_OAUTH_TOKEN
   export SHELL=/bin/sh DISABLE_AUTOUPDATER=1
   caffeinate -i perl -e 'alarm shift; exec @ARGV' 3600 \
-    "$CLAUDE_BIN" -p "$PROMPT" --model sonnet --restricted --plugin-dir "$REPO/.claude" \
+    "$CLAUDE_BIN" -p "$PROMPT" --model "$CLAUDE_MODEL" --restricted --plugin-dir "$REPO/.claude" \
     --strict-mcp-config --permission-mode dontAsk \
     --tools "WebSearch,WebFetch,Read,Write,Edit,Glob,Grep" \
     --allowedTools "WebSearch WebFetch Read(./**) Glob Grep Edit(./site/content/posts/**) Edit(./.newsletter/**)" \

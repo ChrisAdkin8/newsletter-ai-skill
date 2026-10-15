@@ -1,6 +1,6 @@
 # newsletter-ai
 
-A Claude Code skill that curates a weekly newsletter on agentic AI and LLMs, the scripts that publish it for you, and a [companion skill](#companion-skill-claude-hacks) for Claude Code tips.
+A Claude Code skill that curates a weekly newsletter on agentic AI and LLMs, and the scripts that publish it for you.
 
 **Read it:** [newsletter-ai-skill.pages.dev](https://newsletter-ai-skill.pages.dev/) · **Subscribe:** [RSS](https://newsletter-ai-skill.pages.dev/index.xml)
 
@@ -8,7 +8,7 @@ A Claude Code skill that curates a weekly newsletter on agentic AI and LLMs, the
 
 ## What it does
 
-- **Curates.** `/newsletter-ai` searches [14 source categories](#source-categories) and writes a digest: rewritten headlines, two-to-four sentence summaries, a tag on every item, and an "Editor's Picks" theme that ties the week together.
+- **Curates.** `/newsletter-ai` searches [15 source categories](#source-categories) and writes a digest: rewritten headlines, two-to-four sentence summaries, a tag on every item, and an "Editor's Picks" theme that ties the week together.
 - **Writes a web post.** Each issue becomes a Hugo post, published on Cloudflare Pages with no npm dependencies in the build.
 - **Publishes every week without you.** A launchd agent on your Mac runs the skill headless on your Claude Code subscription, at most once per issue week.
 - **Holds bad issues back.** A checker blocks any issue that reuses links, cites stale or homepage sources, or mislabels them. A held issue stays unpublished and you get a notification.
@@ -23,7 +23,7 @@ A Claude Code skill that curates a weekly newsletter on agentic AI and LLMs, the
 The skill is a project skill in this repo. Open Claude Code here and run:
 
 ```
-/newsletter-ai                                          # Last 7 days, all 14 categories
+/newsletter-ai                                          # Last 7 days, all 15 categories
 /newsletter-ai security focus                           # Narrow to one topic
 /newsletter-ai web:./site                               # Also write the post into the bundled site/
 /newsletter-ai web:~/my-hugo-site                       # Write it into a separate Hugo repo
@@ -56,7 +56,7 @@ To publish by hand instead, run `NEWSLETTER_REPO=$PWD scripts/weekly.sh` from th
 
 - **Claude Code** with a subscription, installed with the native installer. The scheduler copies a pinned version (`CLAUDE_PIN` in `scripts/install-agent.sh`) from `~/.local/share/claude/versions/`, and `install-agent.sh` stops if that version isn't there. To move to one you have, follow "Bump the CLI" in [Day to day](docs/customising.md#day-to-day).
 - **macOS** for scheduled publishing. The skill itself runs anywhere Claude Code does.
-- **Room in your quota.** A scheduled run uses Sonnet, stops at `--max-budget-usd 10` and is killed after an hour. Recent issues have reported $6–8 of equivalent usage, drawn from your subscription rather than billed as API credits.
+- **Room in your quota.** A scheduled run uses a pinned Sonnet model (`CLAUDE_MODEL` in `scripts/weekly.sh`), stops at `--max-budget-usd 10` and is killed after an hour. Recent issues have reported $6–8 of equivalent usage, drawn from your subscription rather than billed as API credits.
 - **Hugo Extended** to preview the site locally (`brew install hugo`). Cloudflare Pages builds it on every push.
 - **Python 3, jq, git and curl**, which the wrapper and the checker use. Recent macOS includes them; Python 3 comes with the Xcode command line tools.
 
@@ -104,9 +104,13 @@ The skill follows hard rules when it picks stories, and [`scripts/check_issue.py
 - **Honest labels** — a source labelled Reddit, Hacker News, arXiv, X, GitHub or Microsoft Research has to link there.
 - **No press-release wires** — a link to PR Newswire, Business Wire or the like fails; cite the coverage instead.
 - **No banned outlets** — a link to an investment, syndicated-finance or fan site named in the "Don't cite" list fails.
+- **A whole issue** — fewer than 15 items with a source, or no Editor's Picks, fails: that's a run that stopped early, not a quiet week.
+- **Markdown only** — a raw HTML tag or comment, or a Hugo shortcode, fails. The model reads the open web, so anything a page smuggled into the post stops here, and the site is built with Goldmark's `unsafe = false` in case it doesn't.
 - **Sound metadata** — filename, frontmatter date and the issue week in the title, all agreeing, none in the future, and no week an earlier issue already used.
 
 The checker also warns, without holding anything, when a link goes to an outlet that often rewrites a primary source; the publish notification says how many warnings there were.
+
+Every issue from 25 September 2026 on passes all of these. The four earlier issues went out before the rules took their current form; they stay on the site as published, each with an editor's note saying so.
 
 Some rules rest on the skill alone, because the checker reads URLs and labels and can't see what a page says:
 
@@ -123,7 +127,8 @@ Some rules rest on the skill alone, because the checker reads URLs and labels an
 
 - **The model can't reach your machine.** Scheduled runs pass `--restricted` with no Bash and no MCP servers, and `--allowedTools` lets the model write only `site/content/posts/` and its triage file. Your notes are never in scope.
 - **The scripts own git.** The model never runs git. `scripts/weekly.sh` stages the post only after the checker passes, and only if it is the only change in the tree.
-- **Nothing auto-updates.** Hugo is a single Go binary published with SHA256SUMS, PaperMod is vendored at a pinned commit (`site/themes/PaperMod/.papermod-sha`), scheduled runs use a pinned copy of the Claude Code CLI, and no `npm install` runs in this repo.
+- **What the model reads can't reach the page.** The model fetches arbitrary web pages, so a post is treated as untrusted on the way out: the checker holds any post carrying raw HTML or a Hugo shortcode, and Hugo renders raw HTML off (`unsafe = false`) regardless.
+- **Nothing auto-updates.** Hugo is a single Go binary published with SHA256SUMS, PaperMod is vendored at a pinned commit (`site/themes/PaperMod/.papermod-sha`), scheduled runs use a pinned copy of the Claude Code CLI and a pinned model ID rather than a floating alias, and no `npm install` runs in this repo.
 
 ---
 
@@ -154,8 +159,9 @@ Then follow [Quick start](#quick-start).
 | 5 | AI Security | 12 | Newsletters & Podcasts (leads to primary sources only) |
 | 6 | Product & Company News | 13 | Cloud Native & CNCF |
 | 7 | Regulatory & Policy | 14 | Trending Open Source AI |
+|   |   | 15 | AI Coding Practitioners |
 
-Every source, with why it's there and how to search it, is in [`docs/sources.md`](docs/sources.md).
+Every source, with what it's for and how to search it, is in [`.claude/skills/newsletter-ai/sources.md`](.claude/skills/newsletter-ai/sources.md), the one catalogue the model reads; [`docs/sources.md`](docs/sources.md) is a map of it.
 
 ---
 
@@ -166,8 +172,7 @@ newsletter-ai-skill/
 ├── .claude/
 │   ├── .claude-plugin/plugin.json           # Lets headless runs load the skills with --plugin-dir
 │   └── skills/
-│       ├── newsletter-ai/                   # The skill: SKILL.md, sources.md, template.md
-│       └── claude-hacks/                    # Companion skill (see below)
+│       └── newsletter-ai/                   # The skill: SKILL.md, sources.md, template.md
 ├── docs/                                    # See Documentation below; specs/ holds the designs
 ├── scripts/
 │   ├── weekly.sh                            # Runs the skill headless, checks, commits, pushes
@@ -189,16 +194,16 @@ Runs use the skill files in `.claude/skills/newsletter-ai/` directly, so there's
 | Doc | Covers |
 |---|---|
 | [`docs/how-it-works.md`](docs/how-it-works.md) | The six-step workflow, the hard rules and checker, publishing |
-| [`docs/sources.md`](docs/sources.md) | Every source in all 14 categories, with search strategies |
+| [`docs/sources.md`](docs/sources.md) | How the source catalogue is organised and where it lives |
 | [`docs/customising.md`](docs/customising.md) | Adding sources, changing the format, web publishing, scheduled publishing, held issues and recovery |
 | [`site/README.md`](site/README.md) | Hugo + PaperMod bootstrap, Cloudflare Pages settings, theme updates |
 | [`CLAUDE.md`](CLAUDE.md) | The rules Claude Code follows in this repo |
 
 ---
 
-## Companion skill: `claude-hacks`
+## Formerly here: `claude-hacks`
 
-The repo also carries `claude-hacks`, a second skill that curates Claude Code productivity hacks into an [awesome-list](https://github.com/ChrisAdkin8/claude-code-hacks)-style README, appending only new items on each run. Copy it into `~/.claude/skills/` and run `/claude-hacks`; [its `SKILL.md`](.claude/skills/claude-hacks/SKILL.md) has the arguments, the nine sections and the sources it searches.
+The `claude-hacks` skill, which curates Claude Code productivity tips into an awesome-list README, used to live in this repo. It now lives with the list it writes, at [ChrisAdkin8/claude-code-hacks](https://github.com/ChrisAdkin8/claude-code-hacks); this repo's history up to October 2026 has the old copy.
 
 ---
 

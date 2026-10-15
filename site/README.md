@@ -2,7 +2,7 @@
 
 This directory hosts a [Hugo](https://gohugo.io) static site themed with [PaperMod](https://github.com/adityatelange/hugo-PaperMod). Cloudflare Pages builds and deploys it automatically on every push to `main`.
 
-The Hugo binary and PaperMod theme are not vendored eagerly — run the bootstrap script once to scaffold a configured site with PaperMod pinned to a known-good commit.
+PaperMod is vendored in this repo as a frozen copy at the commit in `themes/PaperMod/.papermod-sha`, so the site here is ready to build. The bootstrap script is for starting a site from nothing, and for bumping the theme (`--theme-only`).
 
 ---
 
@@ -40,7 +40,7 @@ The script:
 - Initialises a Hugo site in `site/`
 - Clones [PaperMod](https://github.com/adityatelange/hugo-PaperMod) at the pinned ref (`v8.0` by default), then strips the `.git` directory — a frozen copy, not a submodule
 - Records the resolved commit SHA in `site/themes/PaperMod/.papermod-sha`
-- Writes a minimal `hugo.toml` with PaperMod enabled, archive + tags menus, and RSS
+- Writes a minimal `hugo.toml` with PaperMod enabled, archive, tags and search menus, and RSS, plus the archive and search pages
 
 Override the pinned ref if you need a different version:
 
@@ -111,13 +111,14 @@ Vendored themes don't auto-update — that's the point. To pull a newer version:
 
 ```bash
 # Pick a new tag or commit SHA from https://github.com/adityatelange/hugo-PaperMod
-rm -rf site/themes/PaperMod
-PAPERMOD_REF=<new-ref> ./site/scripts/bootstrap.sh   # only re-scaffolds the theme dir
+PAPERMOD_REF=<new-ref> ./site/scripts/bootstrap.sh --theme-only
+git diff --stat site/themes/PaperMod                 # see what changed
+hugo --source site --destination /tmp/papermod-check # confirm it still builds
 git add site/themes/PaperMod
 git commit -m "Bump PaperMod to <ref>"
 ```
 
-Diff your old vs. new copy before committing if you want to inspect what changed.
+`--theme-only` replaces `themes/PaperMod` and rewrites `.papermod-sha`, and touches nothing else; without the flag the script stops as soon as it sees `hugo.toml`, so it never scaffolds over a live site.
 
 ---
 

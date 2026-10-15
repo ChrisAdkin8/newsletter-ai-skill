@@ -1,6 +1,6 @@
 # How It Works
 
-The `newsletter-ai` skill runs a 6-step curation workflow when you invoke `/newsletter-ai`. It uses `WebSearch` and `WebFetch` to gather content and `Read` for its own supporting files. With `web:` it writes the issue as a post in a Hugo site; publishing that post is left to whoever ran it, which for scheduled runs is `scripts/weekly.sh`.
+The `newsletter-ai` skill runs a 6-step curation workflow when you invoke `/newsletter-ai`. It uses `WebSearch` and `WebFetch` to gather content, `Read` and `Glob` for its supporting files and the earlier posts, and `Write` for the post and the triage file. With `web:` it writes the issue as a post in a Hugo site; publishing that post is left to whoever ran it, which for scheduled runs is `scripts/weekly.sh`.
 
 ---
 
@@ -12,7 +12,7 @@ The `newsletter-ai` skill runs a 6-step curation workflow when you invoke `/news
         ▼
 ┌─────────────────────────────────┐
 │  Step 1: Gather                 │
-│  Search all 14 source categories│
+│  Search all 15 source categories│
 │  Target: 2–3 items each         │
 └────────────────┬────────────────┘
                  │
@@ -67,11 +67,11 @@ When `scripts/weekly.sh` runs the skill, it then checks the post, commits and pu
 
 ## Step 1: Gather
 
-Claude searches each of the 14 source categories defined in `sources.md`:
+Claude searches each of the 15 source categories defined in `.claude/skills/newsletter-ai/sources.md` (the catalogue; [`docs/sources.md`](sources.md) maps it):
 
-1. **Community & Discussion** — Reddit (10 subreddits), Hacker News, X/Twitter (11 key accounts)
+1. **Community & Discussion** — Reddit, Hacker News, X/Twitter and LinkedIn (named subreddits, accounts and profiles)
 2. **Research & Papers** — arXiv, HuggingFace daily and trending papers, Semantic Scholar; alignment labs (ARC, CAIS, Apollo, METR, Redwood, FAR AI); academic labs (Stanford HAI, BAIR, AI2, EleutherAI); industry research (Google DeepMind, Microsoft Research, Apple ML, Amazon Science)
-3. **Technical Blogs** — Lab blogs, infra companies (NVIDIA, CoreWeave, vLLM, Databricks, Ollama, CrewAI), AI-only media (MIT Tech Review, Ars Technica, IEEE Spectrum, The Information), individual writers (Chollet, Marcus, Wolfe + 10 more)
+3. **Technical Blogs** — Lab blogs, infra companies (NVIDIA, CoreWeave, vLLM, Databricks, Ollama, CrewAI), AI-only media (MIT Tech Review, Ars Technica, IEEE Spectrum, The Information), individual writers (Chollet, Marcus, Wolfe and others)
 4. **Analyst & Industry** — Gartner, McKinsey, Forrester, a16z, Sequoia, Brookings, Stanford HAI AI Index, Epoch AI, OECD AI, etc.
 5. **AI Security** — OWASP, MITRE ATLAS, NIST AI RMF, CISA, ENISA, NCSC, HiddenLayer, Embrace the Red, Snyk Labs (ex-Invariant Labs), Trail of Bits, Microsoft Security
 6. **Product & Company News** — Model releases, funding rounds, TechCrunch AI, Axios AI
@@ -83,6 +83,7 @@ Claude searches each of the 14 source categories defined in `sources.md`:
 12. **Newsletters & Podcasts** — The Batch, Latent Space, TWIML; secondary sources only, used to find stories whose primary source is then cited
 13. **Cloud Native & CNCF** — CNCF blog and announcements, Kubernetes blog, LWKD; AI-on-Kubernetes projects (Kubeflow, KServe, llm-d, kagent, KAITO, Volcano, HAMi, Dapr, OpenTelemetry); The New Stack
 14. **Trending Open Source AI** — projects gaining traction this week, from GitHub Trending, OSS Insight, Trendshift, Hugging Face trending, Show HN and OpenRouter rankings; each item states its evidence and cites the project itself
+15. **AI Coding Practitioners** — how engineers use coding agents in their own work: practitioner writers (Simon Willison, Armin Ronacher, Mitchell Hashimoto, Geoffrey Huntley, Kent Beck, Addy Osmani, Birgitta Böckeler on martinfowler.com and others) and practice data (DORA, The Pragmatic Engineer, Thoughtworks Radar, METR); first-hand accounts and studies, not product launches
 
 The window is the **7 days up to the issue date**. The issue date is today unless `date:` sets it.
 
@@ -112,6 +113,8 @@ Then come hard rules. `scripts/check_issue.py` enforces most of them on the fini
 | Article URLs, never homepages, blog indexes or docs roots | `homepage`, `rolling` |
 | The label names the publisher of the linked page | `label` |
 | No press-release wires | `wire` |
+| Markdown only: no raw HTML, no Hugo shortcodes | `markup` |
+| A whole issue: at least 15 sourced items and an Editor's Picks section | `thin` |
 
 Every rule but `secondary` holds the issue: `scripts/weekly.sh` publishes nothing the checker fails. `secondary` prints `<path>:<line>: warning: secondary: …` and leaves the exit status alone, so the issue publishes and the notification carries the count. A tier-2 outlet is often a story's only coverage, and a taste judgement shouldn't be able to block a push.
 
@@ -145,7 +148,7 @@ This runs last so the picks are chosen with full visibility of everything gather
 
 Only runs with a `triage:<dir>` argument, which `scripts/weekly.sh` passes. Claude reads `<dir>/interests.txt` and writes `<dir>/triage.md`: up to five items, from the issue or cut from it for space, that match those interests. Each is one line, `- [title](url): why it matches`, with no commands.
 
-After a successful publish, `weekly.sh` keeps only lines in that exact form, drops any whose URL is already somewhere in `~/notes`, appends a `/research quick <url>` command to each, and writes the result to `~/notes/inbox/<date>-newsletter-triage.md`. The model itself never reads or writes `~/notes`.
+After a successful publish, `weekly.sh` keeps only lines in that exact form, drops any whose URL already appears whole somewhere in `~/notes`, appends a `/research quick <url>` command to each, and writes the result to `~/notes/inbox/<date>-newsletter-triage.md`. The model itself never reads or writes `~/notes`.
 
 ---
 
@@ -165,7 +168,7 @@ The issue date is the `date:` argument, or today. The week in the title is the `
 ```yaml
 ---
 title: "Agentic AI & LLM Weekly — YYYY-Www"
-date: YYYY-MM-DDT09:00:00Z
+date: YYYY-MM-DDT00:00:00Z
 draft: false
 summary: "[one-sentence theme]"
 description: "[same as summary]"

@@ -50,7 +50,8 @@ name=$date
 [ "$mode" = wrongdate ] && name=2020-01-03
 
 mkdir -p "$web/content/posts"
-cat >"$web/content/posts/$name.md" <<EOF
+{
+  cat <<EOF
 ---
 title: "Agentic AI & LLM Weekly — $week"
 date: ${date}T00:00:00Z
@@ -60,6 +61,12 @@ draft: false
 # Agentic AI & LLM Weekly
 **$week**
 
+## Editor's Picks
+
+Three stories, one thread.
+
+## Community Pulse
+
 ### A story
 \`[Community]\`
 
@@ -67,6 +74,14 @@ Two sentences.
 
 [Source: [Example](${source_url})]
 EOF
+  # Enough further items to clear the checker's minimum, each with its own URL.
+  i=2
+  while [ "$i" -le 15 ]; do
+    printf '\n### Story %s\n`[Tool]`\n\nTwo sentences.\n\n[Source: [Example](https://example.com/articles/fake-story-%s-%s)]\n' \
+      "$i" "$date" "$i"
+    i=$((i + 1))
+  done
+} >"$web/content/posts/$name.md"
 
 [ "$mode" = readme ] && echo "edited by the model" >>README.md
 

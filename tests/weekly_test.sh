@@ -5,11 +5,9 @@
 set -uo pipefail
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
-# UTC, so the local date the wrapper names the post after is never ahead of
-# the UTC clock the checker holds future-dated posts against.
-export TZ=UTC
-DATE=$(date +%F)
-WEEK=$(date -v-4d +%G-W%V)
+# The wrapper names the post after the UTC date whatever the local zone is.
+DATE=$(TZ=UTC date +%F)
+WEEK=$(TZ=UTC date -v-4d +%G-W%V)
 POST=site/content/posts/$DATE.md
 PASS=0
 FAILS=0
@@ -72,9 +70,12 @@ not() { ! "$@"; }
 setup clean
 mkdir -p "$T/notes/research"
 echo "See https://example.com/known for details." >"$T/notes/research/old.md"
+echo "Also https://example.com/newer-thing and (https://example.com/paren)." >>"$T/notes/research/old.md"
 cat >"$T/triage.in" <<'EOF'
 - [Known](https://example.com/known): already in the notes
 - [New thing](https://example.com/new): matches kubernetes
+- [Prefix of a known URL](https://example.com/kno): matches ai
+- [Known, in brackets](https://example.com/paren): matches ai
 not an item
 - [Has `code`](https://example.com/code): matches ai
 EOF
@@ -86,12 +87,16 @@ check "the commit adds only the post" eq "$(remote_added)" "$(printf 'A\t%s' "$P
 check "last-ok holds the week" eq "$(last_ok)" "$WEEK"
 check "prompt names the plugin skill" has "$T/fake.log" "-p /newsletter:newsletter-ai "
 check "flags include --plugin-dir" has "$T/fake.log" "--plugin-dir $T/work/.claude"
+check "the model is a pinned ID, not an alias" grep -qE -- '--model claude-[a-z]+-[0-9]' "$T/fake.log"
 check "prompt has date:" has "$T/fake.log" "date:$DATE"
 check "prompt has week:" has "$T/fake.log" "week:$WEEK"
 check "prompt has triage: ending in /.newsletter" grep -qE 'triage:[^ ]*/\.newsletter( |$)' "$T/fake.log"
 check "a URL already in the notes is dropped" lacks "$(inbox)" "example.com/known"
 check "a new URL is kept, with the command appended" has "$(inbox)" \
   '- [New thing](https://example.com/new): matches kubernetes `/research quick https://example.com/new`'
+check "a URL that is a prefix of a known one is still new" has "$(inbox)" "example.com/kno)"
+check "a known URL in brackets is dropped" lacks "$(inbox)" "example.com/paren"
+check "the triage note counts kept and known" notified "triage: 2 kept, 2 already in notes"
 check "a line not in the format is dropped" lacks "$(inbox)" "not an item"
 check "a line with backticks is dropped" lacks "$(inbox)" "example.com/code"
 check "notifies the publish" notified "Published $WEEK"
@@ -186,6 +191,48 @@ check "retry doesn't call claude" eq "$(calls)" 1
 check "retry writes last-ok" eq "$(last_ok)" "$WEEK"
 check "retry moves triage" test -f "$(inbox)"
 
+# --- A failed push is retried even after origin/main has moved on.
+setup push-retry-diverged
+before=$(remote_commits)
+printf '#!/bin/sh\nexit 1\n' >"$T/remote.git/hooks/pre-receive"
+chmod +x "$T/remote.git/hooks/pre-receive"
+run_weekly
+check "exits 1" eq "$RC" 1
+rm "$T/remote.git/hooks/pre-receive"
+git clone -q "$T/remote.git" "$T/other"
+echo "someone else's edit" >>"$T/other/README.md"
+git -C "$T/other" commit -qam "Unrelated upstream commit"
+git -C "$T/other" push -q origin main
+run_weekly
+check "retry exits 0" eq "$RC" 0
+check "remote gains both commits" eq "$(remote_commits)" "$((before + 2))"
+check "the issue sits on top of the upstream commit" eq "$(remote_added)" "$(printf 'A\t%s' "$POST")"
+check "retry doesn't call claude" eq "$(calls)" 1
+check "retry writes last-ok" eq "$(last_ok)" "$WEEK"
+check "nothing left unpushed" eq "$(git -C "$T/work" rev-list --count origin/main..main)" 0
+
+# --- A retry that conflicts with origin/main stops, leaving the tree clean.
+setup push-retry-conflict
+before=$(remote_commits)
+printf '#!/bin/sh\nexit 1\n' >"$T/remote.git/hooks/pre-receive"
+chmod +x "$T/remote.git/hooks/pre-receive"
+run_weekly
+rm "$T/remote.git/hooks/pre-receive"
+git clone -q "$T/remote.git" "$T/other"
+mkdir -p "$T/other/site/content/posts"
+echo "published by hand" >"$T/other/$POST"
+git -C "$T/other" add "$POST"
+git -C "$T/other" commit -qm "Newsletter $DATE"
+git -C "$T/other" push -q origin main
+run_weekly
+check "exits 1" eq "$RC" 1
+check "nothing more pushed" eq "$(remote_commits)" "$((before + 1))"
+check "notifies the conflict" notified "conflicts with new commits on origin/main"
+check "no rebase left in progress" test ! -d "$T/work/.git/rebase-merge" -a ! -d "$T/work/.git/rebase-apply"
+check "tree is clean" eq "$(git -C "$T/work" status --porcelain)" ""
+check "the local commit is still there" eq "$(git -C "$T/work" rev-list --count origin/main..main)" 1
+check "doesn't call claude" eq "$(calls)" 1
+
 # --- An unrelated unpushed commit stops the run.
 setup unrelated-commit
 before=$(remote_commits)
@@ -195,6 +242,14 @@ run_weekly
 check "exits 1" eq "$RC" 1
 check "nothing pushed" eq "$(remote_commits)" "$before"
 check "doesn't call claude" eq "$(calls)" 0
+
+# --- A Mac far east of UTC still names and stamps the post by the UTC date.
+setup far-east
+before=$(remote_commits)
+run_weekly TZ=Pacific/Kiritimati # UTC+14: the local date is often tomorrow
+check "exits 0" eq "$RC" 0
+check "the post carries the UTC date" eq "$(remote_added)" "$(printf 'A\t%s' "$POST")"
+check "nothing held" eq "$(remote_commits)" "$((before + 1))"
 
 # --- Offline: skip the slot quietly.
 setup offline
