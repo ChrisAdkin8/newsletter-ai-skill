@@ -99,6 +99,12 @@ Change `7 days` there and in Step 2's "Dated inside the window" rule, and change
 
 ---
 
+## Changing the minimum issue size
+
+`scripts/check_issue.py` holds a post with fewer than `MIN_ITEMS` items that carry a `[Source:` line (15 by default), or with no `## Editor's Picks` section, on the grounds that it came from a run that stopped early. The template runs to about 24 items and the skill may skip a quiet section, so 15 is a floor, not a target. If you trim the template to fewer sections, lower `MIN_ITEMS` to match; for a one-off check, `--min-items N` overrides it, and `--min-items 0` skips the rule.
+
+---
+
 ## Changing the audience tone
 
 The opening paragraph of `SKILL.md` defines the audience:

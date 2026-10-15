@@ -132,8 +132,12 @@ class CleanIssue(unittest.TestCase):
         path.write_text(text)
         return path
 
+    def check(self, post, *args):
+        """Run the checker without the issue-size floor; CLEAN is three items long."""
+        return run(post, "--min-items", "0", *args)
+
     def test_clean_post_passes(self):
-        code, found, _ = run(self.write("2026-09-18.md"), "--week", "2026-W37")
+        code, found, _ = self.check(self.write("2026-09-18.md"), "--week", "2026-W37")
         self.assertEqual((code, found), (0, []))
 
     def test_future_date_is_flagged(self):
@@ -141,7 +145,7 @@ class CleanIssue(unittest.TestCase):
             "2099-01-01.md",
             CLEAN.replace("2026-09-18T09:00:00Z", "2099-01-01T09:00:00Z"),
         )
-        code, found, _ = run(post)
+        code, found, _ = self.check(post)
         self.assertEqual(code, 1)
         self.assertIn(("future", 3), found)
 
@@ -151,11 +155,11 @@ class CleanIssue(unittest.TestCase):
                 post = self.write(
                     "2026-09-18.md", CLEAN.replace("2026-09-18T09:00:00Z", stamp)
                 )
-                _, found, _ = run(post)
+                _, found, _ = self.check(post)
                 self.assertNotIn("future", {rule for rule, _ in found})
 
     def test_clean_post_under_another_date(self):
-        code, found, _ = run(self.write("2026-09-11.md"))
+        code, found, _ = self.check(self.write("2026-09-11.md"))
         self.assertEqual(code, 1)
         self.assertIn("meta", {rule for rule, _ in found})
 
@@ -164,9 +168,9 @@ class CleanIssue(unittest.TestCase):
         self.addCleanup(shutil.rmtree, other)
         post = other / "2026-09-18.md"
         post.write_text(CLEAN.replace("2026-W37", "2026-W20"))
-        _, found, _ = run(post)
+        _, found, _ = self.check(post)
         self.assertEqual(found, [])
-        _, found, _ = run(post, "--posts-dir", str(FIXTURES))
+        _, found, _ = self.check(post, "--posts-dir", str(FIXTURES))
         self.assertEqual(found, [("week", 2)])
 
     def test_only_four_previous_posts(self):
@@ -178,7 +182,7 @@ class CleanIssue(unittest.TestCase):
         for day in ("2026-08-21", "2026-08-28", "2026-09-04", "2026-09-11"):
             self.write(f"{day}.md", f'---\ntitle: "x"\ndate: {day}\n---\n')
         post = self.write("2026-09-18.md", CLEAN + f"- [again]({url})\n")
-        _, found, _ = run(post)
+        _, found, _ = self.check(post)
         self.assertEqual(found, [])
 
     def test_stale_month_forms(self):
@@ -189,7 +193,7 @@ class CleanIssue(unittest.TestCase):
             "- [d](https://example.com/news/2026-09-10-day-before.html)\n"
             "- [e](https://example.com/news/2026-09-11-start-day.html)\n"
         )
-        _, found, _ = run(self.write("2026-09-18.md", text))
+        _, found, _ = self.check(self.write("2026-09-18.md", text))
         self.assertEqual(found, [("stale", 34), ("stale", 36), ("stale", 37)])
 
     def test_label_rules(self):
@@ -201,27 +205,30 @@ class CleanIssue(unittest.TestCase):
             "[Source: [X / Twitter](https://nitter.net/someone/status/1)]\n"
             "[Source: [Redditch Standard](https://example.com/x)]\n"
             "[Source: [arXiv](https://huggingface.co/papers/2609.01234)]\n"
+            "[Source: [X-Ray Research](https://example.com/xray)]\n"
+            "[Source: [HN-style forum](https://example.com/forum)]\n"
+            "[Source: [X: the platform](https://example.com/not-x)]\n"
         )
-        _, found, _ = run(self.write("2026-09-18.md", text))
-        self.assertEqual(found, [("label", 38), ("label", 40)])
+        _, found, _ = self.check(self.write("2026-09-18.md", text))
+        self.assertEqual(found, [("label", 38), ("label", 40), ("label", 43)])
 
     def test_wire_subdomain(self):
         text = (
             CLEAN + "[Source: [PR](https://www.prnewswire.co.uk/x)]\n"
             "[Source: [PR](https://ir.prnewswire.com/news/x)]\n"
         )
-        _, found, _ = run(self.write("2026-09-18.md", text))
+        _, found, _ = self.check(self.write("2026-09-18.md", text))
         self.assertEqual(found, [("wire", 35)])
 
     def test_secondary_warns_without_holding(self):
         # CLEAN's only [Source:] outlet on the list is The Register.
-        code, found, warned = run(self.write("2026-09-18.md"), "--week", "2026-W37")
+        code, found, warned = self.check(self.write("2026-09-18.md"), "--week", "2026-W37")
         self.assertEqual((code, found), (0, []))
         self.assertEqual(warned, [("secondary", 15)])
 
     def test_secondary_only_looks_at_source_links(self):
         text = CLEAN + "- [a](https://www.techrepublic.com/article/x/)\n"
-        code, found, warned = run(self.write("2026-09-18.md", text))
+        code, found, warned = self.check(self.write("2026-09-18.md", text))
         self.assertEqual((code, found), (0, []))
         self.assertEqual(warned, [("secondary", 15)])
 
@@ -230,7 +237,7 @@ class CleanIssue(unittest.TestCase):
             "[Source: [Benzinga](https://www.benzinga.com/news/2026/09/x)]\n"
             "[Source: [VentureBeat](https://venturebeat.com/ai/a-story/)]\n"
         )
-        code, found, warned = run(self.write("2026-09-18.md", text))
+        code, found, warned = self.check(self.write("2026-09-18.md", text))
         self.assertEqual(code, 1)
         self.assertEqual(found, [("never", 34)])
         self.assertEqual(warned, [("secondary", 15), ("secondary", 35)])
@@ -243,7 +250,7 @@ class CleanIssue(unittest.TestCase):
             "- [d](https://github.com/vllm-project/vllm/releases)\n"
             "- [e](https://github.com/trending?since=weekly)\n"
         )
-        code, found, _ = run(self.write("2026-09-18.md", text))
+        code, found, _ = self.check(self.write("2026-09-18.md", text))
         self.assertEqual(code, 1)
         self.assertEqual(
             [line for rule, line in found if rule == "rolling"], [34, 35, 36, 37, 38]
@@ -258,7 +265,7 @@ class CleanIssue(unittest.TestCase):
             "artificial-analysis-capability-indices-v1-1)\n"
             "- [e](https://code.claude.com/docs/en/overview)\n"
         )
-        code, found, _ = run(self.write("2026-09-18.md", text))
+        code, found, _ = self.check(self.write("2026-09-18.md", text))
         self.assertEqual((code, found), (0, []))
 
     def test_never_hosts(self):
@@ -268,7 +275,7 @@ class CleanIssue(unittest.TestCase):
             "- [more](https://finance.yahoo.com/news/some-story-183000123.html)\n"
             "- [fan](https://m.sammyfans.com/2026/09/15/tsmc-roadmap/)\n"
         )
-        code, found, _ = run(self.write("2026-09-18.md", text))
+        code, found, _ = self.check(self.write("2026-09-18.md", text))
         self.assertEqual(code, 1)
         self.assertEqual(
             [line for rule, line in found if rule == "never"], [34, 35, 36]
@@ -276,7 +283,7 @@ class CleanIssue(unittest.TestCase):
 
     def test_never_ignores_an_unbanned_host(self):
         text = CLEAN + "- [a](https://www.tomsfoolery.com/2026/09/15/x.html)\n"
-        _, found, _ = run(self.write("2026-09-18.md", text))
+        _, found, _ = self.check(self.write("2026-09-18.md", text))
         self.assertNotIn("never", {rule for rule, _ in found})
 
     def test_raw_html_and_shortcodes_are_held(self):
@@ -288,7 +295,7 @@ class CleanIssue(unittest.TestCase):
             "{{% notice %}}\n"
             "</div>\n"
         )
-        code, found, _ = run(self.write("2026-09-18.md", text))
+        code, found, _ = self.check(self.write("2026-09-18.md", text))
         self.assertEqual(code, 1)
         self.assertEqual(
             [line for rule, line in found if rule == "markup"], [34, 35, 36, 37, 38, 39]
@@ -300,7 +307,27 @@ class CleanIssue(unittest.TestCase):
             "- Templates use {{ .Title }} and `{{ }}` pairs.\n"
             "- Mentioned as a <- arrow and a -> arrow.\n"
         )
-        code, found, _ = run(self.write("2026-09-18.md", text))
+        code, found, _ = self.check(self.write("2026-09-18.md", text))
+        self.assertEqual((code, found), (0, []))
+
+    def test_repeat_ignores_tracking_parameters(self):
+        text = CLEAN + (
+            "- [a](https://www.theregister.com/ai-ml/2026/09/14/a-story-from-this-week/123?utm_source=x&utm_medium=rss)\n"
+            "- [b](https://news.ycombinator.com/item?id=48000000&ref=share)\n"
+            "- [c](https://arxiv.org/abs/2609.01234?fbclid=abc)\n"
+        )
+        _, found, _ = self.check(self.write("2026-09-18.md", text))
+        self.assertEqual(
+            [line for rule, line in found if rule == "repeat"], [15, 24, 31, 34, 35, 36]
+        )
+
+    def test_repeat_keeps_parameters_that_name_the_page(self):
+        text = CLEAN + (
+            "- [a](https://news.ycombinator.com/item?id=48000001)\n"
+            "- [b](https://example.com/search?q=agents&utm_source=x)\n"
+            "- [c](https://example.com/search?q=evals)\n"
+        )
+        code, found, _ = self.check(self.write("2026-09-18.md", text))
         self.assertEqual((code, found), (0, []))
 
     def test_repeat_ignores_fragment_and_trailing_slash(self):
@@ -308,8 +335,82 @@ class CleanIssue(unittest.TestCase):
             CLEAN
             + "- [again](https://www.theregister.com/ai-ml/2026/09/14/a-story-from-this-week/123/#top)\n"
         )
-        _, found, _ = run(self.write("2026-09-18.md", text))
+        _, found, _ = self.check(self.write("2026-09-18.md", text))
         self.assertEqual(found, [("repeat", 15), ("repeat", 34)])
+
+
+def issue(items, picks=True, unsourced=0):
+    """A post with `items` sourced items, each on its own URL inside the window.
+
+    `unsourced` extra ### headings carry no [Source: line, so they mustn't count.
+    """
+    head = CLEAN.split("# Agentic AI & LLM Weekly")[0]
+    body = ["# Agentic AI & LLM Weekly", "**Issue — 11 Sep – 18 Sep 2026**", ""]
+    if picks:
+        body += ["## Editor's Picks", "", "Three stories, one thread.", ""]
+    body += ["## Community Pulse", ""]
+    for i in range(items):
+        body += [
+            f"### Story {i}",
+            "`[Tool]`",
+            "",
+            "Two sentences.",
+            "",
+            f"[Source: [Example](https://example.com/2026/09/15/story-{i})]",
+            "",
+        ]
+    for i in range(unsourced):
+        body += [f"### Headline only {i}", "`[Tool]`", "", "No source line.", ""]
+    return head + "\n".join(body) + "\n"
+
+
+class ThinIssue(unittest.TestCase):
+    def setUp(self):
+        self.dir = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, self.dir)
+
+    def write(self, text):
+        path = self.dir / "2026-09-18.md"
+        path.write_text(text)
+        return path
+
+    def test_fifteen_items_pass(self):
+        code, found, _ = run(self.write(issue(15)), "--week", "2026-W37")
+        self.assertEqual((code, found), (0, []))
+
+    def test_fourteen_items_are_held(self):
+        code, found, _ = run(self.write(issue(14)))
+        self.assertEqual(code, 1)
+        self.assertEqual(found, [("thin", 1)])
+
+    def test_a_heading_without_a_source_does_not_count(self):
+        code, found, _ = run(self.write(issue(14, unsourced=3)))
+        self.assertEqual(code, 1)
+        self.assertEqual(found, [("thin", 1)])
+
+    def test_missing_editors_picks_is_held(self):
+        code, found, _ = run(self.write(issue(15, picks=False)))
+        self.assertEqual(code, 1)
+        self.assertEqual(found, [("thin", 1)])
+
+    def test_min_items_option(self):
+        _, found, _ = run(self.write(issue(5)), "--min-items", "5")
+        self.assertEqual(found, [])
+        _, found, _ = run(self.write(issue(5)), "--min-items", "6")
+        self.assertEqual(found, [("thin", 1)])
+
+    def test_min_items_zero_skips_the_rule(self):
+        _, found, _ = run(self.write(issue(0, picks=False)), "--min-items", "0")
+        self.assertEqual(found, [])
+
+    def test_the_half_size_issue_would_have_been_held(self):
+        # 2026-09-18 went out with 12 items; the other issues carry 23 to 29.
+        post = ROOT / "site" / "content" / "posts" / "2026-09-18.md"
+        if not post.exists():
+            self.skipTest("the published issue isn't in this checkout")
+        code, found, _ = run(post, "--posts-dir", str(self.dir))
+        self.assertEqual(code, 1)
+        self.assertIn(("thin", 1), found)
 
 
 if __name__ == "__main__":

@@ -113,6 +113,7 @@ Then come hard rules. `scripts/check_issue.py` enforces most of them on the fini
 | The label names the publisher of the linked page | `label` |
 | No press-release wires | `wire` |
 | Markdown only: no raw HTML, no Hugo shortcodes | `markup` |
+| A whole issue: at least 15 sourced items and an Editor's Picks section | `thin` |
 
 Every rule but `secondary` holds the issue: `scripts/weekly.sh` publishes nothing the checker fails. `secondary` prints `<path>:<line>: warning: secondary: …` and leaves the exit status alone, so the issue publishes and the notification carries the count. A tier-2 outlet is often a story's only coverage, and a taste judgement shouldn't be able to block a push.
 

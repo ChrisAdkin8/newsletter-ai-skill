@@ -104,6 +104,7 @@ The skill follows hard rules when it picks stories, and [`scripts/check_issue.py
 - **Honest labels** — a source labelled Reddit, Hacker News, arXiv, X, GitHub or Microsoft Research has to link there.
 - **No press-release wires** — a link to PR Newswire, Business Wire or the like fails; cite the coverage instead.
 - **No banned outlets** — a link to an investment, syndicated-finance or fan site named in the "Don't cite" list fails.
+- **A whole issue** — fewer than 15 items with a source, or no Editor's Picks, fails: that's a run that stopped early, not a quiet week.
 - **Markdown only** — a raw HTML tag or comment, or a Hugo shortcode, fails. The model reads the open web, so anything a page smuggled into the post stops here, and the site is built with Goldmark's `unsafe = false` in case it doesn't.
 - **Sound metadata** — filename, frontmatter date and the issue week in the title, all agreeing, none in the future, and no week an earlier issue already used.
 
