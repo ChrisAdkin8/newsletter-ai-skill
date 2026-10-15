@@ -1,6 +1,6 @@
 # How It Works
 
-The `newsletter-ai` skill runs a 6-step curation workflow when you invoke `/newsletter-ai`. It uses `WebSearch` and `WebFetch` to gather content and `Read` for its own supporting files. With `web:` it writes the issue as a post in a Hugo site; publishing that post is left to whoever ran it, which for scheduled runs is `scripts/weekly.sh`.
+The `newsletter-ai` skill runs a 6-step curation workflow when you invoke `/newsletter-ai`. It uses `WebSearch` and `WebFetch` to gather content, `Read` and `Glob` for its supporting files and the earlier posts, and `Write` for the post and the triage file. With `web:` it writes the issue as a post in a Hugo site; publishing that post is left to whoever ran it, which for scheduled runs is `scripts/weekly.sh`.
 
 ---
 
@@ -67,11 +67,11 @@ When `scripts/weekly.sh` runs the skill, it then checks the post, commits and pu
 
 ## Step 1: Gather
 
-Claude searches each of the 14 source categories defined in `sources.md`:
+Claude searches each of the 14 source categories defined in `.claude/skills/newsletter-ai/sources.md` (the catalogue; [`docs/sources.md`](sources.md) maps it):
 
-1. **Community & Discussion** — Reddit (10 subreddits), Hacker News, X/Twitter (11 key accounts)
+1. **Community & Discussion** — Reddit, Hacker News, X/Twitter and LinkedIn (named subreddits, accounts and profiles)
 2. **Research & Papers** — arXiv, HuggingFace daily and trending papers, Semantic Scholar; alignment labs (ARC, CAIS, Apollo, METR, Redwood, FAR AI); academic labs (Stanford HAI, BAIR, AI2, EleutherAI); industry research (Google DeepMind, Microsoft Research, Apple ML, Amazon Science)
-3. **Technical Blogs** — Lab blogs, infra companies (NVIDIA, CoreWeave, vLLM, Databricks, Ollama, CrewAI), AI-only media (MIT Tech Review, Ars Technica, IEEE Spectrum, The Information), individual writers (Chollet, Marcus, Wolfe + 10 more)
+3. **Technical Blogs** — Lab blogs, infra companies (NVIDIA, CoreWeave, vLLM, Databricks, Ollama, CrewAI), AI-only media (MIT Tech Review, Ars Technica, IEEE Spectrum, The Information), individual writers (Chollet, Marcus, Wolfe and others)
 4. **Analyst & Industry** — Gartner, McKinsey, Forrester, a16z, Sequoia, Brookings, Stanford HAI AI Index, Epoch AI, OECD AI, etc.
 5. **AI Security** — OWASP, MITRE ATLAS, NIST AI RMF, CISA, ENISA, NCSC, HiddenLayer, Embrace the Red, Snyk Labs (ex-Invariant Labs), Trail of Bits, Microsoft Security
 6. **Product & Company News** — Model releases, funding rounds, TechCrunch AI, Axios AI
@@ -167,7 +167,7 @@ The issue date is the `date:` argument, or today. The week in the title is the `
 ```yaml
 ---
 title: "Agentic AI & LLM Weekly — YYYY-Www"
-date: YYYY-MM-DDT09:00:00Z
+date: YYYY-MM-DDT00:00:00Z
 draft: false
 summary: "[one-sentence theme]"
 description: "[same as summary]"

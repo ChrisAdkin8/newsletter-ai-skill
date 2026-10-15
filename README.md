@@ -158,7 +158,7 @@ Then follow [Quick start](#quick-start).
 | 6 | Product & Company News | 13 | Cloud Native & CNCF |
 | 7 | Regulatory & Policy | 14 | Trending Open Source AI |
 
-Every source, with why it's there and how to search it, is in [`docs/sources.md`](docs/sources.md).
+Every source, with what it's for and how to search it, is in [`.claude/skills/newsletter-ai/sources.md`](.claude/skills/newsletter-ai/sources.md), the one catalogue the model reads; [`docs/sources.md`](docs/sources.md) is a map of it.
 
 ---
 
@@ -192,16 +192,16 @@ Runs use the skill files in `.claude/skills/newsletter-ai/` directly, so there's
 | Doc | Covers |
 |---|---|
 | [`docs/how-it-works.md`](docs/how-it-works.md) | The six-step workflow, the hard rules and checker, publishing |
-| [`docs/sources.md`](docs/sources.md) | Every source in all 14 categories, with search strategies |
+| [`docs/sources.md`](docs/sources.md) | How the source catalogue is organised and where it lives |
 | [`docs/customising.md`](docs/customising.md) | Adding sources, changing the format, web publishing, scheduled publishing, held issues and recovery |
 | [`site/README.md`](site/README.md) | Hugo + PaperMod bootstrap, Cloudflare Pages settings, theme updates |
 | [`CLAUDE.md`](CLAUDE.md) | The rules Claude Code follows in this repo |
 
 ---
 
-## Companion skill: `claude-hacks`
+## Formerly here: `claude-hacks`
 
-The repo also carries `claude-hacks`, a second skill that curates Claude Code productivity hacks into an [awesome-list](https://github.com/ChrisAdkin8/claude-code-hacks)-style README, appending only new items on each run. Copy it into `~/.claude/skills/` and run `/claude-hacks`; [its `SKILL.md`](.claude/skills/claude-hacks/SKILL.md) has the arguments, the nine sections and the sources it searches.
+The `claude-hacks` skill, which curates Claude Code productivity tips into an awesome-list README, used to live in this repo. It now lives with the list it writes, at [ChrisAdkin8/claude-code-hacks](https://github.com/ChrisAdkin8/claude-code-hacks); this repo's history up to October 2026 has the old copy.
 
 ---
 

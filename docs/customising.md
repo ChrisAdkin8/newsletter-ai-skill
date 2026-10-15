@@ -50,7 +50,7 @@ No other files need updating — `SKILL.md` references `sources.md` as a whole, 
 
 3. Add a matching section to `template.md` following the same pattern as existing sections.
 
-4. Add the category, with the rationale for each source, to [`docs/sources.md`](sources.md).
+4. Add the category to the table in [`docs/sources.md`](sources.md), which maps the catalogue.
 
 ---
 

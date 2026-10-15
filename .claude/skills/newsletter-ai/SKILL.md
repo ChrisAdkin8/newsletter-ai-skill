@@ -3,7 +3,7 @@ name: newsletter-ai
 description: Curate a newsletter covering agentic AI and LLM news across 14 categories: community (Reddit incl. r/MLOps, Hacker News, X/Twitter), research and alignment safety labs (ARC, CAIS, Apollo, METR, Redwood, FAR AI, BAIR, AI2, Alignment Forum, LessWrong), technical blogs and infra companies (NVIDIA, vLLM, Databricks, Ollama, CrewAI, Modal, Microsoft Agent Framework), AI-only media (MIT Tech Review, Ars Technica, IEEE Spectrum), individual writers (Chollet, Marcus, Wolfe), analyst and VC reports (Gartner, a16z, Sequoia, Brookings), AI security (OWASP, MITRE, NIST, CISA, ENISA, NCSC, Trail of Bits, HiddenLayer, Embrace the Red, Snyk Labs, Cisco Talos), regulatory/policy (EU Commission, UK AISI, FTC, ICO, OSTP, Future of Life Institute, Ada Lovelace Institute, CDT, EFF), agent era (LangChain, Pydantic AI, Composio, HF Agents), open-source infra, macro/hardware (NVIDIA, AMD, Next Platform, Datacenter Dynamics, Chips and Cheese, Fabricated Knowledge), model evaluations (LMSYS, Artificial Analysis, Scale SEAL, HELM, LiveBench), newsletters/podcasts as secondary sources (The Batch, Latent Space, TWIML), cloud native AI (CNCF, Kubernetes, Kubeflow, KServe, llm-d, kagent, OpenTelemetry), and open-source AI projects gaining traction (GitHub Trending, OSS Insight, Hugging Face trending, OpenRouter rankings). Use when the user asks for AI news, an LLM digest, an agentic AI roundup, or a newsletter.
 argument-hint: "[topic-focus, optional] [web:<hugo-site>] [date:YYYY-MM-DD] [week:YYYY-Www] [triage:<dir>]"
 disable-model-invocation: true
-allowed-tools: WebSearch, WebFetch, Read
+allowed-tools: WebSearch, WebFetch, Read, Glob, Write, Edit
 ---
 
 # Agentic AI & LLM Newsletter Curator
