@@ -8,7 +8,7 @@ A Claude Code skill that curates a weekly newsletter on agentic AI and LLMs, and
 
 ## What it does
 
-- **Curates.** `/newsletter-ai` searches [14 source categories](#source-categories) and writes a digest: rewritten headlines, two-to-four sentence summaries, a tag on every item, and an "Editor's Picks" theme that ties the week together.
+- **Curates.** `/newsletter-ai` searches [15 source categories](#source-categories) and writes a digest: rewritten headlines, two-to-four sentence summaries, a tag on every item, and an "Editor's Picks" theme that ties the week together.
 - **Writes a web post.** Each issue becomes a Hugo post, published on Cloudflare Pages with no npm dependencies in the build.
 - **Publishes every week without you.** A launchd agent on your Mac runs the skill headless on your Claude Code subscription, at most once per issue week.
 - **Holds bad issues back.** A checker blocks any issue that reuses links, cites stale or homepage sources, or mislabels them. A held issue stays unpublished and you get a notification.
@@ -23,7 +23,7 @@ A Claude Code skill that curates a weekly newsletter on agentic AI and LLMs, and
 The skill is a project skill in this repo. Open Claude Code here and run:
 
 ```
-/newsletter-ai                                          # Last 7 days, all 14 categories
+/newsletter-ai                                          # Last 7 days, all 15 categories
 /newsletter-ai security focus                           # Narrow to one topic
 /newsletter-ai web:./site                               # Also write the post into the bundled site/
 /newsletter-ai web:~/my-hugo-site                       # Write it into a separate Hugo repo
@@ -159,6 +159,7 @@ Then follow [Quick start](#quick-start).
 | 5 | AI Security | 12 | Newsletters & Podcasts (leads to primary sources only) |
 | 6 | Product & Company News | 13 | Cloud Native & CNCF |
 | 7 | Regulatory & Policy | 14 | Trending Open Source AI |
+|   |   | 15 | AI Coding Practitioners |
 
 Every source, with what it's for and how to search it, is in [`.claude/skills/newsletter-ai/sources.md`](.claude/skills/newsletter-ai/sources.md), the one catalogue the model reads; [`docs/sources.md`](docs/sources.md) is a map of it.
 

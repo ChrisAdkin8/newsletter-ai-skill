@@ -8,7 +8,7 @@ An earlier version of this page carried a second, annotated copy of the whole ca
 
 - **Don't cite** — the outlets that turned up when a category ran short and that the skill must never link: investment and personal-finance sites, syndicated finance pages, single-company fan sites, crypto outlets off their beat, anonymous aggregators, rewrites of a reachable primary source, rolling indexes and press-release wires. The ones a host list can identify are also enforced by [`scripts/check_issue.py`](../scripts/check_issue.py).
 - **Search only** — sites that block automated fetches, so the skill finds their stories by search and cites the article URL the search returns, and the few that refuse `curl` but load with `WebFetch`.
-- **Fourteen numbered categories**, matching Step 1 of [`SKILL.md`](../.claude/skills/newsletter-ai/SKILL.md): each lists its sources in a table with a URL and what it's good for, followed by the search queries that work for it. Every URL in the catalogue is a place to look, not a page to cite.
+- **Fifteen numbered categories**, matching Step 1 of [`SKILL.md`](../.claude/skills/newsletter-ai/SKILL.md): each lists its sources in a table with a URL and what it's good for, followed by the search queries that work for it. Every URL in the catalogue is a place to look, not a page to cite.
 
 | # | Category | # | Category |
 |---|---|---|---|
@@ -19,6 +19,7 @@ An earlier version of this page carried a second, annotated copy of the whole ca
 | 5 | AI Security | 12 | Newsletters & Podcasts (leads to primary sources only) |
 | 6 | Product & Company News | 13 | Cloud Native & CNCF |
 | 7 | Regulatory & Policy | 14 | Trending Open Source AI |
+|   |   | 15 | AI Coding Practitioners |
 
 ## Changing it
 
