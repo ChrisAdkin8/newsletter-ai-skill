@@ -153,8 +153,9 @@ name = "Tags"
 url = "/tags/"
 weight = 20
 
+# Posts come from a model that reads the open web; raw HTML stays off.
 [markup.goldmark.renderer]
-unsafe = true
+unsafe = false
 EOF
 
 # -- Archives page (PaperMod has a special "archives" layout) -----------------

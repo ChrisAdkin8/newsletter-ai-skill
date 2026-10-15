@@ -24,6 +24,10 @@ SOURCE_LINK = re.compile(
     r"\[([^\]]+)\]\((https?://[^()\s]*(?:\([^()\s]*\)[^()\s]*)*)\)"
 )
 POST_NAME = re.compile(r"^\d{4}-\d{2}-\d{2}\.md$")
+# A raw HTML tag or comment, or a Hugo shortcode. The site renders neither,
+# and the model that writes the post reads the open web, so either one in a
+# post is an injection attempt or a model slip, not markup to keep.
+MARKUP = re.compile(r"<[A-Za-z/!][^>]*>?|\{\{[<%]")
 WEEK = re.compile(r"\b(\d{4}-W\d{2})\b")
 
 DAY_IN_URL = re.compile(r"(?<!\d)(\d{4})([/-])(\d{2})\2(\d{2})(?!\d)")
@@ -276,6 +280,16 @@ def check(post, posts_dir, week=None, now=None):
                     f"{post.week} is also the title of {other.path.name}",
                 )
                 break
+
+    # markup
+    for n, line in enumerate(post.lines, start=1):
+        m = MARKUP.search(line)
+        if m:
+            add(
+                n,
+                "markup",
+                f"{m[0][:40]!r} is raw HTML or a Hugo shortcode; posts are markdown only",
+            )
 
     # repeat
     links = list(post.links())

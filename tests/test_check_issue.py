@@ -279,6 +279,30 @@ class CleanIssue(unittest.TestCase):
         _, found, _ = run(self.write("2026-09-18.md", text))
         self.assertNotIn("never", {rule for rule, _ in found})
 
+    def test_raw_html_and_shortcodes_are_held(self):
+        text = CLEAN + (
+            '<script src="https://evil.example/x.js"></script>\n'
+            "Read more <a href=\"https://example.com/x\">here</a>.\n"
+            "<!-- hidden -->\n"
+            "{{< youtube dQw4w9WgXcQ >}}\n"
+            "{{% notice %}}\n"
+            "</div>\n"
+        )
+        code, found, _ = run(self.write("2026-09-18.md", text))
+        self.assertEqual(code, 1)
+        self.assertEqual(
+            [line for rule, line in found if rule == "markup"], [34, 35, 36, 37, 38, 39]
+        )
+
+    def test_angle_brackets_in_prose_are_not_markup(self):
+        text = CLEAN + (
+            "- Latency fell to <1 ms, and 3 < 4 still holds.\n"
+            "- Templates use {{ .Title }} and `{{ }}` pairs.\n"
+            "- Mentioned as a <- arrow and a -> arrow.\n"
+        )
+        code, found, _ = run(self.write("2026-09-18.md", text))
+        self.assertEqual((code, found), (0, []))
+
     def test_repeat_ignores_fragment_and_trailing_slash(self):
         text = (
             CLEAN

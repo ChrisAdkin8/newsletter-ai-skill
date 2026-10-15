@@ -104,6 +104,7 @@ The skill follows hard rules when it picks stories, and [`scripts/check_issue.py
 - **Honest labels** — a source labelled Reddit, Hacker News, arXiv, X, GitHub or Microsoft Research has to link there.
 - **No press-release wires** — a link to PR Newswire, Business Wire or the like fails; cite the coverage instead.
 - **No banned outlets** — a link to an investment, syndicated-finance or fan site named in the "Don't cite" list fails.
+- **Markdown only** — a raw HTML tag or comment, or a Hugo shortcode, fails. The model reads the open web, so anything a page smuggled into the post stops here, and the site is built with Goldmark's `unsafe = false` in case it doesn't.
 - **Sound metadata** — filename, frontmatter date and the issue week in the title, all agreeing, none in the future, and no week an earlier issue already used.
 
 The checker also warns, without holding anything, when a link goes to an outlet that often rewrites a primary source; the publish notification says how many warnings there were.
@@ -123,6 +124,7 @@ Some rules rest on the skill alone, because the checker reads URLs and labels an
 
 - **The model can't reach your machine.** Scheduled runs pass `--restricted` with no Bash and no MCP servers, and `--allowedTools` lets the model write only `site/content/posts/` and its triage file. Your notes are never in scope.
 - **The scripts own git.** The model never runs git. `scripts/weekly.sh` stages the post only after the checker passes, and only if it is the only change in the tree.
+- **What the model reads can't reach the page.** The model fetches arbitrary web pages, so a post is treated as untrusted on the way out: the checker holds any post carrying raw HTML or a Hugo shortcode, and Hugo renders raw HTML off (`unsafe = false`) regardless.
 - **Nothing auto-updates.** Hugo is a single Go binary published with SHA256SUMS, PaperMod is vendored at a pinned commit (`site/themes/PaperMod/.papermod-sha`), scheduled runs use a pinned copy of the Claude Code CLI, and no `npm install` runs in this repo.
 
 ---
