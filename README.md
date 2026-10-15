@@ -56,7 +56,7 @@ To publish by hand instead, run `NEWSLETTER_REPO=$PWD scripts/weekly.sh` from th
 
 - **Claude Code** with a subscription, installed with the native installer. The scheduler copies a pinned version (`CLAUDE_PIN` in `scripts/install-agent.sh`) from `~/.local/share/claude/versions/`, and `install-agent.sh` stops if that version isn't there. To move to one you have, follow "Bump the CLI" in [Day to day](docs/customising.md#day-to-day).
 - **macOS** for scheduled publishing. The skill itself runs anywhere Claude Code does.
-- **Room in your quota.** A scheduled run uses a pinned Sonnet model (`CLAUDE_MODEL` in `scripts/weekly.sh`), stops at `--max-budget-usd 10` and is killed after an hour. Recent issues have reported $6–8 of equivalent usage, drawn from your subscription rather than billed as API credits.
+- **Room in your quota.** A scheduled run uses a pinned Sonnet model (`CLAUDE_MODEL` in `scripts/weekly.sh`), stops at `--max-budget-usd 10` and is killed after an hour. Issues up to October 2026, with 14 categories, reported $6–8 of equivalent usage, drawn from your subscription rather than billed as API credits; the fifteenth category adds to that, and each publish notification carries the run's cost.
 - **Hugo Extended** to preview the site locally (`brew install hugo`). Cloudflare Pages builds it on every push.
 - **Python 3, jq, git and curl**, which the wrapper and the checker use. Recent macOS includes them; Python 3 comes with the Xcode command line tools.
 
@@ -116,7 +116,7 @@ Some rules rest on the skill alone, because the checker reads URLs and labels an
 
 - the same story under two different URLs;
 - a page that rewrites a primary source it links to;
-- more than one item from the same publisher in a section, or more than four items in a category;
+- more than one item from the same publisher in a section, the same named writer twice in an issue, or more than four items in a category;
 - crypto outlets for stories that aren't about crypto, and anonymous aggregators.
 
 `scripts/weekly.sh` publishes only if the post is the only change in the tree and the checker passes it. Otherwise the issue is held, uncommitted, and you're notified. See [How it works](docs/how-it-works.md) for the full workflow.
@@ -152,14 +152,14 @@ Then follow [Quick start](#quick-start).
 
 | # | Category | # | Category |
 |---|---|---|---|
-| 1 | Community & Discussion | 8 | Agent Era & Technical Workflows |
-| 2 | Research & Papers | 9 | Open Source & Specialised Infrastructure |
-| 3 | Technical Blogs & Engineering Posts | 10 | Macro & Hardware Watch |
-| 4 | Analyst & Industry Reports | 11 | Model Evaluations & Transparency |
-| 5 | AI Security | 12 | Newsletters & Podcasts (leads to primary sources only) |
-| 6 | Product & Company News | 13 | Cloud Native & CNCF |
-| 7 | Regulatory & Policy | 14 | Trending Open Source AI |
-|   |   | 15 | AI Coding Practitioners |
+| 1 | Community & Discussion | 9 | Open Source & Specialised Infrastructure |
+| 2 | Research & Papers | 10 | Macro & Hardware Watch |
+| 3 | Technical Blogs & Engineering Posts | 11 | Model Evaluations & Transparency |
+| 4 | Analyst & Industry Reports | 12 | Newsletters & Podcasts (leads to primary sources only) |
+| 5 | AI Security | 13 | Cloud Native & CNCF |
+| 6 | Product & Company News | 14 | Trending Open Source AI |
+| 7 | Regulatory & Policy | 15 | AI Coding Practitioners |
+| 8 | Agent Era & Technical Workflows |   |   |
 
 Every source, with what it's for and how to search it, is in [`.claude/skills/newsletter-ai/sources.md`](.claude/skills/newsletter-ai/sources.md), the one catalogue the model reads; [`docs/sources.md`](docs/sources.md) is a map of it.
 

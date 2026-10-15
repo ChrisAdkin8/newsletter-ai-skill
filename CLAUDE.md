@@ -6,7 +6,7 @@ Scheduled runs don't load this file. `scripts/weekly.sh` passes `--restricted`, 
 
 ## Don't publish
 
-`scripts/weekly.sh` commits to `main`, pushes to a public site and spends about $7 of the user's subscription quota. Never run it on your own initiative, and don't commit or push an issue yourself. If the user asks you to publish, say what the command will do and confirm before running it.
+`scripts/weekly.sh` commits to `main`, pushes to a public site and spends roughly $7–10 of the user's subscription quota (capped at $10). Never run it on your own initiative, and don't commit or push an issue yourself. If the user asks you to publish, say what the command will do and confirm before running it.
 
 The runbook — scheduling, held issues, logs, publishing by hand — is [`docs/customising.md` → Scheduled publishing](docs/customising.md#scheduled-publishing-launchd).
 
