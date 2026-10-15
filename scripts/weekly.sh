@@ -124,7 +124,8 @@ if [ -z "$PROBE" ]; then
   [ "$(git symbolic-ref --short -q HEAD)" = main ] || fail "not on main; nothing run"
   [ -z "$(git status --porcelain)" ] || fail "working tree not clean (a held issue?); nothing run"
 
-  # Step 4: retry a failed push, refuse other local commits, else fast-forward.
+  # Step 4: retry a failed push (rebased if origin moved), refuse other local
+  # commits, else fast-forward.
   git fetch -q origin || fail "git fetch failed"
   if [ "$(git rev-list --count origin/main..main)" != 0 ]; then
     retry=$(unpushed_issue) || fail "main has unpushed commits that aren't a newsletter; nothing run"
@@ -137,6 +138,14 @@ if [ -n "$retry" ]; then
   DATE=$retry
   WEEK=$(week_of "$DATE")
   OUT="$LOG/$WEEK.json"
+  # origin/main may have moved since the failed push, and a push of a diverged
+  # main fails every time. The commit only adds the post, so put it on top.
+  if [ "$(git rev-list --count main..origin/main)" != 0 ]; then
+    git rebase -q origin/main >/dev/null 2>&1 || {
+      git rebase --abort 2>/dev/null
+      fail "Newsletter $DATE conflicts with new commits on origin/main; rebase it by hand"
+    }
+  fi
   git push -q origin main || fail "push of Newsletter $DATE failed again; the next slot retries it"
 else
   # Step 5: fresh scratch dir for the model. Nothing from ~/notes goes in. A

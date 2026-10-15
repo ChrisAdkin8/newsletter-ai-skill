@@ -269,7 +269,7 @@ launchctl kickstart -k gui/$(id -u)/local.newsletter-ai.weekly
 
 1. It exits if this week's issue is already out (`last-ok` holds the week), or if the Anthropic API is unreachable.
 2. It warns if the repo's `scripts/weekly.sh` differs from the installed copy, or if a global copy of the skill exists in `~/.claude/skills/`.
-3. It needs `main` and a clean tree, then fetches. If the last run committed but failed to push, it pushes that commit now; any other unpushed commit stops it.
+3. It needs `main` and a clean tree, then fetches. If the last run committed but failed to push, it pushes that commit now, rebased onto `origin/main` if that has moved since; a rebase conflict (the same post pushed by hand, say) stops it with a notification until you resolve it. Any other unpushed commit stops it.
 4. It runs `/newsletter:newsletter-ai web:<repo>/site date:<today> week:<week> triage:<repo>/.newsletter`.
 5. It holds the issue unless the only change is the new `site/content/posts/<date>.md`, the checker passes it, and the model left a `.newsletter/triage.md`. Otherwise it commits `Newsletter <date>`, pushes, and records the week in `last-ok`.
 6. It filters `.newsletter/triage.md` into `~/notes/inbox/<date>-newsletter-triage.md` (see [How it works → Step 5](how-it-works.md#step-5-triage-optional)) and notifies you with the run's cost.

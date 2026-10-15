@@ -186,6 +186,48 @@ check "retry doesn't call claude" eq "$(calls)" 1
 check "retry writes last-ok" eq "$(last_ok)" "$WEEK"
 check "retry moves triage" test -f "$(inbox)"
 
+# --- A failed push is retried even after origin/main has moved on.
+setup push-retry-diverged
+before=$(remote_commits)
+printf '#!/bin/sh\nexit 1\n' >"$T/remote.git/hooks/pre-receive"
+chmod +x "$T/remote.git/hooks/pre-receive"
+run_weekly
+check "exits 1" eq "$RC" 1
+rm "$T/remote.git/hooks/pre-receive"
+git clone -q "$T/remote.git" "$T/other"
+echo "someone else's edit" >>"$T/other/README.md"
+git -C "$T/other" commit -qam "Unrelated upstream commit"
+git -C "$T/other" push -q origin main
+run_weekly
+check "retry exits 0" eq "$RC" 0
+check "remote gains both commits" eq "$(remote_commits)" "$((before + 2))"
+check "the issue sits on top of the upstream commit" eq "$(remote_added)" "$(printf 'A\t%s' "$POST")"
+check "retry doesn't call claude" eq "$(calls)" 1
+check "retry writes last-ok" eq "$(last_ok)" "$WEEK"
+check "nothing left unpushed" eq "$(git -C "$T/work" rev-list --count origin/main..main)" 0
+
+# --- A retry that conflicts with origin/main stops, leaving the tree clean.
+setup push-retry-conflict
+before=$(remote_commits)
+printf '#!/bin/sh\nexit 1\n' >"$T/remote.git/hooks/pre-receive"
+chmod +x "$T/remote.git/hooks/pre-receive"
+run_weekly
+rm "$T/remote.git/hooks/pre-receive"
+git clone -q "$T/remote.git" "$T/other"
+mkdir -p "$T/other/site/content/posts"
+echo "published by hand" >"$T/other/$POST"
+git -C "$T/other" add "$POST"
+git -C "$T/other" commit -qm "Newsletter $DATE"
+git -C "$T/other" push -q origin main
+run_weekly
+check "exits 1" eq "$RC" 1
+check "nothing more pushed" eq "$(remote_commits)" "$((before + 1))"
+check "notifies the conflict" notified "conflicts with new commits on origin/main"
+check "no rebase left in progress" test ! -d "$T/work/.git/rebase-merge" -a ! -d "$T/work/.git/rebase-apply"
+check "tree is clean" eq "$(git -C "$T/work" status --porcelain)" ""
+check "the local commit is still there" eq "$(git -C "$T/work" rev-list --count origin/main..main)" 1
+check "doesn't call claude" eq "$(calls)" 1
+
 # --- An unrelated unpushed commit stops the run.
 setup unrelated-commit
 before=$(remote_commits)
