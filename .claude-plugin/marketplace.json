@@ -1,0 +1,14 @@
+{
+  "name": "newsletter-ai-skill",
+  "description": "The /newsletter-ai skill: a weekly newsletter on agentic AI and LLMs, curated from 15 source categories.",
+  "owner": {
+    "name": "Chris Adkin"
+  },
+  "plugins": [
+    {
+      "name": "newsletter",
+      "source": "./.claude",
+      "description": "Curates a weekly newsletter on agentic AI and LLMs from 15 source categories, with every item linked to its primary source. Run it as /newsletter:newsletter-ai."
+    }
+  ]
+}

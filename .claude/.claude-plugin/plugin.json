@@ -1,5 +1,10 @@
 {
   "name": "newsletter",
-  "description": "The newsletter-ai skill, loaded with --plugin-dir ./.claude for headless runs.",
-  "author": { "name": "Chris Adkin" }
+  "version": "1.0.0",
+  "description": "Curates a weekly newsletter on agentic AI and LLMs from 15 source categories, with every item linked to its primary source. Run it as /newsletter:newsletter-ai.",
+  "author": { "name": "Chris Adkin" },
+  "homepage": "https://newsletter-ai-skill.pages.dev/",
+  "repository": "https://github.com/ChrisAdkin8/newsletter-ai-skill",
+  "license": "MIT",
+  "keywords": ["newsletter", "agentic-ai", "llm", "curation"]
 }

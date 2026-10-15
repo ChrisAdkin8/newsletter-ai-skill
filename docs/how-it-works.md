@@ -223,7 +223,7 @@ A held issue stays uncommitted, and you get a notification. It blocks later runs
 
 ## Invocation behaviour
 
-The skill has `disable-model-invocation: true`, meaning Claude will **not** trigger it automatically during a conversation. It only runs when you explicitly type `/newsletter-ai`. This prevents it from firing unintentionally during normal chat about AI topics. Headless runs load the same skill as `/newsletter:newsletter-ai`, through `--plugin-dir .claude`.
+The skill has `disable-model-invocation: true`, meaning Claude will **not** trigger it automatically during a conversation. It only runs when you explicitly type `/newsletter-ai`. This prevents it from firing unintentionally during normal chat about AI topics. Headless runs load the same skill as `/newsletter:newsletter-ai`, through `--plugin-dir .claude`; a plugin installed from this repo's marketplace (`/plugin install newsletter@newsletter-ai-skill`) gets the same name.
 
 Argument passing:
 

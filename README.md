@@ -34,7 +34,18 @@ The skill is a project skill in this repo. Open Claude Code here and run:
 /newsletter-ai web:./site date:2026-09-18 week:2026-W38 # Set the issue date and week
 ```
 
-The skill writes the post but never commits or pushes it. To use it in another project, copy `.claude/skills/newsletter-ai/` into that project's `.claude/skills/`.
+The skill writes the post but never commits or pushes it.
+
+### Install it as a plugin
+
+To have `/newsletter-ai` in every project, install it from this repo's marketplace. Inside a Claude Code session:
+
+```
+/plugin marketplace add ChrisAdkin8/newsletter-ai-skill
+/plugin install newsletter@newsletter-ai-skill
+```
+
+Then run `/newsletter:newsletter-ai` — plugin skills carry the plugin's name as a prefix. The plugin is the skill alone: the scheduler, the checker and the site stay in this repo, since they need a clone to work in. Copying `.claude/skills/newsletter-ai/` into another project's `.claude/skills/` still works if you'd rather not install anything.
 
 **Previewing into `site/` collides with the scheduler.** `web:./site` writes `site/content/posts/<today>.md`, the same file a scheduled run creates, and the wrapper refuses to run while the tree is dirty. Delete the preview when you're done, or write it somewhere else with `web:~/preview-site`.
 
@@ -153,8 +164,9 @@ Every source, with what it's for and how to search it, is in [`.claude/skills/ne
 
 ```
 newsletter-ai-skill/
-├── .claude/
-│   ├── .claude-plugin/plugin.json           # Lets headless runs load the skill with --plugin-dir
+├── .claude-plugin/marketplace.json          # Lists the plugin, so /plugin marketplace add finds it
+├── .claude/                                 # The plugin root: --plugin-dir and the marketplace both load it
+│   ├── .claude-plugin/plugin.json           # Plugin manifest (name "newsletter", version)
 │   └── skills/
 │       └── newsletter-ai/                   # The skill: SKILL.md, sources.md, template.md
 ├── docs/                                    # See Documentation below; specs/ holds the designs
