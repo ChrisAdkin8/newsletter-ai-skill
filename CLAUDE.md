@@ -18,6 +18,7 @@ The runbook — scheduling, held issues, logs, publishing by hand — is [`docs/
 
 - **Never edit `site/themes/PaperMod/`.** It's vendored at the commit pinned in `.papermod-sha`; update it the way `site/README.md` describes.
 - **After editing `scripts/weekly.sh`, tell the user to re-run `scripts/install-agent.sh`.** launchd runs an installed copy, so the repo's version has no effect until they do.
+- **Add a line to `CHANGELOG.md`** under today's date for any change a user or forker would notice, and bump `version` in `.claude/.claude-plugin/plugin.json` when the change touches `.claude/` (installers are pinned to that version). Published issues go under **Issues**.
 - **Run `make check`** after changing the skill, the checker or the scripts: checker unit tests, an offline test of `weekly.sh` against a fake `claude`, and lint.
 - **If `check_issue.py` rejects a post, fix the post.** The checker is the only thing standing between a bad issue and the live site; loosening a rule to get an issue out is never the answer.
 

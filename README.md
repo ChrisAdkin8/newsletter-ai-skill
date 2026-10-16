@@ -203,6 +203,7 @@ Run `make check` after changing the skill, the checker or the scripts. Lint runs
 | [`docs/customising.md`](docs/customising.md) | Adding sources, changing the format, web publishing, scheduled publishing, held issues and recovery |
 | [`site/README.md`](site/README.md) | Hugo + PaperMod bootstrap, Cloudflare Pages settings, theme updates |
 | [`CLAUDE.md`](CLAUDE.md) | The rules Claude Code follows in this repo |
+| [`CHANGELOG.md`](CHANGELOG.md) | What changed, by day |
 
 ## Formerly here: `claude-hacks`
 
