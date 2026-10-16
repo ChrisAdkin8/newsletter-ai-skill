@@ -21,11 +21,11 @@ These turned up in past issues when a category came up short. Skip the item, or 
 
 ## Search only
 
-These sites block automated fetches (HTTP 403 or no connection when checked on 2026-09-13 and 2026-10-12), so fetching one wastes a turn. Find their stories by search, take the date from the snippet, and cite the article URL the search returns:
+These sites block automated fetches (HTTP 403 or no connection when checked on 2026-09-13, 2026-10-12 and 2026-10-16), so fetching one wastes a turn. Find their stories by search, take the date from the snippet, and cite the article URL the search returns:
 
-OpenAI News, xAI News, Reuters, Rapporteur (formerly Euractiv), Axios, Bloomberg (also paywalled), The Information (also paywalled), Gartner, McKinsey, BCG, Datacenter Dynamics, Dark Reading, The Hacker News, Computing.co.uk, the Center for Democracy & Technology, Lawfare, EU Council press releases, Reddit (login wall), and Medium: every medium.com blog, such as steve-yegge.medium.com (403, checked 2026-10-15). The BAIR blog didn't respond at all on 2026-09-13.
+OpenAI News, xAI News, Reuters, Rapporteur (formerly Euractiv), Axios, Bloomberg (also paywalled), The Information (also paywalled), Gartner, McKinsey, BCG, Datacenter Dynamics, Dark Reading, HPCwire, the Arena leaderboard page (its blog loads), The Hacker News, Computing.co.uk, the Center for Democracy & Technology, Lawfare, EU Council press releases, Reddit (login wall), and Medium: every medium.com blog, such as steve-yegge.medium.com (403, checked 2026-10-15). The BAIR blog didn't respond at all on 2026-09-13.
 
-Some sites refuse curl but load with WebFetch, so fetch them with WebFetch: the FTC, Meta AI, Canada.ca, VentureBeat and Red Hat (checked 2026-10-12).
+Some sites refuse curl but load with WebFetch, so fetch them with WebFetch: the FTC, Meta AI, Canada.ca, EE Times, VentureBeat and Red Hat (checked 2026-10-12 and 2026-10-16).
 
 ---
 
@@ -161,6 +161,7 @@ Essential for tracking agentic AI safety — these labs publish work that contex
 | METR | https://metr.org | Frontier model capability benchmarking |
 | Redwood Research | https://blog.redwoodresearch.org/ | Adversarial training, alignment techniques |
 | FAR AI | https://www.far.ai/ | Scalable oversight, alignment research |
+| Palisade Research | https://palisaderesearch.org/blog | Demonstrations of dangerous capabilities: shutdown resistance, hacking, specification gaming |
 | Transluce | https://transluce.org | Independent evals and interpretability; agent-behaviour investigations |
 | Goodfire | https://www.goodfire.com/research | Interpretability research |
 | Anthropic Alignment Science | https://alignment.anthropic.com/ | Anthropic's alignment research posts, often before a paper |
@@ -199,7 +200,7 @@ Priority sources — major safety research often appears here before arXiv.
 | Anthropic Engineering | https://www.anthropic.com/engineering |
 | OpenAI | https://openai.com/news/ |
 | Google DeepMind | https://deepmind.google/blog/ |
-| Meta AI | https://ai.meta.com/blog/ |
+| Meta AI | https://ai.meta.com/blog/ (quiet since 27 July 2026) |
 | Hugging Face | https://huggingface.co/blog |
 | Microsoft Research | https://www.microsoft.com/en-us/research/blog/ |
 | Microsoft Azure AI | https://azure.microsoft.com/en-us/blog/tag/ai/ |
@@ -249,7 +250,7 @@ These companies often publish technical deep-dives before mainstream press picks
 | Cerebras | https://www.cerebras.ai/blog | Wafer-scale AI compute |
 | Groq | https://groq.com/blog/ | Inference speed, LPU architecture |
 | Lambda | https://lambda.ai/blog | GPU cloud, training infrastructure |
-| CoreWeave | https://www.coreweave.com/blog | GPU cloud, HPC, AI infra. Weights & Biases' Fully Connected was folded into CoreWeave Forge (https://forge.coreweave.com/forge-reports) on 2026-09-30 |
+| CoreWeave | https://www.coreweave.com/blog-categories/blog | GPU cloud, HPC, AI infra. Weights & Biases' Fully Connected was folded into CoreWeave Forge (https://forge.coreweave.com/forge-reports) on 2026-09-30 |
 | Fireworks AI | https://fireworks.ai/blog | Inference optimisation, model serving |
 | Anyscale | https://www.anyscale.com/blog | Ray, distributed ML, production agents |
 | AWS Machine Learning | https://aws.amazon.com/blogs/machine-learning/ | Bedrock, Trainium, SageMaker, agent tooling |
@@ -273,6 +274,8 @@ Higher signal-to-noise than general tech press.
 | Ars Technica AI | https://arstechnica.com/ai/ | Technically accurate, detailed model coverage |
 | IEEE Spectrum AI | https://spectrum.ieee.org/topic/artificial-intelligence/ | Authoritative on hardware and systems |
 | The Information (AI) | https://www.theinformation.com | Breaks stories on major lab internals (paywalled) |
+| 404 Media (AI) | https://www.404media.co/tag/ai/ | Independent, named-reporter investigations of AI harms, scraping and misuse |
+| Platformer | https://www.platformer.news/ | Casey Newton's reporting on platforms and AI companies; often first with internal detail |
 
 ### Individual researchers & practitioners
 
@@ -419,7 +422,7 @@ Mandiant's work now appears under GTIG; its old topic page shows a 404 (checked 
 | Malwarebytes Labs (AI) | https://www.malwarebytes.com/blog/category/ai | Consumer-side AI-assistant threats; cite only their own research |
 | BankInfoSecurity / ISMG (AI & ML) | https://www.bankinfosecurity.com/artificial-intelligence-machine-learning-c-469 | Named reporters with original reporting on AI security and policy |
 | Cisco AI (Foundation AI) | https://blogs.cisco.com/ai | AI security research, agent risk, Cisco's AI security leaderboard |
-| Irregular | https://www.irregular.com/publications | Security evaluations of frontier models, named in labs' system cards |
+| Irregular | https://www.irregular.com/research | Security evaluations of frontier models, named in labs' system cards |
 | Straiker | https://www.straiker.ai/blog | Agent-attack research; cite research posts, not awards or product news |
 
 **Search strategy**: `site:owasp.org LLM`, `site:cisa.gov AI security`, `site:hiddenlayer.com/innovation-hub`, `site:embracethered.com`, `site:labs.snyk.io`, `"prompt injection" site:github.com`, `"AI security" CVE 2026`, `MITRE ATLAS new technique`, `MCP security vulnerability 2026`, `site:research.checkpoint.com AI`, `site:ox.security/blog`, `site:anthropic.com/research frontier red team OR site:red.anthropic.com`, `site:wiz.io/blog AI`, `site:xbow.com/blog`, `site:aisle.com`, `site:zenity.io/blog`, `site:pillar.security/blog`, `site:bankinfosecurity.com AI`, `site:blogs.cisco.com AI security`, `site:irregular.com`, `site:straiker.ai/blog`.
@@ -538,13 +541,16 @@ Practitioner-focused sources on building and operating agentic AI systems in pro
 | Product | URL | Focus |
 |---|---|---|
 | Claude Code changelog | https://code.claude.com/docs/en/changelog | Release notes (also section 6); a place to find a release, never to cite: it has no per-version anchor (checked 2026-09-18). Cite the release's own page, `https://github.com/anthropics/claude-code/releases/tag/vX.Y.Z` |
-| Cognition (Devin) | https://cognition.com/blog | Autonomous SWE agents, benchmarks |
+| Cognition (Devin, Windsurf) | https://cognition.com/blog | Autonomous SWE agents, long-running coding agents, benchmarks |
 | Cursor | https://cursor.com/blog | Editor-integrated agents, model routing |
 | n8n | https://blog.n8n.io/ | Workflow automation with LLM steps |
 | Factory | https://factory.com/news | Autonomous coding agents (Droids) |
 | Amp | https://ampcode.com/chronicle | Coding agent from Sourcegraph's team |
 | OpenHands | https://www.openhands.dev/blog | Open-source coding agent |
 | GitHub Copilot changelog | https://github.blog/changelog/label/copilot/ | Copilot agent releases; a changelog index, so cite the entry's own page |
+| Google Developers Blog | https://developers.googleblog.com/ | ADK (Agent Development Kit), the Gemini API and agent evaluation, first-hand |
+| Cloudflare (AI) | https://blog.cloudflare.com/tag/ai/ | Agents SDK, remote MCP servers, AI crawler controls; several posts a week |
+| Vercel | https://vercel.com/blog | AI SDK and agent hosting; cite engineering posts, not launch-week marketing |
 
 ### A2A Protocol
 - **Blog**: https://a2a-protocol.org/latest/blog/
@@ -612,7 +618,7 @@ The chip supply chain and data centre capacity constrain everything else in the 
 | EE Times | https://www.eetimes.com/ | Daily chip-industry trade reporting; named reporters |
 | Data Center Knowledge | https://www.datacenterknowledge.com/ | Data centre buildout, power and permits; fetchable, unlike Datacenter Dynamics |
 | HPCwire / AIwire | https://www.hpcwire.com/ | HPC and AI-factory hardware; it also reprints press releases, so cite only staff-bylined articles |
-| US Department of Energy (AI, Genesis Mission) | https://www.energy.gov/topics/artificial-intelligence | US science-AI compute funding, national-lab supercomputers and awards |
+| US Department of Energy (AI, Genesis Mission) | https://www.energy.gov/topics/super-intelligence (renamed from /topics/artificial-intelligence, like NIST's pages) | US science-AI compute funding, national-lab supercomputers and awards |
 
 **Search strategy**: `"Nvidia" OR "GPU cluster" OR "AI infrastructure" 2026`, `"data centre AI" site:computing.co.uk`, `site:nextplatform.com AI`, `site:datacenterdynamics.com`, `site:rocm.blogs.amd.com`, `site:chipsandcheese.com`, `site:fabricatedknowledge.com`, `site:trendforce.com HBM OR DRAM`, `site:servethehome.com`, `site:reuters.com chips AI`, `site:news.skhynix.com`, `site:news.samsung.com semiconductor`, `site:thelec.net`, `site:eetimes.com AI`, `site:datacenterknowledge.com AI`, `site:hpcwire.com AI`, `site:energy.gov "Genesis Mission"`.
 
@@ -638,6 +644,10 @@ Evaluation is now a discipline in its own right — distinct from research (§2)
 ### HELM (Holistic Evaluation of Language Models)
 - **URL**: https://crfm.stanford.edu/helm/capabilities/latest/
 - **Focus**: Standardised, reproducible benchmarks across accuracy, calibration, robustness, fairness, efficiency
+
+### SWE-bench
+- **URL**: https://www.swebench.com/
+- **Focus**: the standard coding-agent benchmark (Verified, Multimodal, Multilingual). The leaderboard is updated in place and carries no dates, so cite a lab's or the maintainers' dated announcement of a result, not the leaderboard
 
 ### LiveBench
 - **URL**: https://livebench.ai/
@@ -731,7 +741,7 @@ CNCF maturity as listed in the CNCF landscape on 2026-09-13. Where the URL is a 
 | LeaderWorkerSet | Kubernetes SIG Apps | https://github.com/kubernetes-sigs/lws/releases | Multi-host inference: one model spread across several pods |
 | AIBrix | vLLM project | https://github.com/vllm-project/aibrix/releases | Control plane for running vLLM at scale on Kubernetes |
 | NVIDIA Dynamo and Grove | not CNCF | https://github.com/ai-dynamo/dynamo/releases, https://github.com/ai-dynamo/grove/releases | Distributed inference serving, and Kubernetes-native orchestration for it |
-| KAI Scheduler | not CNCF (NVIDIA) | https://github.com/NVIDIA/KAI-Scheduler/releases | GPU-aware scheduling for AI workloads |
+| KAI Scheduler | not CNCF (NVIDIA-founded; repo moved to the kai-scheduler org) | https://github.com/kai-scheduler/KAI-Scheduler/releases | GPU-aware scheduling for AI workloads |
 
 ### News
 
